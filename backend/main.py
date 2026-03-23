@@ -11,8 +11,10 @@ def create_app():
     CORS(app)
 
     from app.routes.farmer.auth import farmer_auth_bp
+    from app.routes.driver.auth import driver_auth_bp
 
     app.register_blueprint(farmer_auth_bp)
+    app.register_blueprint(driver_auth_bp)
 
     return app
 

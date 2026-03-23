@@ -14,12 +14,11 @@ def get_db_connection():
 def init_db():
     conn = get_db_connection()
     try:
-
         schema_path = os.path.join(os.path.dirname(__file__), 'schema.sql')
         with open(schema_path, "r") as f:
             sql = f.read()
 
-        conn.execute(sql)
+        conn.executescript(sql)
         conn.commit()
         print("✅ Database initialized successfully!") # Add this
     except Exception as e:
