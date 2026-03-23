@@ -1,0 +1,9 @@
+Flask
+flask-socketio
+requests
+werkzeug
+python-dotenv
+flask_cors
+gunicorn
+pytz
+cloudinary
