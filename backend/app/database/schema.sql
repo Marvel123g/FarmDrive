@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS farmer (
 CREATE TABLE IF NOT EXISTS driver (
     id TEXT PRIMARY KEY NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    firstname TEXT NOT NULL,
-    surname TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
     phone TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     is_verified INTEGER DEFAULT 0 NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS driver (
     is_available INTEGER DEFAULT 0,
     rating REAL DEFAULT 0.0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 
 CREATE TABLE IF NOT EXISTS farmer_sessions (
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS driver_pos (
     lng REAL,
     last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (driver_id) REFERENCES driver (id)
-)
+);
 
 
 CREATE TABLE IF NOT EXISTS farmer_pos (
@@ -63,4 +63,4 @@ CREATE TABLE IF NOT EXISTS farmer_pos (
     lng REAL,
     last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (farmer_id) REFERENCES farmer (id)
-)
+);
