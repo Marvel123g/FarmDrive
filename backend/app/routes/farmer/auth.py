@@ -6,11 +6,6 @@ farmer_auth_bp = Blueprint("farmer_auth_bp", __name__, url_prefix="/api/v1/farme
 
 @farmer_auth_bp.route("/signup", methods=["POST"])
 def sign_up():
-    if request.method != 'POST':
-        return jsonify({"status": "ERROR",
-                        "code": 405,
-                        "message": "This method is not allowed for this route."})
-    
     data = request.json.get("farmerDetails", {})
     if not data:
         return jsonify({"status": "ERROR",
@@ -35,11 +30,6 @@ def sign_up():
 
 @farmer_auth_bp.route("/login", methods=["POST"])
 def log_in():
-    if request.method != 'POST':
-        return jsonify({"status": "ERROR",
-                        "code": 405,
-                        "message": "This method is not allowed for this route."})
-
     data = request.json.get("farmerDetails", {})
     if not data:
         return jsonify({"status": "ERROR",
@@ -62,6 +52,7 @@ def log_in():
         response = make_response(jsonify(result))
         response.set_cookie('farmer_session_id',
                             session_id,
+                            path='/',
                             httponly=True,
                             secure=False,
                             samesite='Lax',
@@ -74,11 +65,6 @@ def log_in():
 
 @farmer_auth_bp.route("/logout", methods=["POST"])
 def log_out():
-    if request.method != 'POST':
-        return jsonify({"status": "ERROR",
-                        "code": 405,
-                        "message": "This method is not allowed for this route."})
-    
     farmer_id = get_current_user(request.cookies.get('farmer_session_id'), "farmer")
     if not farmer_id:
         return jsonify({"status": "ERROR",
@@ -88,7 +74,7 @@ def log_out():
     result = logout(farmer_id, "farmer")
     if result['code'] == 200:
         response = make_response(jsonify(result))
-        response.delete_cookie('farmer_session_id')
+        response.delete_cookie('farmer_session_id', path='/')
         return response, 200
     
     return jsonify(result), result['code']
