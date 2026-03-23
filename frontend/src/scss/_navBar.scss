@@ -1,0 +1,54 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 4;
+
+  .navbar-content {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      margin-left: auto;
+      margin-right: 2rem;
+
+      li {
+        cursor: pointer;
+        font-weight: 500;
+        transition: color 0.2s;
+
+        &:hover {
+          color: #38a169; // green hover like Chakra
+        }
+      }
+    }
+
+    .btn-primary {
+      padding: 0.5rem 1.5rem;
+      border-radius: 999px;
+      background: #38a169;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #2f855a;
+      }
+    }
+  }
+}
