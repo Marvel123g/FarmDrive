@@ -5,6 +5,7 @@ import secrets
 driver_auth_bp = Blueprint("driver_auth_bp", __name__,
                            url_prefix="/api/v1/driver/auth")
 
+
 @driver_auth_bp.route("/signup", methods=["POST"])
 def sign_up():
     if request.method != 'POST':
@@ -17,7 +18,7 @@ def sign_up():
         return jsonify({"status": "ERROR",
                         "code": 400,
                         "message": "Driver details are required."})
-    
+
     email = data.get("email")
     first_name = data.get("firstname")
     last_name = data.get("surname")
@@ -35,17 +36,12 @@ def sign_up():
 
 @driver_auth_bp.route("/login", methods=["POST"])
 def log_in():
-    if request.method != 'POST':
-        return jsonify({"status": "ERROR",
-                        "code": 405,
-                        "message": "This method is not allowed for this route."})
-
     data = request.json.get("driverDetails", {})
     if not data:
         return jsonify({"status": "ERROR",
                         "code": 400,
                         "message": "Driver credentials are required."})
-    
+
     email = data.get("email")
     password = data.get("password")
 
@@ -62,6 +58,7 @@ def log_in():
         response = make_response(jsonify(result))
         response.set_cookie('driver_session_id',
                             session_id,
+                            path='/',
                             httponly=True,
                             secure=False,
                             samesite='Lax',
@@ -74,11 +71,6 @@ def log_in():
 
 @driver_auth_bp.route("/kyc", methods=["POST"])
 def submit_kyc():
-    if request.method != 'POST':
-        return jsonify({"status": "ERROR",
-                        "code": 405,
-                        "message": "This method is not allowed for this route."})
-
     driver_id = get_current_user(
         request.cookies.get('driver_session_id'), "driver")
     if not driver_id:
@@ -92,14 +84,8 @@ def submit_kyc():
                     "message": "KYC submitted successfully."}), 200
 
 
-
 @driver_auth_bp.route("/logout", methods=["POST"])
 def log_out():
-    if request.method != 'POST':
-        return jsonify({"status": "ERROR",
-                        "code": 405,
-                        "message": "This method is not allowed for this route."})
-
     driver_id = get_current_user(
         request.cookies.get('driver_session_id'), "driver")
     if not driver_id:
@@ -110,7 +96,7 @@ def log_out():
     result = logout(driver_id, "driver")
     if result['code'] == 200:
         response = make_response(jsonify(result))
-        response.delete_cookie('driver_session_id')
+        response.delete_cookie('driver_session_id', path='/')
         return response, 200
 
     return jsonify(result), result['code']
