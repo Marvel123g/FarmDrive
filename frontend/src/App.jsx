@@ -7,6 +7,8 @@ import { Routes, Route } from "react-router-dom";
 import DriverDashboard from "./driverComponents/driverDashboard";
 import MyProduce from "./farmerComponents/MyProduce";
 import Marketplace from "./driverComponents/Marketplace";
+import Deliveries from "./farmerComponents/Deliveries";
+import Payment from "./farmerComponents/Payment";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/post-produce" element={<PostProduce />} />
         <Route path="/my-produce" element={<MyProduce/>}/>
         <Route path="/marketplace" element={<Marketplace/>}/>
+        <Route path="/deliveries" element={<Deliveries/>}/>
+        <Route path="/payments" element={<Payment/>}/>
       </Routes>
     </>
   );
