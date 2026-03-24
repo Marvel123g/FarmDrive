@@ -86,7 +86,7 @@ function FarmerAuth({ mode, setMode }) {
 
     // If all validations pass, proceed with API call
     if (valid) {
-      const res = await fetch("http://127.0.0.1:5000/api/v1/farmer/auth/sign up", {
+      const res = await fetch("http://127.0.0.1:5000/api/v1/farmer/auth/signup", {
         headers: {
           "Content-Type": "application/json",
         },
