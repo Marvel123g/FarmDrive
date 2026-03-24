@@ -45,7 +45,7 @@ export default function Testimony() {
     ];
 
     const [activeTestimonial, setActiveTestimonial] = useState(0);
-    const [isHovered, setIsHovered] = useState(false);
+    // const [isHovered, setIsHovered] = useState(false);
 
     const nextTestimonial = () => {
         setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -110,14 +110,6 @@ export default function Testimony() {
                         </div>
                         
                         <div className="testimonial-text">
-                        <div className="rating">
-                            {[...Array(5)].map((_, i) => (
-                            <span key={i} className={`star ${i < testimonial.rating ? 'filled' : ''}`}>
-                                ★
-                            </span>
-                            ))}
-                        </div>
-                        
                         <p className="quote">"{testimonial.quote}"</p>
                         
                         <div className="testimonial-author">
@@ -127,7 +119,7 @@ export default function Testimony() {
                         
                         <div className="testimonial-tags">
                             <span className="tag">
-                            <span className="tag-icon">{testimonial.crop.split(' ')[0]}</span>
+                            <span className="tag-icon">{testimonial.crop}</span>
                             {testimonial.crop}
                             </span>
                             <span className="tag achievement">

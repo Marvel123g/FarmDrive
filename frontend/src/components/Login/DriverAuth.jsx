@@ -89,7 +89,8 @@ function DriverAuth({mode, setMode}) {
       }
     }
   return (
-     <form className="driver_form" onSubmit={mode === "login" ? handleLogin : handleSignUp}>
+   <div className="authContainer">
+         <form className="authPage" onSubmit={mode === "login" ? handleLogin : handleSignUp}>
       {mode === "signup" ? (
         <>
           {/* Sign up field for First Name  */}
@@ -188,6 +189,7 @@ function DriverAuth({mode, setMode}) {
             <button className='submitBtn' onClick={handleSignUp}>Create Driver Account</button>
         )}
     </form>
+    </div>
   );
 }
 

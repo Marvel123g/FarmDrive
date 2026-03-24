@@ -1,42 +1,93 @@
-.driver_form {
+.authContainer {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  // align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f6f9f7, #e6f2eb);
+  padding: 1rem;
+  // position: relative;
+  overflow-x: scroll;
+  // max-height: 50vh;
 
-  fieldset{
-    border: none;
-    // flex: 1;
+  .auth-images {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .imgWrapper {
+      position: absolute;
+      position: relative;
+
+      img {
+        // position: absolute;
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border-radius: 12px;
+        opacity: 0.7;
+        z-index: 1000;
+      }
+      .img1 {
+        position: absolute;
+        top: 10%;
+        left: 20%;
+      }
+    }
+  }
+
+  .authPage {
+    position: relative;
+    z-index: 2;
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 420px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-  }
-   input {
-    padding: 14px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    // width: 100%;
+    gap: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    height: 100%;
+
+    &::before {
+      content: "🌾";
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
     }
 
-     input:focus {
-    outline: none;
-    border-color: #157347;
+    input {
+      padding: 0.9rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: #f9fbfa;
+      transition: 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #2c7a4d;
+        box-shadow: 0 0 0 3px rgba(44, 122, 77, 0.1);
+      }
     }
 
     .submitBtn {
-    margin-top: 10px;
-    padding: 14px;
-    background: #157347;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    }
+      background: #2c7a4d;
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
 
-    .submitBtn:hover {
-    background: #125c38;
+      &:hover {
+        background: #1f5a3a;
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
     }
+  }
 }
-
