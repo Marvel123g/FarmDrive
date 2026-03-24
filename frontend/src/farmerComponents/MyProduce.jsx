@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar';
 
 export default function MyProduce() {
@@ -86,6 +86,17 @@ export default function MyProduce() {
         return status;
     }
   };
+
+  useEffect(() => {
+    const fetchProduce = async() => {
+        const res = await fetch("http://127.0.0.1:5000/api/v1/produce?role=farmer")
+        const data = res.json()
+        console.log(data)
+    }
+
+    fetchProduce()
+  }, [])
+  
 
   return (
     <div className="wrapper">
