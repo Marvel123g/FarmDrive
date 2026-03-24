@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavBar from "./components/NavBar";
 import LandingPage from "./components/LandingPage";
-import Dashboard from "./farmerComponents/dashboard";
+import FarmerDashboard from "./farmerComponents/FarmerDashboard";
 import PostProduce from "./farmerComponents/PostProduce";
 import { Routes, Route } from "react-router-dom";
 import DriverDashboard from "./driverComponents/driverDashboard";
@@ -15,7 +15,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<><NavBar/><LandingPage/></>} />
-        <Route path="/farmer-dashboard" element={<Dashboard />} />
+        <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
         <Route path="/driver-dashboard" element={<DriverDashboard/>}/>
         <Route path="/post-produce" element={<PostProduce />} />
         <Route path="/my-produce" element={<MyProduce/>}/>

@@ -15,6 +15,14 @@ export default function PostProduce() {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
       };
+
+    const handleSubmit = async() => {
+      const res = await fetch("http://127.0.0.1:5000/api/v1/produce", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({})
+      })
+    }
   return (
     <div className='post_produce'>
         <Sidebar/>
