@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function DriverAuth({mode, setMode}) {
   // State to hold driver details and any validation errors
@@ -11,6 +12,8 @@ function DriverAuth({mode, setMode}) {
     });
     const [errors, setErrors] = useState({})
 
+
+    const navigate = useNavigate()
 
     // Function to handle changes in form fields and update state accordingly
     const handleChange = (e) => {
@@ -46,6 +49,10 @@ function DriverAuth({mode, setMode}) {
 
         const data = await res.json();
         console.log("Login response:", data);}
+          console.log(data.verified)
+        // sessionStorage.setItem("verifiedCheck", data.verified)
+        // console.log(typeof data.verified)
+        navigate("/driver-dashboard")
     };
 
     // Function for handling sign-up logic

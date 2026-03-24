@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DriverSidebar from '../components/DriverSidebar'
 
 export default function DriverDashboard() {
+
+  const [verifiedState, setVerifiedState] = useState(null)
+
+  useEffect(() => {
+    const status = sessionStorage.getItem("verifiedCheck")
+    setVerifiedState(status)
+
+    console.log(typeof status)
+  }, [])
   return (
     <div className='dashboard'>
       <DriverSidebar/>
