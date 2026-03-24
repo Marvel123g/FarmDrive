@@ -299,7 +299,7 @@ def driver_kyc(driver_id, vehicle_type, license_plate, bank_name, account_number
                        account_number, account_name, profile_picture_url, driver_id))
 
         # This allows the driver to become visible
-        query3 = "INSERT INTO driver_pos (driver_id, lat, lng, last_updated) VALUES (?, 0, 0, CURRENT_TIMESTAMP)"
+        query3 = "INSERT OR IGNORE INTO driver_pos (driver_id, lat, lng, last_updated) VALUES (?, 0, 0, CURRENT_TIMESTAMP)"
         cursor.execute(query3, (driver_id,))
 
         db.commit()
@@ -355,25 +355,92 @@ def update_farmer_position(farmer_id, lat, lng):
     try:
         cursor = db.cursor()
 
-        query1 = "SELECT id FROM farmer_pos WHERE farmer_id = ?"
+        query1 = "SELECT 1 FROM farmer_pos WHERE farmer_id = ?"
         cursor.execute(query1, (farmer_id,))
-        row = cursor.fetchone()
+        exists = cursor.fetchone()
 
-        if row is None:
-            return {"status": "ERROR",
-                    "message": "Farmer not found. Cannot update position for a non-existent farmer",
-                    "code": 404}
+        if exists is None:
+            # First time posting? Create the record.
+            query = "INSERT INTO farmer_pos (farmer_id, lat, lng) VALUES (?, ?, ?)"
+            cursor.execute(query, (farmer_id, lat, lng))
         else:
-            query = "UPDATE farmer_pos SET lat = ?, lng = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?"
-            cursor.execute(query, (lat, lng, row['id']))
+            # Already exists? Just update it.
+            query = "UPDATE farmer_pos SET lat = ?, lng = ?, last_updated = CURRENT_TIMESTAMP WHERE farmer_id = ?"
+            cursor.execute(query, (lat, lng, farmer_id))
 
         db.commit()
         return {"status": "SUCCESS",
                 "code": 200,
-                "message": "Farmer position updated successfully."}
+                "message": "Farmer location updated successfully."}
     except sqlite3.Error as e:
         return {"status": "ERROR",
                 "message": f"Error updating farmer position: {e}",
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Driver
+def get_driver_position(driver_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query = "SELECT d.is_available, p.lat, p.lng FROM driver AS d LEFT JOIN driver_pos AS p ON d.id = p.driver_id WHERE d.id = ?"
+        cursor.execute(query, (driver_id,))
+        row = cursor.fetchone()
+
+        if row["is_available"] == 0:
+            return {"status": "ERROR",
+                    "message": "Driver not currently active.", 
+                    "code": 200}
+
+        if not all([row["lat"], row["lng"]]):
+            return {"status": "ERROR",
+                    "message": "Driver not found.", 
+                    "code": 404}
+
+        db.commit()
+        return {"status": "SUCCESS", 
+                "lat": row["lat"], 
+                "lng": row["lng"], 
+                "code": 200, 
+                "message": "Driver location retrieved successfully."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error getting driver position: {e}.", 
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Driver
+def update_driver_position(driver_id, lat, lng):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query1 = "SELECT id FROM driver_pos WHERE driver_id = ?"
+        cursor.execute(query1, (driver_id,))
+        row = cursor.fetchone()
+
+        if row is None:
+            return {"status": "ERROR",
+                    "message": "Driver not found. Cannot update position for a non-existent driver.",
+                    "code": 404}
+        else:
+            query = "UPDATE driver_pos SET lat = ?, lng = ?, last_updated = CURRENT_TIMESTAMP WHERE driver_id = ?"
+            cursor.execute(query, (lat, lng, driver_id))
+
+        db.commit()
+        return {"status": "SUCCESS", 
+                "code": 200, 
+                "message": "Driver position updated successfully."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error updating driver position: {e}.", 
                 "code": 500}
     finally:
         if db:
@@ -398,7 +465,7 @@ def save_produce_details(farmer_id, crop_name, pickup_location, destination, qua
         query2 = "INSERT INTO farm_produce (id, farmer_id, crop_name, pickup_location, destination, quantity, details, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
         cursor.execute(query2, (str(uuid.uuid4()), farmer_id, crop_name,
                        pickup_location, destination, quantity, details))
-        id = cursor.lastrowid()
+        id = cursor.lastrowid
         db.commit()
         return {"status": "SUCCESS",
                 "produce_id": id,
@@ -414,14 +481,35 @@ def save_produce_details(farmer_id, crop_name, pickup_location, destination, qua
 
 
 # Driver
-def get_all_produce():
+def get_all_produce(driver_id):
     db = get_db_connection()
     try:
         cursor = db.cursor()
 
-        query = "SELECT * FROM farm_produce"
-        cursor.execute(query)
+        # 1. Join with farmer for names
+        # 2. LEFT JOIN with produce_price for THIS driver
+        # 3. Filter for rows where the LEFT JOIN found nothing (price IS NULL)
+        query = """
+            SELECT p.*, f.first_name, f.last_name 
+            FROM farm_produce p
+            JOIN farmer f ON p.farmer_id = f.id
+            LEFT JOIN produce_price pp ON p.id = pp.produce_id AND pp.driver_id = ?
+            WHERE pp.id IS NULL   -- Filter 1: Current driver hasn't bid yet
+            AND NOT EXISTS (      -- Filter 2: No other driver's bid has been accepted
+                SELECT 1 FROM produce_price 
+                WHERE produce_id = p.id AND accepted = 1
+            )
+            ORDER BY p.created_at DESC
+        """
+
+        cursor.execute(query, (driver_id,))
         rows = cursor.fetchall()
+
+        if not rows:
+            return {"status": "SUCCESS", 
+                    "message": "No new produce available.", 
+                    "code": 200, 
+                    "produce": []}
 
         produce_list = []
         for row in rows:
@@ -435,15 +523,11 @@ def get_all_produce():
                 "details": row["details"],
                 "posted_at": time_ago(row["created_at"])
             })
-        if produce_list == []:
-            return {"status": "SUCCESS", 
-                    "message": "No farm produce has been posted yet.", 
-                    "code": 200}
 
         return {"status": "SUCCESS", 
                 "produce": produce_list, 
                 "code": 200,
-                "message": "Successfully retrieved all farm produce."}
+                "message": "Successfully retrieved all available farm produce."}
     except sqlite3.Error as e:
         return {"status": "ERROR",
                 "message": f"Error retrieving produce details: {e}.", 
@@ -495,6 +579,83 @@ def get_produce_for_farmer(farmer_id):
     except sqlite3.Error as e:
         return {"status": "ERROR",
                 "message": f"Error retrieving produce details per farmer: {e}.", 
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Driver
+def set_price_by_driver(driver_id, produce_id, price, driver_distance):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        # 1. Unified check: Does driver exist? Does produce exist? Is it already accepted?
+        # We use a LEFT JOIN to check everything in one trip to the DB.
+        check_query = """
+            SELECT 
+                (SELECT 1 FROM driver WHERE id = ?) AS driver_exists,
+                (SELECT 1 FROM farm_produce WHERE id = ?) AS produce_exists,
+                (SELECT 1 FROM produce_price WHERE produce_id = ? AND accepted = 1 LIMIT 1) AS already_accepted
+        """
+        cursor.execute(check_query, (driver_id, produce_id, produce_id))
+        status = cursor.fetchone()
+
+        # 2. Handle validation errors based on the check results
+        if not status['driver_exists']:
+            return {"status": "ERROR", 
+                    "code": 404, 
+                    "message": "Driver not found."}
+
+        if not status['produce_exists']:
+            return {"status": "ERROR", 
+                    "code": 404, 
+                    "message": "Farm produce not found."}
+
+        if status['already_accepted']:
+            return {"status": "ERROR", 
+                    "code": 400, 
+                    "message": "A price has already been accepted for this produce."}
+
+        query = "INSERT INTO produce_price (produce_id, driver_id, price, driver_distance) VALUES (?, ?, ?, ?)"
+        cursor.execute(query, (produce_id, driver_id, price, driver_distance))
+
+        db.commit()
+        return {"status": "SUCCESS", 
+                "code": 201, 
+                "message": "Price bid submitted successfully."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR", 
+                "code": 500, 
+                "message": f"Database error: {e}."}
+    finally:
+        if db:
+            db.close()
+
+
+# Farmer
+def get_produce_details(produce_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query = "SELECT farmer_id FROM farm_produce WHERE id = ?"
+        cursor.execute(query, (produce_id,))
+        row = cursor.fetchone()
+
+        if row is None:
+            return {"status": "ERROR",
+                    "message": "Farm produce not found. Cannot fetch details for a non-existent farm produce.",
+                    "code": 404}
+
+        return {"status": "SUCCESS", 
+                "farmer_id": row[0], 
+                "code": 200, 
+                "message": "Farmer id fetched successfully from produce id."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error fetching produce details: {e}.", 
                 "code": 500}
     finally:
         if db:
