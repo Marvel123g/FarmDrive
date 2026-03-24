@@ -18,7 +18,7 @@ def create_app():
     cloudinary.config(
         cloud_name=CLOUD_NAME,
         api_key=CLOUDINARY_API_KEY,
-        api_secret=CLOUDNINARY_API_SECRET
+        api_secret=CLOUDNINARY_API_SECRET,
         secure=True
     )
 
