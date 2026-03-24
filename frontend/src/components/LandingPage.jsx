@@ -7,8 +7,8 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 import AuthModal from "../modals/AuthModal";
-import Testimony from "../HomePageComponents/Testimony";
-import FAQ from "../HomePageComponents/FAQ";
+import Testimony from "../Home/Testimony";
+import FAQ from "../Home/FAQ";
 
 export default function LandingPage() {
 
