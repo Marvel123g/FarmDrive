@@ -4,7 +4,7 @@ import LandingPage from "./components/LandingPage";
 import FarmerDashboard from "./farmerComponents/FarmerDashboard";
 import PostProduce from "./farmerComponents/PostProduce";
 import { Routes, Route } from "react-router-dom";
-import DriverDashboard from "./driverComponents/driverDashboard";
+import DriverDashboard from "./driverComponents/DriverDashboard";
 import MyProduce from "./farmerComponents/MyProduce";
 import Marketplace from "./driverComponents/Marketplace";
 import Deliveries from "./farmerComponents/Deliveries";
