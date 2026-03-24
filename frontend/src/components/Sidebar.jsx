@@ -27,6 +27,7 @@ export default function Sidebar() {
         break;
     }
   }, [location]);
+
   return (
     <aside className='sideBar'>
         <nav>
