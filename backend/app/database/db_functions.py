@@ -187,6 +187,19 @@ def logout(user_id, role):
             cursor = db.cursor()
             cursor.execute(
                 "DELETE FROM driver_sessions WHERE driver_id = ?", (user_id,))
+
+            query1 = "SELECT is_available FROM driver WHERE id = ?"
+            cursor.execute(query1, (user_id,))
+            row = cursor.fetchone()
+
+            # Depicts that driver is not verified
+            if row["is_available"] == 0:
+                return {"status": "SUCCESS",
+                        "message": "Driver already inactive because not verified. Log out successful.",
+                        "code": 200}
+
+            query2 = "UPDATE driver SET is_available = 0 WHERE id = ?"
+            cursor.execute(query2, (user_id,))
         db.commit()
         return {"status": "OK",
                 "message": "User successfully logged out.",
@@ -272,11 +285,44 @@ def driver_kyc(driver_id, vehicle_type, license_plate, bank_name, account_number
                 "message": "Driver KYC submitted successfully."}
     except sqlite3.IntegrityError:
         return {"status": "ERROR",
-                "message": "License plate already registered.", 
+                "message": "License plate already registered.",
                 "code": 400}
     except sqlite3.Error as e:
         return {"status": "ERROR",
-                "message": f"Error updating driver details: {e}.", 
+                "message": f"Error updating driver details: {e}.",
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Farmer
+def save_produce_details(farmer_id, crop_name, pickup_location, destination, quantity, details) -> dict:
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query1 = "SELECT id FROM farmer WHERE id = ?"
+        cursor.execute(query1, (farmer_id,))
+        row = cursor.fetchone()
+
+        if row is None:
+            return {"status": "ERROR",
+                    "code": 404,
+                    "message": "Farmer not found. Cannot add produce details for a non-existent farmer."}
+
+        query2 = "INSERT INTO farm_produce (id, farmer_id, crop_name, pickup_location, destination, quantity, details, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
+        cursor.execute(query2, (str(uuid.uuid4()), farmer_id, crop_name,
+                       pickup_location, destination, quantity, details))
+        id = cursor.lastrowid()
+        db.commit()
+        return {"status": "SUCCESS",
+                "produce_id": id,
+                "code": 201,
+                "message": "Produce details added successfully."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error adding produce details: {e}.",
                 "code": 500}
     finally:
         if db:
