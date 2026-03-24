@@ -8,6 +8,8 @@ produce_bp = Blueprint("produce_bp", __name__, url_prefix="/api/v1")
 def addProduce():
     farmer_id = get_current_user(
         request.cookies.get('farmer_session_id'), "farmer")
+    print(farmer_id)
+    print(request.cookies.get("farmer_session_id"))
     if not farmer_id:
         return jsonify({"status": "ERROR",
                         "code": 401,
@@ -65,10 +67,12 @@ def fetch_produce():
 
     if requested_role == 'farmer' and farmer_id:
         result = get_produce_for_farmer(farmer_id)
+        print(result)
         return jsonify(result), result['code']
 
     if requested_role == 'driver' and driver_id:
         result = get_all_produce(driver_id)
+        print(result)
         return jsonify(result), result['code']
 
     if driver_id:
@@ -79,3 +83,26 @@ def fetch_produce():
     return jsonify({"status": "ERROR",
                     "code": 401,
                     "message": "User is unauthorized."})
+
+
+"""
+@produce_bp.route("/produce", methods=['GET'])
+def fetch_produce():
+    farmer_id = get_current_user(
+        request.cookies.get('farmer_session_id'), "farmer")
+    driver_id = get_current_user(
+        request.cookies.get('driver_session_id'), "driver")
+
+    role = request.args.get("role")
+
+    # Determine which logic to run
+    if (role == 'farmer' or not driver_id) and farmer_id:
+        result = get_produce_for_farmer(farmer_id)
+    elif (role == 'driver' or not farmer_id) and driver_id:
+        result = get_all_produce(driver_id)
+    else:
+        return jsonify({"status": "ERROR", "code": 401, "message": "Unauthorized"}), 401
+
+    # Always return both the JSON and the status code
+    return jsonify(result), result.get('code', 200)
+"""

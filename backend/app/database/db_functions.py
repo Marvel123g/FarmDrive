@@ -355,22 +355,23 @@ def update_farmer_position(farmer_id, lat, lng):
     try:
         cursor = db.cursor()
 
-        query1 = "SELECT id FROM farmer_pos WHERE farmer_id = ?"
+        query1 = "SELECT 1 FROM farmer_pos WHERE farmer_id = ?"
         cursor.execute(query1, (farmer_id,))
-        row = cursor.fetchone()
+        exists = cursor.fetchone()
 
-        if row is None:
-            return {"status": "ERROR",
-                    "message": "Farmer not found. Cannot update position for a non-existent farmer",
-                    "code": 404}
+        if exists is None:
+            # First time posting? Create the record.
+            query = "INSERT INTO farmer_pos (farmer_id, lat, lng) VALUES (?, ?, ?)"
+            cursor.execute(query, (farmer_id, lat, lng))
         else:
-            query = "UPDATE farmer_pos SET lat = ?, lng = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?"
-            cursor.execute(query, (lat, lng, row['id']))
+            # Already exists? Just update it.
+            query = "UPDATE farmer_pos SET lat = ?, lng = ?, last_updated = CURRENT_TIMESTAMP WHERE farmer_id = ?"
+            cursor.execute(query, (lat, lng, farmer_id))
 
         db.commit()
         return {"status": "SUCCESS",
                 "code": 200,
-                "message": "Farmer position updated successfully."}
+                "message": "Farmer location updated successfully."}
     except sqlite3.Error as e:
         return {"status": "ERROR",
                 "message": f"Error updating farmer position: {e}",
@@ -464,7 +465,7 @@ def save_produce_details(farmer_id, crop_name, pickup_location, destination, qua
         query2 = "INSERT INTO farm_produce (id, farmer_id, crop_name, pickup_location, destination, quantity, details, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
         cursor.execute(query2, (str(uuid.uuid4()), farmer_id, crop_name,
                        pickup_location, destination, quantity, details))
-        id = cursor.lastrowid()
+        id = cursor.lastrowid
         db.commit()
         return {"status": "SUCCESS",
                 "produce_id": id,
