@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.database.db_functions import save_produce_details, get_current_user, update_farmer_position, get_all_produce
+from app.database.db_functions import save_produce_details, get_current_user, update_farmer_position, get_all_produce, get_produce_for_farmer
 
 produce_bp = Blueprint("produce_bp", __name__, url_prefix="/api/v1")
 
@@ -56,21 +56,26 @@ def addProduce():
 
 @produce_bp.route("/produce", methods=['GET'])
 def fetch_produce():
-    farmer_sid = request.cookies.get('farmer_session_id')
-    user_id = get_current_user(farmer_sid, "farmer")
-    role = "farmer"
+    farmer_id = get_current_user(
+        request.cookies.get('farmer_session_id'), "farmer")
+    driver_id = get_current_user(
+        request.cookies.get('driver_session_id'), "driver")
 
-    # 2. If not a farmer, try to get the driver
-    if not user_id:
-        driver_sid = request.cookies.get('driver_session_id')
-        user_id = get_current_user(driver_sid, "driver")
-        role = "driver"
+    requested_role = request.args.get("role")
 
-    if not user_id:
-        return jsonify({"status": "ERROR",
-                        "code": 401,
-                        "message": "User is unauthorized."})
+    if requested_role == 'farmer' and farmer_id:
+        result = get_produce_for_farmer(farmer_id)
+        return jsonify(result), result['code']
 
-    result = get_all_produce()
+    if requested_role == 'driver' and driver_id:
+        result = get_all_produce()
+        return jsonify(result), result['code']
 
-    return jsonify(result), result['code']
+    if driver_id:
+        return jsonify(get_all_produce())
+    if farmer_id:
+        return jsonify(get_produce_for_farmer(farmer_id))
+
+    return jsonify({"status": "ERROR",
+                    "code": 401,
+                    "message": "User is unauthorized."})

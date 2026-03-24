@@ -24,9 +24,11 @@ def create_app():
 
     from app.routes.farmer.auth import farmer_auth_bp
     from app.routes.driver.auth import driver_auth_bp
+    from app.routes.produce import produce_bp
 
     app.register_blueprint(farmer_auth_bp)
     app.register_blueprint(driver_auth_bp)
+    app.register_blueprint(produce_bp)
 
     return app
 

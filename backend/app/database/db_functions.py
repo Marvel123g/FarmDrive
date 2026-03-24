@@ -96,7 +96,7 @@ def signup_farmer(first_name, last_name, phone, farm_state, farm_city, password)
     try:
         cursor = db.cursor()
         password_hash = hash_password(password)
-        query = "INSERT INTO farmer (id, first_name, last_name, phone, farm_state, farm_city, password_hash) VALUES (?, ?, ?, ?, ?, ?)"
+        query = "INSERT INTO farmer (id, first_name, last_name, phone, farm_state, farm_city, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?)"
         cursor.execute(query, (str(uuid.uuid4()), first_name,
                        last_name, phone, farm_state, farm_city, password_hash))
         db.commit()
@@ -413,6 +413,7 @@ def save_produce_details(farmer_id, crop_name, pickup_location, destination, qua
             db.close()
 
 
+# Driver
 def get_all_produce():
     db = get_db_connection()
     try:
@@ -446,6 +447,54 @@ def get_all_produce():
     except sqlite3.Error as e:
         return {"status": "ERROR",
                 "message": f"Error retrieving produce details: {e}.", 
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Farmer
+def get_produce_for_farmer(farmer_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        initQuery = "SELECT id FROM farm_produce WHERE farmer_id = ?"
+        cursor.execute(initQuery, (farmer_id,))
+        initRow = cursor.fetchone()
+
+        if initRow is None:
+            return {"status": "SUCCESS", 
+                    "message": "No farm produce has been posted by this farmer", 
+                    "code": 200}
+
+        query = "SELECT * FROM farm_produce WHERE farmer_id = ?"
+        cursor.execute(query, (farmer_id,))
+        rows = cursor.fetchall()
+
+        produce_list = []
+        for row in rows:
+            produce_list.append({
+                "id": row["id"],
+                "crop_name": row["crop_name"],
+                "pickup_location": row["pickup_location"],
+                "destination": row["destination"],
+                "quantity": row["quantity"],
+                "details": row["details"],
+                "posted_at": time_ago(row["created_at"])
+            })
+        if produce_list == []:
+            return {"status": "SUCCESS", 
+                    "message": "No farm produce has been posted yet.", 
+                    "code": 200}
+
+        return {"status": "success", 
+                "produce": produce_list, 
+                "code": 200,
+                "message": "All produce per farmer retrieved successfully."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error retrieving produce details per farmer: {e}.", 
                 "code": 500}
     finally:
         if db:
