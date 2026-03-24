@@ -68,11 +68,11 @@ def fetch_produce():
         return jsonify(result), result['code']
 
     if requested_role == 'driver' and driver_id:
-        result = get_all_produce()
+        result = get_all_produce(driver_id)
         return jsonify(result), result['code']
 
     if driver_id:
-        return jsonify(get_all_produce())
+        return jsonify(get_all_produce(driver_id))
     if farmer_id:
         return jsonify(get_produce_for_farmer(farmer_id))
 

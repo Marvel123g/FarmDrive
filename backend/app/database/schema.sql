@@ -77,3 +77,16 @@ CREATE TABLE IF NOT EXISTS farm_produce (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (farmer_id) REFERENCES farmer (id)
 );
+
+CREATE TABLE IF NOT EXISTS produce_price (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    produce_id TEXT NOT NULL,
+    driver_id TEXT NOT NULL,
+    price REAL NOT NULL,
+    accepted INTEGER DEFAULT 0,
+    driver_distance REAL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    accepted_at DATETIME,
+    FOREIGN KEY (produce_id) REFERENCES farm_produce (id),
+    FOREIGN KEY (driver_id) REFERENCES driver (id)
+);
