@@ -1,4 +1,5 @@
-.marketplace-container {
+.marketPlace_wrapper{
+    .marketplace-container {
     flex: 1;
     padding-left: 350px !important;
     padding: 30px 40px;
@@ -323,4 +324,6 @@
   50% {
     transform: translateY(-10px);
   }
+}
+
 }
