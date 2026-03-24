@@ -29,7 +29,8 @@ export default function PostProduce() {
     }, [])
      
 
-    const handleSubmit = async() => {
+    const handleSubmit = async(e) => {
+      e.preventDefault()
       try {
          const res = await fetch("http://127.0.0.1:5000/api/v1/produce", {
           method: "POST",
@@ -133,7 +134,7 @@ export default function PostProduce() {
                 Cancel
               </button> */}
 
-              <button type="submit" className="primaryBtn" onClick={handleSubmit}>
+              <button type="button" className="primaryBtn" onClick={handleSubmit}>
                 Post Listing
               </button>
             </div>
