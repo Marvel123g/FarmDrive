@@ -1,0 +1,285 @@
+.driverDelivery_wrapper{
+  .driver-delivery-container {
+  flex: 1;
+    padding-left: 350px !important;
+    padding: 30px 40px;
+  background: linear-gradient(135deg, #f8faf7 0%, #eef4ea 100%);
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Header Section */
+.delivery-header {
+  margin-bottom: 30px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 2px solid rgba(44, 122, 77, 0.1);
+}
+
+.header-title h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1a3b2e, #2c7a4d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 8px;
+}
+
+.header-title p {
+  color: #6b7c6f;
+  font-size: 0.95rem;
+}
+
+
+/* Tabs */
+.delivery-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  padding: 5px 0;
+}
+
+.tab-btn {
+  padding: 12px 28px;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #4a5b4e;
+}
+
+.tab-btn:hover {
+  border-color: #2c7a4d;
+  color: #2c7a4d;
+  transform: translateY(-2px);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
+  color: white;
+  border-color: transparent;
+}
+
+/* Deliveries Grid */
+.deliveries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 30px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Delivery Card */
+.delivery-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(44, 122, 77, 0.1);
+}
+
+/* Card Header */
+.card-header {
+  padding: 15px 20px;
+  background: #f8faf7;
+  border-bottom: 1px solid #e2e8f0;
+}
+/* Farmer Info */
+.farmer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.farmer-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2c7a4d;
+}
+
+.farmer-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a3b2e;
+  margin: 0 0 4px 0;
+}
+
+.farmer-phone {
+  font-size: 0.75rem;
+  color: #6b7c6f;
+  margin: 0;
+}
+
+.contact-btn {
+  margin-left: auto;
+  padding: 6px 12px;
+  background: #2c7a4d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+  background: #1f5a3a;
+  transform: translateY(-1px);
+}
+
+.crop-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a3b2e;
+  margin-bottom: 8px;
+}
+
+.price-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.price-label {
+  font-size: 0.85rem;
+  color: #6b7c6f;
+}
+
+.price-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c7a4d;
+}
+
+/* Delivery Details */
+.delivery-details {
+  background: #f8faf7;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #4a5b4e;
+}
+
+.detail-icon {
+  font-size: 0.9rem;
+}
+
+.card-description {
+  margin-bottom: 20px;
+}
+
+.card-description p {
+  font-size: 0.85rem;
+  color: #6b7c6f;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.start-btn {
+  background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
+  color: white;
+}
+
+.start-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(44, 122, 77, 0.3);
+}
+
+.complete-btn {
+  background: #10b981;
+  color: white;
+}
+
+.complete-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+
+/* Empty State */
+.empty-deliveries {
+  text-align: center;
+  padding: 80px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  margin-top: 40px;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.empty-deliveries h3 {
+  font-size: 1.5rem;
+  color: #1a3b2e;
+  margin-bottom: 10px;
+}
+
+.empty-deliveries p {
+  color: #6b7c6f;
+  margin-bottom: 25px;
+}
+
+}

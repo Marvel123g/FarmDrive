@@ -9,6 +9,8 @@ import MyProduce from "./farmerComponents/MyProduce";
 import Marketplace from "./driverComponents/Marketplace";
 import Deliveries from "./farmerComponents/Deliveries";
 import Payment from "./farmerComponents/Payment";
+import DriverDelivery from "./driverComponents/DriverDelivery";
+import Earnings from "./driverComponents/Earnings";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/marketplace" element={<Marketplace/>}/>
         <Route path="/deliveries" element={<Deliveries/>}/>
         <Route path="/payments" element={<Payment/>}/>
+        <Route path="/driver-deliveries" element={<DriverDelivery/>}/>
+        <Route path="/earnings" element={<Earnings/>}/>
       </Routes>
     </>
   );
