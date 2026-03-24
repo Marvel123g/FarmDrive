@@ -118,6 +118,7 @@ def signup_driver(email, first_name, last_name, phone, password):
         if db:
             db.close()
 
+
 # Farmer
 def login_farmer(phone, password):
     db = get_db_connection()
@@ -173,6 +174,7 @@ def login_driver(email, password):
         if db:
             db.close()
 
+
 # Everybody
 def logout(user_id, role):
     db = get_db_connection()
@@ -192,6 +194,89 @@ def logout(user_id, role):
     except Exception as e:
         return {"status": "ERROR",
                 "message": f"Error occurred while logging out: {e}.",
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Driver
+def set_driver_active(email):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query1 = "SELECT id, is_verified FROM driver WHERE email = ?"
+        cursor.execute(query1, (email,))
+        row = cursor.fetchone()
+
+        if row is None:
+            print({"status": "ERROR",
+                   "message": "Driver not found.",
+                   "code": 404})
+            return {"bool": False, "verified": False, "id": None}
+        else:
+            if row[1] == 0:
+                print({"status": "ERROR",
+                       "message": "Driver not verified.",
+                       "code": 400})
+                return {"bool": True, "verified": False, "id": row[0]}
+            query2 = "UPDATE driver SET is_available = 1 WHERE email = ?"
+            cursor.execute(query2, (email,))
+
+            db.commit()
+            print({"status": "SUCCESS",
+                   "code": 200,
+                   "message": "Driver is now active."})
+            return {"bool": True, "verified": True, "id": row[0]}
+    except sqlite3.Error as e:
+        print({"status": "ERROR",
+               "message": f"Error setting driver active: {e}.",
+               "code": 500})
+        return {"bool": False, "verified": False, "id": None}
+    finally:
+        if db:
+            db.close()
+
+
+# Driver
+def driver_kyc(driver_id, vehicle_type, license_plate, bank_name, account_number, account_name, profile_picture_url=None):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query1 = "SELECT is_verified FROM driver WHERE id = ?"
+        cursor.execute(query1, (driver_id,))
+        row = cursor.fetchone()
+
+        if row is None:
+            return {"status": "ERROR",
+                    "message": "Driver not found.",
+                    "code": 404}
+        if row['is_verified'] == 1:
+            return {"status": "ERROR",
+                    "message": "Driver already verified.",
+                    "code": 400}
+
+        query2 = "UPDATE driver SET vehicle_type = ?, license_plate = ?, bank_name = ?, account_number = ?, account_name = ?, profile_picture_url = ?, is_verified = 1, is_available = 1 WHERE id = ?"
+        cursor.execute(query2, (vehicle_type, license_plate, bank_name,
+                       account_number, account_name, profile_picture_url, driver_id))
+
+        # This allows the driver to become visible
+        query3 = "INSERT INTO driver_pos (driver_id, lat, lng, last_updated) VALUES (?, 0, 0, CURRENT_TIMESTAMP)"
+        cursor.execute(query3, (driver_id,))
+
+        db.commit()
+        return {"status": "SUCCESS",
+                "code": 200,
+                "message": "Driver KYC submitted successfully."}
+    except sqlite3.IntegrityError:
+        return {"status": "ERROR",
+                "message": "License plate already registered.", 
+                "code": 400}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error updating driver details: {e}.", 
                 "code": 500}
     finally:
         if db:
