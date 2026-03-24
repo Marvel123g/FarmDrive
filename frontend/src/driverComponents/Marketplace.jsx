@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DriverSidebar from '../components/DriverSidebar';
 
 export default function Marketplace() {
@@ -104,6 +104,21 @@ export default function Marketplace() {
   const [bidAmounts, setBidAmounts] = useState({});
   const [showBidInput, setShowBidInput] = useState({});
   const [successMessage, setSuccessMessage] = useState(null);
+  const [produceList, setProduceList] = useState({})
+
+
+  useEffect(() => {
+    const fetchProduce = async() => {
+        const res = await fetch("http://127.0.0.1:5000/api/v1/produce?role=driver")
+        const data = await res.json()
+
+        console.log(data)
+    }
+
+
+    fetchProduce()
+  }, [])
+  
 
   const handleBidChange = (id, value) => {
     setBidAmounts({
@@ -111,6 +126,7 @@ export default function Marketplace() {
       [id]: value
     });
   };
+  
 
   const handleBidSubmit = (produce) => {
     const bidAmount = bidAmounts[produce.id];

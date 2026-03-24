@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Sidebar from '../components/Sidebar'
 
 export default function PostProduce() {
@@ -11,17 +11,37 @@ export default function PostProduce() {
         price: "",
         description: "",
     });
+    const [farmerLocation, setFarmerLocation] = useState({lat: "", lng: ""})
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
       };
 
-    const handleSubmit = async() => {
-      const res = await fetch("http://127.0.0.1:5000/api/v1/produce", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({})
+    useEffect(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+        setFarmerLocation({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude
+        })
       })
+      }
+    }, [])
+     
+
+    const handleSubmit = async() => {
+      try {
+         const res = await fetch("http://127.0.0.1:5000/api/v1/produce", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({"produceDetails" : form, "farmerLocation": farmerLocation})
+        })
+        console.log(res)
+        console.log("Produce Details: ", form)
+        console.log("farmerLocation: ", farmerLocation)
+      } catch (error) {
+        console.log(error.message)
+      }
     }
   return (
     <div className='post_produce'>
@@ -106,14 +126,14 @@ export default function PostProduce() {
 
             {/* BUTTONS */}
             <div className="formActions">
-              <button
+              {/* <button
                 type="button"
                 className="cancelBtn"
               >
                 Cancel
-              </button>
+              </button> */}
 
-              <button type="submit" className="primaryBtn">
+              <button type="submit" className="primaryBtn" onClick={handleSubmit}>
                 Post Listing
               </button>
             </div>
