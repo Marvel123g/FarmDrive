@@ -64,3 +64,16 @@ CREATE TABLE IF NOT EXISTS farmer_pos (
     last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (farmer_id) REFERENCES farmer (id)
 );
+
+
+CREATE TABLE IF NOT EXISTS farm_produce (
+    id TEXT PRIMARY KEY NOT NULL,
+    farmer_id TEXT NOT NULL,
+    crop_name TEXT NOT NULL,
+    pickup_location TEXT NOT NULL,
+    destination TEXT NOT NULL,
+    quantity TEXT NOT NULL,
+    details TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (farmer_id) REFERENCES farmer (id)
+);

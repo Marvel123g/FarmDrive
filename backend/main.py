@@ -13,7 +13,7 @@ CLOUDNINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+    CORS(app, supports_credentials=True)
 
     cloudinary.config(
         cloud_name=CLOUD_NAME,

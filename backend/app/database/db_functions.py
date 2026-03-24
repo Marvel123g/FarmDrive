@@ -2,15 +2,42 @@ from app.database.db import get_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
-# Everybody
+# HELPER FUNCTIONS
 def hash_password(password):
     return generate_password_hash(password)
 
 
-# Everybody
+def time_ago(timestamp_str):
+    if not timestamp_str:
+        return "Unknown"
+    
+    # 1. Convert SQLite string to a UTC-aware datetime object
+    # SQLite uses 'YYYY-MM-DD HH:MM:SS'
+    past = datetime.fromisoformat(timestamp_str).replace(tzinfo=timezone.utc)
+
+    # 2. Get current time in UTC (The non-deprecated way)
+    now = datetime.now(timezone.utc)
+
+    # 3. Calculate difference
+    diff = now - past
+
+    # Logic remains the same
+    seconds = diff.total_seconds()
+    if seconds < 60:
+        return "Just now"
+    if seconds < 3600:
+        return f"{int(seconds // 60)}m ago"
+    if seconds < 86400:
+        return f"{int(seconds // 3600)}h ago"
+    if diff.days < 30:
+        return f"{diff.days}d ago"
+
+    return past.strftime("%b %d, %Y")  # e.g., Oct 27, 2023
+
+
 def create_session(session_id, user_id, role):
     db = get_db_connection()
     try:
@@ -37,7 +64,6 @@ def create_session(session_id, user_id, role):
             db.close()
 
 
-# Everybody
 def get_current_user(session_id, role):
     if not session_id:
         return None
@@ -49,17 +75,13 @@ def get_current_user(session_id, role):
             cursor.execute(
                 "SELECT farmer_id FROM farmer_sessions WHERE id = ? AND expires_at > datetime(?)", (session_id, datetime.now()))
             session = cursor.fetchone()
-            if session and len(session) > 0:
-                return session[0]
-            return None
+            return session[0] if session else None
         elif role == "driver":
             cursor = db.cursor()
             cursor.execute(
                 "SELECT driver_id FROM driver_sessions WHERE id = ? AND expires_at > datetime(?)", (session_id, datetime.now()))
             session = cursor.fetchone()
-            if session and len(session) > 0:
-                return session[0]
-            return None
+            return session[0] if session else None
         else:
             pass
     finally:
@@ -67,6 +89,7 @@ def get_current_user(session_id, role):
             db.close()
 
 
+# DATABASE FUNCTIONS
 # Farmer
 def signup_farmer(first_name, last_name, phone, farm_state, farm_city, password):
     db = get_db_connection()
@@ -187,6 +210,19 @@ def logout(user_id, role):
             cursor = db.cursor()
             cursor.execute(
                 "DELETE FROM driver_sessions WHERE driver_id = ?", (user_id,))
+
+            query1 = "SELECT is_available FROM driver WHERE id = ?"
+            cursor.execute(query1, (user_id,))
+            row = cursor.fetchone()
+
+            # Depicts that driver is not verified
+            if row["is_available"] == 0:
+                return {"status": "SUCCESS",
+                        "message": "Driver already inactive because not verified. Log out successful.",
+                        "code": 200}
+
+            query2 = "UPDATE driver SET is_available = 0 WHERE id = ?"
+            cursor.execute(query2, (user_id,))
         db.commit()
         return {"status": "OK",
                 "message": "User successfully logged out.",
@@ -272,11 +308,144 @@ def driver_kyc(driver_id, vehicle_type, license_plate, bank_name, account_number
                 "message": "Driver KYC submitted successfully."}
     except sqlite3.IntegrityError:
         return {"status": "ERROR",
-                "message": "License plate already registered.", 
+                "message": "License plate already registered.",
                 "code": 400}
     except sqlite3.Error as e:
         return {"status": "ERROR",
-                "message": f"Error updating driver details: {e}.", 
+                "message": f"Error updating driver details: {e}.",
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Farmer
+def get_farmer_position(farmer_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query1 = "SELECT lat, lng FROM farmer_pos WHERE farmer_id = ?"
+        cursor.execute(query1, (farmer_id,))
+        row1 = cursor.fetchone()
+
+        if row1 is None:
+            return {"status": "ERROR",
+                    "message": "Farmer not found. Cannot get position for a non-existent farmer",
+                    "code": 404}
+
+        db.commit()
+        return {"status": "SUCCESS",
+                "lat": row1["lat"],
+                "lng": row1["lng"],
+                "code": 200,
+                "message": "Farmer position fetched successfully."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error getting farmer position: {e}.",
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Farmer
+def update_farmer_position(farmer_id, lat, lng):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query1 = "SELECT id FROM farmer_pos WHERE farmer_id = ?"
+        cursor.execute(query1, (farmer_id,))
+        row = cursor.fetchone()
+
+        if row is None:
+            return {"status": "ERROR",
+                    "message": "Farmer not found. Cannot update position for a non-existent farmer",
+                    "code": 404}
+        else:
+            query = "UPDATE farmer_pos SET lat = ?, lng = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?"
+            cursor.execute(query, (lat, lng, row['id']))
+
+        db.commit()
+        return {"status": "SUCCESS",
+                "code": 200,
+                "message": "Farmer position updated successfully."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error updating farmer position: {e}",
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+# Farmer
+def save_produce_details(farmer_id, crop_name, pickup_location, destination, quantity, details) -> dict:
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query1 = "SELECT id FROM farmer WHERE id = ?"
+        cursor.execute(query1, (farmer_id,))
+        row = cursor.fetchone()
+
+        if row is None:
+            return {"status": "ERROR",
+                    "code": 404,
+                    "message": "Farmer not found. Cannot add produce details for a non-existent farmer."}
+
+        query2 = "INSERT INTO farm_produce (id, farmer_id, crop_name, pickup_location, destination, quantity, details, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
+        cursor.execute(query2, (str(uuid.uuid4()), farmer_id, crop_name,
+                       pickup_location, destination, quantity, details))
+        id = cursor.lastrowid()
+        db.commit()
+        return {"status": "SUCCESS",
+                "produce_id": id,
+                "code": 201,
+                "message": "Produce details added successfully."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error adding produce details: {e}.",
+                "code": 500}
+    finally:
+        if db:
+            db.close()
+
+
+def get_all_produce():
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query = "SELECT * FROM farm_produce"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        produce_list = []
+        for row in rows:
+            produce_list.append({
+                "id": row["id"],
+                "farmer_name": f"{row['first_name']} {row['last_name']}",
+                "crop_name": row["crop_name"],
+                "pickup_location": row["pickup_location"],
+                "destination": row["destination"],
+                "quantity": row["quantity"],
+                "details": row["details"],
+                "posted_at": time_ago(row["created_at"])
+            })
+        if produce_list == []:
+            return {"status": "SUCCESS", 
+                    "message": "No farm produce has been posted yet.", 
+                    "code": 200}
+
+        return {"status": "SUCCESS", 
+                "produce": produce_list, 
+                "code": 200,
+                "message": "Successfully retrieved all farm produce."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error retrieving produce details: {e}.", 
                 "code": 500}
     finally:
         if db:
