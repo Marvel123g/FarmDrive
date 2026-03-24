@@ -13,9 +13,9 @@ export default function NavBar() {
           <h1 className="logo">FarmDrive</h1>
 
           <ul className="nav-links">
-            <li>How It Works</li>
-            <li>About Us</li>
-            <li>Contact</li>
+            <li><a href="#howItWorks">How It Works</a></li>
+            <li><a href="#testimonies">Testimonies</a></li>
+            <li><a href="#FAQ">FAQ</a></li>
           </ul>
 
           <button className="btn-primary" onClick={() => setShowChoice(true)}>

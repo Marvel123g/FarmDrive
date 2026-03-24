@@ -1,0 +1,117 @@
+import React, {useState} from 'react'
+import Sidebar from '../components/Sidebar'
+
+export default function PostProduce() {
+    const [form, setForm] = useState({
+        // id: id,
+        crop: "",
+        from: "",
+        to: "",
+        quantity: "",
+        price: "",
+        description: "",
+    });
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+      };
+  return (
+    <div className='post_produce'>
+        <Sidebar/>
+        <main>
+             <div className="topbar">
+          <h2>Post Produce</h2>
+          <div className="user">Welcome, Musa!</div>
+        </div>
+
+        {/* FORM CARD */}
+        <div className="formCard">
+          <h3>New Produce Listing</h3>
+          <p className="formDesc">
+            Fill the details below so drivers can pick up and deliver your produce.
+          </p>
+
+          <form  className="formGrid">
+            {/* CROP */}
+            <div className="inputGroup">
+              <label>Crop Name</label>
+              <input
+                type="text"
+                name="crop"
+                placeholder="e.g Tomatoes"
+                value={form.crop}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* PICKUP */}
+            <div className="inputGroup">
+              <label>Pickup Location</label>
+              <input
+                type="text"
+                name="from"
+                placeholder="e.g Jos"
+                value={form.from}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* DESTINATION */}
+            <div className="inputGroup">
+              <label>Destination</label>
+              <input
+                type="text"
+                name="to"
+                placeholder="e.g Lagos"
+                value={form.to}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* QUANTITY */}
+            <div className="inputGroup">
+              <label>Quantity</label>
+              <input
+                type="text"
+                name="quantity"
+                placeholder="e.g 50kg"
+                value={form.quantity}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* DESCRIPTION */}
+            <div className="fullWidth">
+              <label>Description</label>
+              <textarea
+                name="description"
+                rows="4"
+                placeholder="Extra details about produce, packaging, timing, etc."
+                value={form.description}
+                onChange={handleChange}
+              ></textarea>
+            </div>
+
+            {/* BUTTONS */}
+            <div className="formActions">
+              <button
+                type="button"
+                className="cancelBtn"
+              >
+                Cancel
+              </button>
+
+              <button type="submit" className="primaryBtn">
+                Post Listing
+              </button>
+            </div>
+          </form>
+        </div>
+        </main>
+    </div>
+  )
+}

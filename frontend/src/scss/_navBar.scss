@@ -29,7 +29,10 @@
         cursor: pointer;
         font-weight: 500;
         transition: color 0.2s;
-
+        a{
+          color: black;
+          text-decoration: none;
+        }
         &:hover {
           color: #38a169; // green hover like Chakra
         }
