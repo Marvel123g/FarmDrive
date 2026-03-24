@@ -57,7 +57,7 @@ export default function Testimony() {
     
   return (
     <>
-      <section className="testimonials-section">
+      <section className="testimonials-section" id='testimonies'>
         <div className="testimonials-bg-pattern"></div>
         
         <div className="testimonials-container">
@@ -181,7 +181,9 @@ export default function Testimony() {
             <div className="cta-content">
                 <h3>Ready to write your success story?</h3>
                 <p>Join thousands of farmers and drivers already using FarmDrive</p>
-                <button className="cta-button">Get Started Today →</button>
+                <a className="cta-button" href="#hero" >
+                    Get Started Today →
+                </a>
             </div>
             </div>
         </div>

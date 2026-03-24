@@ -35,12 +35,13 @@ function DriverAuth({mode, setMode}) {
         // If all validations pass, proceed with API call
        if (valid) {
           e.preventDefault();
-          const res = await fetch("http://127.0.0.1:5000/api/v1/driver/login", {
+          const res = await fetch("http://127.0.0.1:5000/api/v1/driver/auth/login", {
             headers: {
               "Content-Type": "application/json",
             },
             method: "POST",
             body: JSON.stringify({ driverDetails: driverDetails }),
+            credentials: "include"
           });
 
         const data = await res.json();
@@ -76,12 +77,13 @@ function DriverAuth({mode, setMode}) {
 
       // If all validations pass, proceed with API call
       if (valid) {
-        const res = await fetch("http://127.0.0.1:5000/api/v1/driver/signup", {
+        const res = await fetch("http://127.0.0.1:5000/api/v1/driver/auth/signup", {
           headers: {
             "Content-Type": "application/json",
           },
           method: "POST",
           body: JSON.stringify({ "driverDetails": driverDetails }),
+          credentials: "include"
         });
         const data = await res.json();
         console.log(data)
@@ -90,7 +92,29 @@ function DriverAuth({mode, setMode}) {
     }
   return (
    <div className="authContainer">
-         <form className="authPage" onSubmit={mode === "login" ? handleLogin : handleSignUp}>
+      
+      <img
+        className="auth-img img1"
+        src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=200"
+        alt=""
+      />
+      <img
+        className="auth-img img2"
+        src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200"
+        alt=""
+      />
+      <img
+        className="auth-img img3"
+        src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=200"
+        alt=""
+      />
+    <img
+        className="auth-img img4"
+        src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200"
+        alt=""
+      />
+  
+    <form className="authPage" onSubmit={mode === "login" ? handleLogin : handleSignUp}>
       {mode === "signup" ? (
         <>
           {/* Sign up field for First Name  */}
@@ -141,7 +165,7 @@ function DriverAuth({mode, setMode}) {
             {errors.phone && <span className="error" style={{textAlign: "start",color: "red", fontSize: "13px", marginTop: "3px"}}>{errors.phone}</span>}
           </div>
 
-          {/* Sign field for password */}
+          {/* Sign up field for password */}
           <div style={{flex: 1, display: "flex", flexDirection: "column"}}>
             <input
               type="text"

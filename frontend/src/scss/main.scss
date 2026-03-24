@@ -4,3 +4,19 @@
 @forward "choiceModal";
 @forward "authModal";
 @forward "auth";
+@forward "sidebar";
+@forward "farmerDashboard";
+@forward "postProduce";
+
+*{
+     padding: 0;
+     margin: 0;
+     box-sizing: border-box;
+}
+#root{
+  width: 100%;
+  margin: auto;
+}
+html{
+     scroll-behavior: smooth;
+}

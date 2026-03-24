@@ -1,6 +1,7 @@
 .landing-page {
   font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
   background: #fefcf5; // Warm, inviting base
+ 
 
   .hero-section {
     position: relative;
@@ -469,20 +470,3 @@
   font-family: inherit;
 }
 
-// Responsive touch-ups
-@media (max-width: 768px) {
-  .landing-page {
-    .hero-section .hero-content h1 {
-      font-size: 2.5rem;
-    }
-    .why-section h2, .how-section h2 {
-      font-size: 2rem;
-    }
-    .cta-section h2 {
-      font-size: 2rem;
-    }
-    .footer .footer-grid {
-      gap: 1.8rem;
-    }
-  }
-}
