@@ -63,9 +63,13 @@ def fetch_produce():
 
     requested_role = request.args.get("role")
 
+    print (requested_role)
+
     if requested_role == 'farmer' and farmer_id:
         result = get_produce_for_farmer(farmer_id)
+        # print: result
         return jsonify(result), result['code']
+        
 
     if requested_role == 'driver' and driver_id:
         result = get_all_produce(driver_id)
