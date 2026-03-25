@@ -18,7 +18,6 @@ def fetch_accepted_delivery():
 
     if requested_role == 'driver' and driver_id:
         result = fetch_accepted_delivery_for_driver(driver_id)
-        print(result)
         return jsonify(result), result['code']
 
     if driver_id:

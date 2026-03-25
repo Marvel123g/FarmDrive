@@ -2,6 +2,8 @@ from app.database.db import get_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 import sqlite3
+import secrets
+import string
 from datetime import datetime, timedelta, timezone
 
 
@@ -87,6 +89,80 @@ def get_current_user(session_id, role):
     finally:
         if db:
             db.close()
+
+
+def get_travel_time(distance_km, speed_kmh=60):
+    total_hours = distance_km / speed_kmh
+
+    hours = int(total_hours)
+    minutes = round((total_hours - hours) * 60)
+    return {"hr": hours,
+            "min": minutes}
+
+
+def distance_away(distance):
+    if distance < 1:
+        return f"{round(distance * 1000)}m away"
+
+    return f"{round(distance)}km away"
+
+
+def time_away(distance):
+    timeT = get_travel_time(distance)
+    hr = timeT["hr"]
+    min = timeT["min"]
+    if hr < 1:
+        if min == 0:
+            return "Nearby"
+        elif min == 1:
+            return f"{min}min"
+        elif min > 1:
+            return f"{min}mins"
+    elif hr == 1 and min == 1:
+        return f"{hr}hr {min}min"
+    elif hr == 1 and min < 0:
+        return f"{hr}hr"
+    elif hr == 1 and min > 1:
+        return f"{hr}hr {min}mins"
+    elif hr > 1 and min == 1:
+        return f"{hr}hrs {min}min"
+    elif hr > 1 and min < 0:
+        return f"{hr}hrs"
+    elif hr > 1 and min > 1:
+        return f"{hr}hrs {min}mins"
+    else:
+        return f"{hr}hr {min}min"
+
+
+def generate_delivery_id(length=8):
+    # Use uppercase letters and digits to make it readable and professional
+    alphabet = string.ascii_uppercase + string.digits
+    unique_part = ''.join(secrets.choice(alphabet) for _ in range(length))
+    return f"DEL-{unique_part}"
+
+
+def count_digit(value):
+    if (value / 10) < 1:
+        return f"0{value}"
+    else:
+        return value
+
+
+def generate_transaction_id(length=6):
+    # Use uppercase letters and digits to make it readable and professional
+    alphabet = string.ascii_uppercase + string.digits
+    timeNow = datetime.now()
+    day = count_digit(timeNow.day)
+    month = count_digit(timeNow.month)
+    year = timeNow.year
+    hour = timeNow.hour
+    min = timeNow.minute
+    sec = timeNow.second
+    first_unique_part = f"{day}{month}{year}{hour}{min}{sec}"
+    second_unique_part = ''.join(secrets.choice(alphabet)
+                                 for _ in range(length))
+
+    return f"TXN-{first_unique_part}{second_unique_part}"
 
 
 # DATABASE FUNCTIONS
@@ -716,7 +792,8 @@ def fetch_prices_for_produce(produce_id):
             "price": row["price"],
             "driver_name": f"{row['first_name']} {row['last_name']}",
             "driver_phone": row["phone"],
-            "driver_distance": row["driver_distance"]
+            "driver_distance": distance_away(row["driver_distance"]),
+            "time_away": time_away(row["driver_distance"])
         } for row in rows]
 
         return {
@@ -783,13 +860,13 @@ def accept_price_for_produce(produce_id, driver_id):
         """, (produce_id, driver_id))
 
         # Create the delivery record
+        delivery_id = generate_delivery_id()
         cursor.execute(
             """
-            INSERT INTO deliveries (produce_id, driver_id, farmer_id, price) 
-            VALUES (?, ?, ?, ?)
-        """, (produce_id, driver_id, row["farmer_id"], row["price"]))
+            INSERT INTO deliveries (id, produce_id, driver_id, farmer_id, price) 
+            VALUES (?, ?, ?, ?, ?)
+        """, (delivery_id, produce_id, driver_id, row["farmer_id"], row["price"]))
 
-        delivery_id = cursor.lastrowid
         db.commit()
 
         return {
@@ -839,7 +916,7 @@ def fetch_accepted_delivery_for_driver(driver_id):
             }
 
         accepted_produce_list = [{
-            "id": row["id"],
+            "delivery_id": row["id"],
             "farmer_name": f"{row['first_name']} {row['last_name']}",
             "crop_name": row["crop_name"],
             "pickup_location": row["pickup_location"],
@@ -896,7 +973,7 @@ def fetch_accepted_delivery_for_farmer(farmer_id):
             }
 
         accepted_produce_list = [{
-            "id": row["id"],
+            "delivery_id": row["id"],
             "driver_name": f"{row['first_name']} {row['last_name']}",
             "crop_name": row["crop_name"],
             "pickup_location": row["pickup_location"],
@@ -920,3 +997,120 @@ def fetch_accepted_delivery_for_farmer(farmer_id):
         }
     finally:
         db.close()
+
+
+# Driver
+def update_delivery_status(delivery_id, driver_id, new_status):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        # SECURITY: Verify this delivery belongs to THIS driver
+        cursor.execute(
+            "SELECT driver_id FROM deliveries WHERE id = ?", (delivery_id,))
+        row = cursor.fetchone()
+
+        if not row:
+            return {"status": "ERROR",
+                    "code": 404,
+                    "message": "Delivery not found."}
+        if row['driver_id'] != driver_id:
+            return {"status": "ERROR",
+                    "code": 403,
+                    "message": "Unauthorized: This is not your delivery."}
+
+        # Logic: Only update 'delivered_at' if status is DELIVERED
+        if new_status == "DELIVERED":
+            query = "UPDATE deliveries SET status = ?, delivered_at = CURRENT_TIMESTAMP WHERE id = ?"
+        else:
+            query = "UPDATE deliveries SET status = ? WHERE id = ?"
+
+        cursor.execute(query, (new_status, delivery_id))
+        db.commit()
+
+        return {"status": "SUCCESS",
+                "code": 200,
+                "message": f"Status updated to {new_status}"}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "message": f"Error updating delivery status: {e}.",
+                "code": 500}
+    finally:
+        db.close()
+
+
+# Driver
+def request_payment(driver_id, delivery_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query1 = "SELECT produce_id, farmer_id, price FROM deliveries WHERE id = ? AND driver_id = ?"
+        cursor.execute(query1, (delivery_id, driver_id,))
+        row = cursor.fetchone()
+
+        if not row:
+            return {"status": "ERROR",
+                    "code": 404,
+                    "message": "Delivery not found."}
+
+        payment_id = generate_transaction_id()
+        query2 = "INSERT INTO payments (id, farmer_id, driver_id, produce_id, amount) VALUES (?, ?, ?, ?, ?)"
+        cursor.execute(
+            query2, (payment_id, row['farmer_id'], driver_id, row['produce_id'], row['price']))
+
+        db.commit()
+        return {"status": "SUCCESS",
+                "code": 201,
+                "txn_id": payment_id,
+                "message": "Successfully requested payment."}
+    except sqlite3.Error as e:
+        db.rollback()
+        return {"status": "ERROR",
+                "code": 500,
+                "message": f"Error inserting payment details: {e}."}
+    finally:
+        if db:
+            db.close()
+
+
+def view_payments(farmer_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        query = "SELECT p.id, p.driver_id, p.amount, p.status, d.first_name, d.last_name, d.phone, d.bank_name, d.account_number, d.account_name FROM payments p JOIN driver d ON p.driver_id = d.id WHERE p.farmer_id = ?"
+        cursor.execute(query, (farmer_id,))
+        rows = cursor.fetchall()
+
+        if not rows:
+            return {"status": "SUCCESS",
+                    "code": 200,
+                    "payments": [],
+                    "message": "No available payments to process."}
+
+        payments = [{
+            "txn_id": row["id"],
+            "amount": row["amount"],
+            "driver_name": f"{row['first_name']} {row['last_name']}",
+            "phone": row["phone"],
+            "bank": row.get("bank_name", "N/A"),
+            "acc_number": row.get("account_number", "N/A"),
+            "acc_name": row.get("account_name", "N/A"),
+            "status": row["status"]
+        } for row in rows]
+
+        return {"status": "SUCCESS",
+                "code": 200,
+                "payments": payments,
+                "message": "All payments available retrieved."}
+
+    except sqlite3.Error as e:
+        db.rollback()
+        return {"status": "ERROR",
+                "code": 500,
+                "message": f"Error retrieving payments: {e}."}
+
+    finally:
+        if db:
+            db.close()

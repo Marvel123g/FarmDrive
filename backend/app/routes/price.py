@@ -13,8 +13,6 @@ def set_price():
                         "code": 401,
                         "message": "Unauthorized. Please log in."}), 401
     
-    print(driver_id)
-
     priceData = request.json.get("priceDetails")
     driverLocation = request.json.get("driverLocation")
     if not priceData or not driverLocation:
