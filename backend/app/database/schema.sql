@@ -90,3 +90,18 @@ CREATE TABLE IF NOT EXISTS produce_price (
     FOREIGN KEY (produce_id) REFERENCES farm_produce (id),
     FOREIGN KEY (driver_id) REFERENCES driver (id)
 );
+
+
+CREATE TABLE IF NOT EXISTS deliveries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    produce_id TEXT NOT NULL,
+    driver_id TEXT NOT NULL,
+    farmer_id TEXT NOT NULL,
+    accepted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status TEXT DEFAULT "ACCEPTED", --MATCHED, IN TRANSIT, DELIVERED
+    price INTEGER NOT NULL,
+    delivered_at DATETIME,
+    FOREIGN KEY (produce_id) REFERENCES farm_produce (id),
+    FOREIGN KEY (driver_id) REFERENCES driver (id),
+    FOREIGN KEY (farmer_id) REFERENCES farmer (id)
+);
