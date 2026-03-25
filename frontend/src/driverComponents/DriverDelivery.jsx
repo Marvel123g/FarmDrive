@@ -157,7 +157,7 @@ export default function DriverDelivery() {
 
               <div className="card-content">
                 <div className="farmer-info">
-                  <img src={delivery.farmerAvatar} alt={delivery.farmer} className="farmer-avatar" />
+                  {/* <img src={delivery.farmerAvatar} alt={delivery.farmer} className="farmer-avatar" /> */}
                   <div>
                     <h4 className="farmer-name">{delivery.farmer}</h4>
                     <p className="farmer-phone">📞 {delivery.farmerPhone}</p>
