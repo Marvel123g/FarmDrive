@@ -41,8 +41,8 @@ export default function PostProduce() {
         })
         const data = await res.json()
         console.log(data)
-        // console.log("Produce Details: ", form)
-        // console.log("farmerLocation: ", farmerLocation)
+        console.log("Produce Details: ", form)
+        console.log("farmerLocation: ", farmerLocation)
       } catch (error) {
         console.log(error.message)
       }

@@ -128,6 +128,8 @@ export default function Deliveries() {
     : deliveries.filter(d => d.statusCode === activeFilter);
 
 
+    // /api/v1/delivery?role=farmer
+
   return (
    <div className="delivery_Wrapper">
     <Sidebar/>

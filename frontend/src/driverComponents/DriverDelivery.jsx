@@ -112,6 +112,8 @@ export default function DriverDelivery() {
     }
   ]);
 
+  // /api/v1/delivery?role=driver
+
   return (
    <div className="driverDelivery_wrapper">
     <DriverSidebar/>
