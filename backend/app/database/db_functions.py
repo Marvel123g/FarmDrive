@@ -807,3 +807,114 @@ def accept_price_for_produce(produce_id, driver_id):
     finally:
         db.close()
 
+
+# Driver
+def fetch_accepted_delivery_for_driver(driver_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+        # Single query to join Delivery -> Produce -> Farmer
+        query = """
+            SELECT 
+                d.id, d.price, d.status, d.accepted_at,
+                p.crop_name, p.pickup_location, p.destination, p.quantity, p.details,
+                f.first_name, f.last_name
+            FROM deliveries d
+            JOIN farm_produce p ON d.produce_id = p.id
+            JOIN farmer f ON p.farmer_id = f.id
+            WHERE d.driver_id = ?
+            ORDER BY d.accepted_at DESC
+        """
+        cursor.execute(query, (driver_id, ))
+        rows = cursor.fetchall()
+
+        if not rows:
+            return {
+                "status": "SUCCESS",
+                "message": "No accepted deliveries found.",
+                "code": 200,
+                "accepted_produce": []
+            }
+
+        accepted_produce_list = [{
+            "id": row["id"],
+            "farmer_name": f"{row['first_name']} {row['last_name']}",
+            "crop_name": row["crop_name"],
+            "pickup_location": row["pickup_location"],
+            "destination": row["destination"],
+            "quantity": row["quantity"],
+            "details": row["details"],
+            "price": row["price"],
+            "status": row["status"],
+            "accepted_at": time_ago(row["accepted_at"])
+        } for row in rows]
+
+        return {
+            "status": "SUCCESS",
+            "accepted_produce": accepted_produce_list,
+            "code": 200,
+            "message": "Fetched deliveries for driver successfully."
+        }
+    except sqlite3.Error as e:
+        return {
+            "status": "ERROR",
+            "code": 500,
+            "message": f"Error fetching accepted delivery for driver: {e}."
+        }
+    finally:
+        db.close()
+
+
+# Driver
+def fetch_accepted_delivery_for_farmer(farmer_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+        # Single query to join Delivery -> Produce -> Driver
+        query = """
+            SELECT 
+                d.id, d.price, d.status, d.accepted_at,
+                p.crop_name, p.pickup_location, p.destination,
+                dr.first_name, dr.last_name
+            FROM deliveries d
+            JOIN farm_produce p ON d.produce_id = p.id
+            JOIN driver dr ON d.driver_id = dr.id
+            WHERE d.farmer_id = ?
+            ORDER BY d.accepted_at DESC
+        """
+        cursor.execute(query, (farmer_id, ))
+        rows = cursor.fetchall()
+
+        if not rows:
+            return {
+                "status": "SUCCESS",
+                "message": "No accepted deliveries found.",
+                "code": 200,
+                "accepted_produce": []
+            }
+
+        accepted_produce_list = [{
+            "id": row["id"],
+            "driver_name": f"{row['first_name']} {row['last_name']}",
+            "crop_name": row["crop_name"],
+            "pickup_location": row["pickup_location"],
+            "destination": row["destination"],
+            "price": row["price"],
+            "status": row["status"],
+            "accepted_at": time_ago(row["accepted_at"])
+        } for row in rows]
+
+        return {
+            "status": "SUCCESS",
+            "accepted_produce": accepted_produce_list,
+            "code": 200,
+            "message": "Fetched accepted deliveries successfully."
+        }
+    except sqlite3.Error as e:
+        return {
+            "status": "ERROR",
+            "code": 500,
+            "message": f"Error fetching accepted delivery for farmer: {e}."
+        }
+    finally:
+        db.close()
