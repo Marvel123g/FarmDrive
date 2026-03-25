@@ -12,6 +12,8 @@ def set_price():
         return jsonify({"status": "ERROR",
                         "code": 401,
                         "message": "Unauthorized. Please log in."}), 401
+    
+    print(driver_id)
 
     priceData = request.json.get("priceDetails")
     driverLocation = request.json.get("driverLocation")
@@ -42,6 +44,8 @@ def set_price():
     if driver_distance.get("status") == "ERROR":
         return jsonify(driver_distance), driver_distance['code']
     distance = driver_distance.get("distance")
+
+    print(distance)
 
     # If successful, update driver's location
     returnCode = update_driver_position(driver_id, driver_lat, driver_lng)

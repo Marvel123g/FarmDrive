@@ -8,8 +8,6 @@ produce_bp = Blueprint("produce_bp", __name__, url_prefix="/api/v1")
 def addProduce():
     farmer_id = get_current_user(
         request.cookies.get('farmer_session_id'), "farmer")
-    print(farmer_id)
-    print(request.cookies.get("farmer_session_id"))
     if not farmer_id:
         return jsonify({"status": "ERROR",
                         "code": 401,
