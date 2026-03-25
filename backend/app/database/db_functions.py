@@ -428,7 +428,7 @@ def update_driver_position(driver_id, lat, lng):
 
         if row is None:
             return {"status": "ERROR",
-                    "message": "Driver not found. Cannot update position for a non-existent driver.",
+                    "message": "Driver hasn't completed his KYC so he can't bid.",
                     "code": 404}
         else:
             query = "UPDATE driver_pos SET lat = ?, lng = ?, last_updated = CURRENT_TIMESTAMP WHERE driver_id = ?"
@@ -462,13 +462,14 @@ def save_produce_details(farmer_id, crop_name, pickup_location, destination, qua
                     "code": 404,
                     "message": "Farmer not found. Cannot add produce details for a non-existent farmer."}
 
+        produce_id = str(uuid.uuid4())
         query2 = "INSERT INTO farm_produce (id, farmer_id, crop_name, pickup_location, destination, quantity, details, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
-        cursor.execute(query2, (str(uuid.uuid4()), farmer_id, crop_name,
+        cursor.execute(query2, (produce_id, farmer_id, crop_name,
                        pickup_location, destination, quantity, details))
         id = cursor.lastrowid
         db.commit()
         return {"status": "SUCCESS",
-                "produce_id": id,
+                "produce_id": produce_id,
                 "code": 201,
                 "message": "Produce details added successfully."}
     except sqlite3.Error as e:
@@ -590,6 +591,7 @@ def set_price_by_driver(driver_id, produce_id, price, driver_distance):
     db = get_db_connection()
     try:
         cursor = db.cursor()
+        print(driver_id)
 
         # 1. Unified check: Does driver exist? Does produce exist? Is it already accepted?
         # We use a LEFT JOIN to check everything in one trip to the DB.
