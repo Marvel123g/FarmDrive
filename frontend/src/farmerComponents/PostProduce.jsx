@@ -38,9 +38,10 @@ export default function PostProduce() {
           body: JSON.stringify({"produceDetails" : form, "farmerLocation": farmerLocation}),
           credentials: "include"
         })
-        console.log(res)
-        console.log("Produce Details: ", form)
-        console.log("farmerLocation: ", farmerLocation)
+        const data = await res.json()
+        console.log(data)
+        // console.log("Produce Details: ", form)
+        // console.log("farmerLocation: ", farmerLocation)
       } catch (error) {
         console.log(error.message)
       }

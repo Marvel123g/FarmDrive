@@ -48,8 +48,10 @@ function DriverAuth({mode, setMode}) {
           });
 
         const data = await res.json();
-        console.log("Login response:", data);}
+        console.log("Login response:", data);
+      
           console.log(data.verified)
+        }
         // sessionStorage.setItem("verifiedCheck", data.verified)
         // console.log(typeof data.verified)
         navigate("/driver-dashboard")
