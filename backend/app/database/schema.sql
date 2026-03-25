@@ -93,15 +93,30 @@ CREATE TABLE IF NOT EXISTS produce_price (
 
 
 CREATE TABLE IF NOT EXISTS deliveries (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id TEXT PRIMARY KEY NOT NULL,
     produce_id TEXT NOT NULL,
     driver_id TEXT NOT NULL,
     farmer_id TEXT NOT NULL,
     accepted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status TEXT DEFAULT "ACCEPTED", --MATCHED, IN TRANSIT, DELIVERED
+    status TEXT DEFAULT "ACCEPTED", --MATCHED, IN_TRANSIT, DELIVERED
     price INTEGER NOT NULL,
     delivered_at DATETIME,
     FOREIGN KEY (produce_id) REFERENCES farm_produce (id),
     FOREIGN KEY (driver_id) REFERENCES driver (id),
     FOREIGN KEY (farmer_id) REFERENCES farmer (id)
+);
+
+
+CREATE TABLE IF NOT EXISTS payments (
+    id TEXT PRIMARY KEY NOT NULL,
+    farmer_id TEXT NOT NULL,
+    driver_id TEXT NOT NULL,
+    produce_id TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    status TEXT NOT NULL DEFAULT "PENDING", --SUCCESSFUL, FAILED
+    started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    completed_at DATETIME,
+    FOREIGN KEY (farmer_id) REFERENCES farmer (id),
+    FOREIGN KEY (driver_id) REFERENCES driver (id),
+    FOREIGN KEY (produce_id) REFERENCES farm_produce (id)
 );

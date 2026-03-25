@@ -9,7 +9,7 @@ from app.database.db import init_db
 
 load_dotenv()
 
-CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
+CLOUD_NAME = os.getenv("CLOUD_NAME")
 CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
 CLOUDNINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
 
@@ -27,11 +27,15 @@ def create_app():
     from app.routes.driver.auth import driver_auth_bp
     from app.routes.produce import produce_bp
     from app.routes.price import price_bp
+    from app.routes.delivery import delivery_bp
+    from app.routes.transit import transit_bp
 
     app.register_blueprint(farmer_auth_bp)
     app.register_blueprint(driver_auth_bp)
     app.register_blueprint(produce_bp)
     app.register_blueprint(price_bp)
+    app.register_blueprint(delivery_bp)
+    app.register_blueprint(transit_bp)
 
     socketio.init_app(app)
 
@@ -40,4 +44,4 @@ def create_app():
 if __name__ == "__main__":
     init_db()
     app = create_app()
-    socketio.run(app, debug=True, use_reloader=True)
+    socketio.run(app, debug=True, use_reloader=True, port=5000)
