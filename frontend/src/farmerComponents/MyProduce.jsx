@@ -89,7 +89,7 @@ export default function MyProduce() {
 
   useEffect(() => {
     const fetchProduce = async() => {
-        const res = await fetch("http://127.0.0.1:5000/api/v1/produce?role=farmer", {
+        const res = await fetch("/api/v1/produce?role=farmer", {
           credentials: "include"
         })
         const data = res.json()

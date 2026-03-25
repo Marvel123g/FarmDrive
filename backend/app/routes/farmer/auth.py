@@ -47,15 +47,17 @@ def log_in():
     result = login_farmer(phone, password)
     if result['code'] == 200:
         session_id = secrets.token_hex(32)
+        # print (session_id)
         create_session(session_id, result['id'], "farmer")
 
         response = make_response(jsonify(result))
+        # print(response)
         response.set_cookie('farmer_session_id',
                             session_id,
-                            path='/',
+                            # path='/',
                             httponly=True,
                             secure=False,
-                            samesite='Lax',
+                            # samesite='Lax',
                             max_age=86400
                             )
         return response, 200

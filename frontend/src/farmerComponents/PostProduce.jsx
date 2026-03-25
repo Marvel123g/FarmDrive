@@ -32,7 +32,8 @@ export default function PostProduce() {
     const handleSubmit = async(e) => {
       e.preventDefault()
       try {
-         const res = await fetch("http://127.0.0.1:5000/api/v1/produce", {
+        // /api/v1/farmer/auth/login
+         const res = await fetch("/api/v1/produce", {
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify({"produceDetails" : form, "farmerLocation": farmerLocation}),
