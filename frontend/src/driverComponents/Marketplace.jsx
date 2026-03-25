@@ -109,7 +109,9 @@ export default function Marketplace() {
 
   useEffect(() => {
     const fetchProduce = async() => {
-        const res = await fetch("http://127.0.0.1:5000/api/v1/produce?role=driver")
+        const res = await fetch("http://127.0.0.1:5000/api/v1/produce?role=driver", {
+          credentials: "include"
+        })
         const data = await res.json()
 
         console.log(data)
