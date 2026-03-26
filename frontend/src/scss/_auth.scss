@@ -13,14 +13,14 @@
   .auth-img {
     z-index: 10;
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     border-radius: $radius-full;
     opacity: 0.3;
     pointer-events: none;
   }
 
-  /* Position multiple dots */
+  /* Position multiple decorative dots */
   .img1 { top: 10%; left: 10%; }
   .img2 { top: 20%; right: 10%; }
   .img3 { bottom: 10%; left: 5%; }
@@ -48,7 +48,12 @@
     }
 
     input {
-      @include form-input($border: 1px solid $border-light, $radius: $radius-sm, $padding: $spacing-sm $spacing-md, $focus-color: $primary-green);
+      @include form-input(
+        $border: 1px solid $border-light,
+        $radius: $radius-sm,
+        $padding: $spacing-sm $spacing-md,
+        $focus-color: $primary-green
+      );
       background: $bg-input;
       font-size: $font-sm;
 
@@ -58,7 +63,14 @@
     }
 
     .submitBtn {
-      @include btn($primary-green, $primary-green-dark, $radius-sm, $text-white, $spacing-sm, none);
+      @include btn(
+        $primary-green,
+        $primary-green-dark,
+        $radius-sm,
+        $text-white,
+        $spacing-sm,
+        none
+      );
 
       &:hover {
         transform: translateY(-2px);

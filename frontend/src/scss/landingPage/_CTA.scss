@@ -1,73 +1,73 @@
 @use "../variable" as *;
 
- .cta-section { 
-    padding: 5rem 2rem; 
-    background: linear-gradient(115deg, #1f3b2c 0%, #2c7a4d 100%);
-    color: white; 
-    text-align: center;
-    border-radius: 50px 50px 0 0;
-    margin-top: 1rem;
-    
-    h2 { 
-      font-size: 2.8rem; 
-      margin-bottom: 1.2rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-    }
-    
-    p { 
-      margin-bottom: 2rem; 
-      opacity: 0.95;
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .cta-buttons { 
-      display: flex; 
-      justify-content: center; 
-      gap: 1.5rem; 
-      margin-bottom: 1.5rem; 
-      flex-wrap: wrap;
-      
-      .btn-light { 
-        background: white; 
-        color: #2c7a4d; 
-        border: none;
-        padding: 1rem 2.2rem;
-        border-radius: 60px;
-        font-weight: 700;
-        font-size: 1rem;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        transition: all 0.2s;
-        
-        &:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 15px 25px rgba(0,0,0,0.2);
-          background: #f8f8f8;
-        }
-      }
-      
-      .btn-outline { 
-        border: 2px solid white; 
-        background: transparent; 
-        color: white;
-        padding: 1rem 2.2rem;
-        border-radius: 60px;
-        font-weight: 700;
-        transition: all 0.2s;
-        
-        &:hover {
-          background: rgba(255,255,255,0.15);
-          transform: translateY(-3px);
-        }
+.cta-section { 
+  padding: 5rem 2rem; 
+  background: linear-gradient(115deg, $dark-forest 0%, $primary-green 100%);
+  color: $text-white; 
+  text-align: center;
+  border-radius: 50px 50px 0 0;
+  margin-top: 1rem;
+
+  h2 { 
+    font-size: 2.8rem; 
+    margin-bottom: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  p { 
+    margin-bottom: 2rem; 
+    opacity: 0.95;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons { 
+    display: flex; 
+    justify-content: center; 
+    gap: 1.5rem; 
+    margin-bottom: 1.5rem; 
+    flex-wrap: wrap;
+
+    .btn-light { 
+      background: $text-white; 
+      color: $primary-green; 
+      border: none;
+      padding: 1rem 2.2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: $shadow-soft;
+      transition: all 0.2s;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: $shadow-card;
+        background: $bg-soft; // replaced #f8f8f8
       }
     }
-    
-    .cta-note { 
-      opacity: 0.85; 
-      font-size: 0.9rem;
-      font-weight: 500;
+
+    .btn-outline { 
+      border: 2px solid $text-white; 
+      background: transparent; 
+      color: $text-white;
+      padding: 1rem 2.2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      transition: all 0.2s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15); // can make a variable if desired
+        transform: translateY(-3px);
+      }
     }
   }
+
+  .cta-note { 
+    opacity: 0.85; 
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+}

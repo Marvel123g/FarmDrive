@@ -42,7 +42,8 @@ export default function Marketplace() {
       body: JSON.stringify({  priceDetails: {
         produce_id: produceId,
         price: price
-      }, "driverLocation": driverLocation})
+      }, "driverLocation": driverLocation}),
+      credentials: "include"
     })
 
     console.log({price, driverLocation})

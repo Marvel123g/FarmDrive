@@ -1,7 +1,8 @@
 @use "../variable" as *;
+
 .how-section {
     padding: 6rem 2rem;
-    background: #f8f6f0;
+    background: $bg-cream; // was #f8f6f0
     text-align: center;
     border-radius: 0 0 60px 60px;
     margin-bottom: 1rem;
@@ -10,7 +11,7 @@
       font-size: 2.8rem; 
       margin-bottom: 4rem;
       font-weight: 800;
-      color: #1f3b2c;
+      color: $dark-forest; // was #1f3b2c
     }
 
     .steps-grid {
@@ -23,14 +24,14 @@
       margin-right: auto;
 
       .step {
-        background: white;
+        background: $text-white; // was white
         padding: 2rem 1.5rem;
         border-radius: 2rem;
         box-shadow: 0 12px 25px -10px rgba(0,0,0,0.05);
         
         .step-number {
-          background: #2c7a4d;
-          color: white;
+          background: $primary-green; // was #2c7a4d
+          color: $text-white; // was white
           width: 4rem;
           height: 4rem;
           border-radius: 60px;
@@ -47,11 +48,11 @@
           font-size: 1.4rem; 
           margin-bottom: 0.75rem;
           font-weight: 700;
-          color: #1a2e24;
+          color: $dark-forest; // was #1a2e24
         }
         
         p { 
-          color: #5b6e5e;
+          color: $text-muted-dark; // was #5b6e5e
           line-height: 1.5;
         }
       }
@@ -62,7 +63,7 @@
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 2.5rem;
       margin-top: 2rem;
-      border-top: 2px dashed #dad7ce;
+      border-top: 2px dashed $border-muted; // was #dad7ce
       padding-top: 3rem;
       max-width: 900px;
       margin-left: auto;
@@ -70,14 +71,14 @@
 
       .stat { 
         h3 { 
-          color: #2c7a4d; 
+          color: $primary-green; // was #2c7a4d
           font-size: 2.8rem;
           font-weight: 800;
           margin-bottom: 0.25rem;
         } 
         p { 
           font-weight: 600;
-          color: #4a5b4a;
+          color: $text-gray; // was #4a5b4a
           font-size: 1rem;
           letter-spacing: 0.3px;
         } 

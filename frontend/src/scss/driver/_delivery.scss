@@ -1,218 +1,221 @@
-
 @use "../variable" as *;
 @use "../mixins" as *;
 
-
-.driverDelivery_wrapper{
+.driverDelivery_wrapper {
   .driver-delivery-container {
     @include page-reset;
   }
 
-/* Header Section */
-.delivery-header {
-  margin-bottom: 30px;
-}
+  /* Header Section */
+  .delivery-header {
+    margin-bottom: 30px;
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px 0;
-  border-bottom: 2px solid $focus-ring;
-}
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 2px solid $focus-ring;
+    }
 
-.header-title h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, $dark-forest, $primary-green);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: 8px;
-}
+    .header-title {
+      h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, $dark-forest, $primary-green);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 8px;
+      }
 
-.header-title p {
-  color: $text-gray;
-  font-size: 0.95rem;
-}
+      p {
+        color: $text-gray;
+        font-size: 0.95rem;
+      }
+    }
+  }
 
+  /* Tabs */
+  .delivery-tabs {
+    @include filter-tabs;
 
-/* Tabs */
-.delivery-tabs {
-  @include filter-tabs;
-}
+    .tab-btn {
+      padding: 12px 28px;
+      background: $bg-card;
+      border: 2px solid $border-light;
+      border-radius: $radius-pill;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: $text-muted-dark;
 
-.tab-btn {
-  padding: 12px 28px;
-  background: $bg-card;
-  border: 2px solid $border-light;
-  border-radius: $radius-pill;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #4a5b4e;
-}
+      &:hover {
+        border-color: $primary-green;
+        color: $primary-green;
+      }
 
-.tab-btn:hover {
-  border-color: $primary-green;
-  color: $primary-green;
-}
+      &.active {
+        background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+        color: $text-white;
+        border-color: transparent;
+      }
+    }
+  }
 
-.tab-btn.active {
-  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
-  color: $text-white;
-}
+  /* Deliveries Grid */
+  .deliveries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 30px;
+    animation: fadeInUp 0.6s ease-out;
+  }
 
-/* Deliveries Grid */
-.deliveries-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: 30px;
-  animation: fadeInUp 0.6s ease-out;
-}
+  /* Delivery Card */
+  .delivery-card {
+    @include card(
+      $bg: rgba(255, 255, 255, 0.95),
+      $radius: $radius-lg,
+      $shadow: $shadow-soft,
+      $padding: 20px,
+      $border: 1px solid $focus-ring
+    );
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
 
-/* Delivery Card */
-.delivery-card {
-  @include card($bg: rgba(255, 255, 255, 0.95), $radius: 20px, $shadow: 0 8px 20px rgba(0,0,0,0.05), $padding: 20px, $border: 1px solid rgba(44, 122, 77, 0.1));
-  backdrop-filter: blur(10px);
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-
-/* Farmer Info */
-.farmer-info {
+  /* Farmer Info */
+  .farmer-info {
     @include person-info;
-}
 
-.farmer-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: $dark-forest;
-  margin: 0 0 4px 0;
-}
+    .farmer-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $dark-forest;
+      margin: 0 0 4px 0;
+    }
 
-.farmer-phone {
-  font-size: 0.75rem;
-  color: #6b7c6f;
-  margin: 0;
-}
+    .farmer-phone {
+      font-size: 0.75rem;
+      color: $text-gray;
+      margin: 0;
+    }
 
-.contact-btn {
-  margin-left: auto;
-  @include btn($primary-green, #1f5a3a, 8px, $text-white, 6px 12px);
-  font-size: 0.75rem;
-}
+    .contact-btn {
+      margin-left: auto;
+      @include btn($primary-green, $primary-green-dark, 8px, $text-white, 6px 12px);
+      font-size: 0.75rem;
 
-.contact-btn:hover {
-  transform: translateY(-1px);
-}
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+  }
 
-.crop-name {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #1a3b2e;
-  margin-bottom: 8px;
-}
+  .crop-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: $dark-forest;
+    margin-bottom: 8px;
+  }
 
-.price-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding-bottom: 12px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid #e2e8f0;
-}
+  .price-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid $border-light;
 
-.price-label {
-  font-size: 0.85rem;
-  color: #6b7c6f;
-}
+    .price-label {
+      font-size: 0.85rem;
+      color: $text-gray;
+    }
 
-.price-value {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #2c7a4d;
-}
+    .price-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $primary-green;
+    }
+  }
 
-/* Delivery Details */
-.delivery-details {
-  background: #f8faf7;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-}
+  /* Delivery Details */
+  .delivery-details {
+    background: $bg-page-start;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 15px;
 
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
 
-.detail-row:last-child {
-  margin-bottom: 0;
-}
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
 
-.detail-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
-  color: #4a5b4e;
-}
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: $text-muted-dark;
+    }
 
-.detail-icon {
-  font-size: 0.9rem;
-}
+    .detail-icon {
+      font-size: 0.9rem;
+    }
+  }
 
-.card-description {
-  margin-bottom: 20px;
-}
+  .card-description {
+    margin-bottom: 20px;
 
-.card-description p {
-  font-size: 0.85rem;
-  color: #6b7c6f;
-  line-height: 1.5;
-  margin: 0;
-}
+    p {
+      font-size: 0.85rem;
+      color: $text-gray;
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
 
-/* Action Buttons */
-.action-buttons {
-  @include action-buttons;
-}
+  /* Action Buttons */
+  .action-buttons {
+    @include action-buttons;
 
-.action-btn {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
+    .action-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
 
-.start-btn {
-  @include btn(linear-gradient(135deg, #2c7a4d, #1f5a3a), null)
-}
+    .start-btn {
+      @include btn(linear-gradient(135deg, $primary-green, $primary-green-dark), null);
+      color: $text-white;
+    }
 
-.complete-btn {
-  background: #10b981;
-  color: white;
-  @include btn(#10b981, #059669)
-}
-
+    .complete-btn {
+      @include btn($success, $success-dark);
+      color: $text-white;
+    }
+  }
 
   /* Empty State */
   .empty-deliveries {
-    @include empty-state
+    @include empty-state;
   }
-
 }
