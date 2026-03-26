@@ -1,0 +1,115 @@
+// Import fonts
+
+@font-face {
+  font-family: "ClashDisplay";
+  src: url("/fonts/ClashDisplay-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+}
+@font-face {
+  font-family: "UnicaOne";
+  src: url("/fonts/UnicaOne-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Voces";
+  src: url("/fonts/Voces-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "TypoHoop";
+  src: url("/fonts/TypoHoop_Regular_Demo.otf") format("opentype");
+}
+
+
+// Fonts
+$font-clash: "ClashDisplay";
+$font-montserrat: "Montserrat";
+$font-unica: "UnicaOne";
+$font-voces: "Voces";
+$font-typo: "TypoHoop";
+
+// Backgrounds
+$bg-gradient-start: #f6f9f7;
+$bg-gradient-end: #e6f2eb;
+$bg-input: #f9fbfa;
+$bg-overlay: rgba(0, 0, 0, 0.5);
+$bg-page-start: #f8faf7;
+$bg-page-end: #eef4ea;
+$bg-warm: #fefcf5;
+$bg-cream: #fefcf8;
+$bg-card: #ffffff;
+$bg-card-alt: #f1f5f9;
+$bg-soft: #f7f8f7;
+$bg-warm-2: #faf8f2;
+
+// Primary brand colors
+$primary-green: #2c7a4d;
+$primary-green-dark: #1f5a3a;
+$primary-green-alt: #157347;
+$primary-green-soft: #4a9e6b;
+$success: #10b981;
+$success-dark: #059669;
+$warning: #f59e0b;
+$info: #3b82f6;
+$dark-forest: #1a3b2e;
+$dark-forest-soft: #2c5a3e;
+
+
+// Text colors
+$text-white: #ffffff;
+$text-dark: #1a2e24;
+$text-gray: #6b7c6f;
+$text-muted: #5f6b5a;
+$text-placeholder: #94a3b8;
+$text-muted-dark: #4a5b4e;
+$text-danger: #ef4444;
+$text-danger-alt: #dc2626;
+$alert-bg-error: #fef2f2;
+$alert-bg-warning: rgba(245, 158, 11, 0.1);
+$alert-bg-success: rgba(16, 185, 129, 0.1);
+$alert-bg-danger: rgba(239, 68, 68, 0.1);
+$input-border: #cbdcd3;
+$input-bg: #fafcfb;
+$input-bg-active: #ffffff;
+$sidebar-bg: #01331c;
+
+// Borders
+$border-light: #e2e8f0;
+$border-muted: #eee;
+$border-muted-2: #eae6dd;
+
+// Shadow colors
+$shadow-light: rgba(0, 0, 0, 0.08);
+$shadow-color-soft: rgba(0, 0, 0, 0.05);
+$shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.05);
+$shadow-xs: 0 2px 8px rgba(0, 0, 0, 0.05);
+$shadow-green-soft: 0 4px 12px rgba(44, 122, 77, 0.3);
+$shadow-card: 0 20px 40px rgba(0, 0, 0, 0.08);
+$focus-ring: rgba(44, 122, 77, 0.1);
+
+// Spacing
+$spacing-xs: 0.5rem;
+$spacing-sm: 0.9rem;
+$spacing-md: 1rem;
+$spacing-lg: 2rem;
+$spacing-xl: 30px;
+$spacing-xxl: 40px;
+
+// Border Radius
+$radius-xs: 3px;
+$radius-sm: 10px;
+$radius-md: 18px;
+$radius-lg: 20px;
+$radius-xl: 60px;
+$radius-full: 50%;
+$radius-pill: 50px;
+
+// Shadow
+$shadow-card: 0 20px 40px rgba(0, 0, 0, 0.08);
+
+
+// Font Size
+$font-sm: 0.95rem;
+$font-md: 18px;
+$font-lg: 2.5rem;

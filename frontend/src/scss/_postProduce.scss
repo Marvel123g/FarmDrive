@@ -1,7 +1,9 @@
+@use "variable" as *;
+
 .post_produce {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8faf7 0%, #eef4ea 100%);
+  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
   position: relative;
 
   main {
@@ -17,7 +19,7 @@
       align-items: center;
       margin-bottom: 30px;
       padding-bottom: 20px;
-      border-bottom: 2px solid rgba(44, 122, 77, 0.1);
+      border-bottom: 2px solid $focus-ring;
 
       h2 {
         font-size: 2rem;
@@ -45,8 +47,8 @@
         padding: 10px 20px;
         border-radius: 50px;
         font-weight: 500;
-        color: #1a3b2e;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        color: $dark-forest;
+        box-shadow: $shadow-xs;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -64,7 +66,7 @@
       padding: 35px;
       margin-top: 20px;
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(44, 122, 77, 0.1);
+      border: 1px solid $focus-ring;
 
       h3 {
         font-size: 1.5rem;
@@ -82,7 +84,7 @@
       }
 
       .formDesc {
-        color: #6b7c6f;
+        color: $text-gray;
         margin-top: 8px;
         margin-bottom: 28px;
         padding-bottom: 20px;
@@ -122,16 +124,16 @@
         input {
           padding: 12px 16px;
           border-radius: 12px;
-          border: 1px solid #e2e8f0;
+          border: 1px solid $border-light;
           font-size: 0.95rem;
           transition: all 0.3s ease;
-          background: #fafcfb;
+          background: $input-bg;
           font-weight: 500;
           
           &:focus {
             outline: none;
-            box-shadow: 0 0 0 1px #049c4379;
-            background: white;
+            box-shadow: 0 0 0 1px rgba($primary-green, .47);
+            background: $input-bg-active;
           }
           &::placeholder {
             color: #b8c7bc;

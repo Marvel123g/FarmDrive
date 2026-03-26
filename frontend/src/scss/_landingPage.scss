@@ -1,6 +1,8 @@
+@use "variable" as *;
+
 .landing-page {
   font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
-  background: #fefcf5; // Warm, inviting base
+  background: $bg-warm; // Warm, inviting base
  
 
   .hero-section {
@@ -38,7 +40,7 @@
         font-weight: 800;
         letter-spacing: -0.02em;
         margin-bottom: 1.5rem;
-        background: linear-gradient(to right, #ffffff, #e2e8f0);
+        background: linear-gradient(to right, $bg-card, $border-light);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -74,12 +76,12 @@
         }
         
         .btn-primary { 
-          background: #2c7a4d; 
+          background: $primary-green; 
           color: white; 
           border: none;
           box-shadow: 0 8px 20px rgba(44, 122, 77, 0.3);
           &:hover { 
-            background: #1f5a3a; 
+            background: $primary-green-dark; 
             transform: translateY(-2px);
             box-shadow: 0 12px 25px rgba(44, 122, 77, 0.4);
           }
@@ -136,7 +138,7 @@
       font-size: 2.8rem; 
       margin-bottom: 4rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #1f3b2c, #2c7a4d);
+      background: linear-gradient(135deg, $dark-forest, $primary-green);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -151,10 +153,10 @@
       margin: 0 auto;
 
       .card {
-        background: #ffffff;
+        background: $bg-card;
         border-radius: 2rem;
         padding: 2.5rem 2rem;
-        box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+        box-shadow: $shadow-card;
         text-align: left;
         transition: all 0.25s ease;
         border: 1px solid #f0ede5;
@@ -162,7 +164,7 @@
         &:hover {
           transform: translateY(-8px);
           box-shadow: 0 30px 45px -12px rgba(44, 122, 77, 0.15);
-          border-color: #e2e0d5;
+          border-color: $border-light;
         }
         
         .card-icon { 
@@ -295,7 +297,7 @@
       max-width: 850px; 
       margin-left: auto; 
       margin-right: auto;
-      background: #fefcf8;
+      background: $bg-cream;
       padding: 1.5rem 2rem;
       border-radius: 1.5rem;
       border: 1px solid #eae6dd;
@@ -463,10 +465,4 @@
   }
 }
 
-// Global button & style overrides for consistency
-.btn, button {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-}
 

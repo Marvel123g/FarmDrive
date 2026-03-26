@@ -1,16 +1,17 @@
+@use "variable" as *;
 .overlay{
      position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.5);
+        background: $bg-overlay;
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 999;
     .choice-modal {
-        background: white;
+        background: $bg-card;
         width: 100%;
         max-width: 400px;
-        border-radius: 18px;
+        border-radius: $radius-md;
         padding: 40px 30px;
         text-align: center;
         margin: auto;
@@ -30,7 +31,7 @@
     }
 
     .choice-modal p {
-        color: #666;
+        color: $text-muted;
         margin-bottom: 30px;
     }
 
@@ -43,16 +44,16 @@
     .choiceButtons button {
         padding: 15px;
         border-radius: 12px;
-        border: 1px solid #eee;
-        background: #f7f8f7;
+        border: 1px solid $border-muted;
+        background: $bg-soft;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
     }
 
     .choiceButtons button:hover {
-        background: #157347;
-        color: white;
+        background: $primary-green-alt;
+        color: $text-white;
         transform: translateY(-2px);
     }
 }

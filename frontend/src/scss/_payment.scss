@@ -1,10 +1,11 @@
+@use "variable" as *;
 .payment_Wrapper{
 
     .payment-container {
    flex: 1;
     padding-left: 350px !important;
     padding: 30px 40px;
-  background: linear-gradient(135deg, #f8faf7 0%, #eef4ea 100%);
+  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
   position: relative;
   min-height: 100vh;
 }
@@ -21,13 +22,13 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px 0;
-  border-bottom: 2px solid rgba(44, 122, 77, 0.1);
+  border-bottom: 2px solid $focus-ring;
 }
 
 .header-title h2 {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #1a3b2e, #2c7a4d);
+  background: linear-gradient(135deg, $dark-forest, $primary-green);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -35,7 +36,7 @@
 }
 
 .header-title p {
-  color: #6b7c6f;
+  color: $text-gray;
   font-size: 0.95rem;
 }
 
@@ -71,8 +72,8 @@
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 30px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(44, 122, 77, 0.1);
+  box-shadow: $shadow-soft;
+  border: 1px solid $focus-ring;
 }
 
 .form-card h3 {
@@ -92,8 +93,8 @@
 
 /* Success Message */
 .success-message {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
+  background: linear-gradient(135deg, $success, $success-dark);
+  color: $text-white;
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 25px;
@@ -120,8 +121,8 @@
 
 /* Error Message */
 .error-message {
-  background: #fef2f2;
-  border-left: 4px solid #ef4444;
+  background: $alert-bg-error;
+  border-left: 4px solid $text-danger;
   padding: 12px 15px;
   border-radius: 8px;
   margin-bottom: 25px;
@@ -147,7 +148,7 @@
   gap: 8px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #2c5a3e;
+  color: $dark-forest-soft;
   margin-bottom: 8px;
 }
 
@@ -167,8 +168,8 @@
 
 .input-group input:focus {
   outline: none;
-  border-color: #2c7a4d;
-  box-shadow: 0 0 0 3px rgba(44, 122, 77, 0.1);
+  border-color: $primary-green;
+  box-shadow: 0 0 0 3px $focus-ring;
   transform: translateY(-1px);
 }
 
@@ -265,7 +266,7 @@
 
 /* Payment Summary */
 .payment-summary {
-  background: #f8faf7;
+  background: $bg-page-start;
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 25px;
@@ -287,7 +288,7 @@
 }
 
 .summary-row.total {
-  border-top: 2px solid #e2e8f0;
+  border-top: 2px solid $border-light;
   margin-top: 8px;
   padding-top: 12px;
   font-weight: 700;
@@ -299,8 +300,8 @@
 .submit-payment-btn {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
-  color: white;
+  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+  color: $text-white;
   border: none;
   border-radius: 12px;
   font-size: 1rem;
@@ -316,7 +317,7 @@
 
 .submit-payment-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(44, 122, 77, 0.3);
+  box-shadow: $shadow-green-soft;
 }
 
 .submit-payment-btn:disabled {
@@ -428,12 +429,12 @@
 
 .transaction-status.completed {
   background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
+  color: $success;
 }
 
 .transaction-status.pending {
-  background: rgba(245, 158, 11, 0.1);
-  color: #f59e0b;
+  background: $alert-bg-warning;
+  color: $warning;
 }
 
 .transaction-crop {

@@ -1,9 +1,11 @@
+
+@use "variable" as *;
 .driverDelivery_wrapper{
   .driver-delivery-container {
   flex: 1;
     padding-left: 350px !important;
     padding: 30px 40px;
-  background: linear-gradient(135deg, #f8faf7 0%, #eef4ea 100%);
+  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
   position: relative;
   min-height: 100vh;
 }
@@ -20,13 +22,13 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px 0;
-  border-bottom: 2px solid rgba(44, 122, 77, 0.1);
+  border-bottom: 2px solid $focus-ring;
 }
 
 .header-title h2 {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #1a3b2e, #2c7a4d);
+  background: linear-gradient(135deg, $dark-forest, $primary-green);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -34,7 +36,7 @@
 }
 
 .header-title p {
-  color: #6b7c6f;
+  color: $text-gray;
   font-size: 0.95rem;
 }
 
@@ -49,9 +51,9 @@
 
 .tab-btn {
   padding: 12px 28px;
-  background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 50px;
+  background: $bg-card;
+  border: 2px solid $border-light;
+  border-radius: $radius-pill;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -60,15 +62,13 @@
 }
 
 .tab-btn:hover {
-  border-color: #2c7a4d;
-  color: #2c7a4d;
-  transform: translateY(-2px);
+  border-color: $primary-green;
+  color: $primary-green;
 }
 
 .tab-btn.active {
-  background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
-  color: white;
-  border-color: transparent;
+  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+  color: $text-white;
 }
 
 /* Deliveries Grid */
@@ -93,8 +93,8 @@
 /* Card Header */
 .card-header {
   padding: 15px 20px;
-  background: #f8faf7;
-  border-bottom: 1px solid #e2e8f0;
+  background: $bg-page-start;
+  border-bottom: 1px solid $border-light;
 }
 /* Farmer Info */
 .farmer-info {
@@ -111,13 +111,13 @@
   height: 45px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #2c7a4d;
+  border: 2px solid $primary-green;
 }
 
 .farmer-name {
   font-size: 1rem;
   font-weight: 600;
-  color: #1a3b2e;
+  color: $dark-forest;
   margin: 0 0 4px 0;
 }
 
@@ -130,8 +130,8 @@
 .contact-btn {
   margin-left: auto;
   padding: 6px 12px;
-  background: #2c7a4d;
-  color: white;
+  background: $primary-green;
+  color: $text-white;
   border: none;
   border-radius: 8px;
   font-size: 0.75rem;

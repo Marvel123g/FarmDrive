@@ -1,23 +1,22 @@
+@use "variable" as *;
+
 .authContainer {
   display: flex;
-  // align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f6f9f7, #e6f2eb);
-  padding: 1rem;
+  background: linear-gradient(135deg, $bg-gradient-start, $bg-gradient-end);
+  padding: $spacing-md;
   position: relative;
   max-height: 60vh;
   overflow-y: scroll;
-  // width: 500px;
-    .auth-img {
-      z-index: 10;
+
+  .auth-img {
+    z-index: 10;
     position: absolute;
-    width: 30px;
+    width: 30px; 
     height: 30px;
-    border-radius: 50%; // makes it a dot
-    // object-fit: cover;
-    opacity: 0.3; // subtle background feel
-    // filter: blur(1px); // soft look
-    pointer-events: none; // not clickable
+    border-radius: $radius-full;
+    opacity: 0.3;
+    pointer-events: none;
   }
 
   /* Position multiple dots */
@@ -25,56 +24,54 @@
   .img2 { top: 20%; right: 10%; }
   .img3 { bottom: 10%; left: 5%; }
   .img4 { bottom: -2%; right: 6%; }
-  .img5 { bottom: 19%; left: 50%;}
-
-
+  .img5 { bottom: 19%; left: 50%; }
 
   .authPage {
     position: relative;
-    z-index: 2;
-    background: white;
-    border-radius: 20px;
-    padding: 2rem;
+    z-index: 2; 
+    background: $text-white;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    gap: $spacing-md;
+    box-shadow: $shadow-card;
     height: 100%;
 
     &::before {
       content: "🌾";
-      font-size: 2.5rem;
+      font-size: $font-lg;
       text-align: center;
-      margin-bottom: 0.5rem;
+      margin-bottom: $spacing-xs;
     }
 
     input {
-      padding: 0.9rem 1rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      background: #f9fbfa;
+      padding: $spacing-sm $spacing-md;
+      border: 1px solid $border-light;
+      border-radius: $radius-sm;
+      font-size: $font-sm;
+      background: $bg-input;
 
       &:focus {
         outline: none;
-        border-color: #2c7a4d;
-        box-shadow: 0 0 0 3px rgba(44, 122, 77, 0.1);
+        border-color: $primary-green;
+        box-shadow: 0 0 0 3px $focus-ring;
       }
     }
 
     .submitBtn {
-      background: #2c7a4d;
-      color: white;
+      background: $primary-green;
+      color: $text-white;
       border: none;
-      padding: 0.9rem;
-      border-radius: 10px;
+      padding: $spacing-sm;
+      border-radius: $radius-sm;
       font-weight: 600;
       cursor: pointer;
       transition: 0.2s;
 
       &:hover {
-        background: #1f5a3a;
+        background: $primary-green-dark;
         transform: translateY(-2px);
       }
 

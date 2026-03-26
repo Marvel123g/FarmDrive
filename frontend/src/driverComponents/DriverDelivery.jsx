@@ -120,10 +120,9 @@ export default function DriverDelivery() {
         method: "GET",
         credentials: "include"
       })
-
       const data = await res.json()
 
-      console.log(data)
+      // console.log(data)
     }
 
     fetchDriverDelivery()
