@@ -19,7 +19,7 @@ export default function DriverDashboard() {
   console.log("this is verifiedstate: ", verifiedState)
   return (
     <div className='dashboard'>
-      {verifiedState === false && driverProfile === true && (
+      {verifiedState == "false" && driverProfile === true && (
         <DriverProfileModal onClose={() => setDriverProfile(false)} />
       )}
       <DriverSidebar/>

@@ -1,4 +1,5 @@
 @use "variable" as *;
+@use "mixins" as *;
 
 .authContainer {
   display: flex;
@@ -47,31 +48,19 @@
     }
 
     input {
-      padding: $spacing-sm $spacing-md;
-      border: 1px solid $border-light;
-      border-radius: $radius-sm;
-      font-size: $font-sm;
+      @include form-input($border: 1px solid $border-light, $radius: $radius-sm, $padding: $spacing-sm $spacing-md, $focus-color: $primary-green);
       background: $bg-input;
+      font-size: $font-sm;
 
       &:focus {
         outline: none;
-        border-color: $primary-green;
-        box-shadow: 0 0 0 3px $focus-ring;
       }
     }
 
     .submitBtn {
-      background: $primary-green;
-      color: $text-white;
-      border: none;
-      padding: $spacing-sm;
-      border-radius: $radius-sm;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
+      @include btn($primary-green, $primary-green-dark, $radius-sm, $text-white, $spacing-sm, none);
 
       &:hover {
-        background: $primary-green-dark;
         transform: translateY(-2px);
       }
 

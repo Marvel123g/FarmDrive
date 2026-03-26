@@ -1,20 +1,33 @@
 @forward "navBar";
-@forward "landingPage";
-@forward "testimony";
 @forward "choiceModal";
 @forward "authModal";
 @forward "auth";
 @forward "sidebar";
-@forward "farmerDashboard";
-@forward "postProduce";
-@forward "myProduce";
-@forward "marketplace";
-@forward "deliveries";
-@forward "payment";
-@forward "driverDelivery";
-@forward "earnings";
+@forward "Dashboard";
+
+// Driver's Import
+@forward "driver/delivery";
+@forward "driver/earnings";
+@forward "driver/marketplace";
 @forward "profileModal";
 @forward "viewDrivers";
+
+
+// Farmer's import
+@forward "farmer/postProduce";
+@forward "farmer/deliveries";
+@forward "farmer/payment";
+@forward "farmer/myProduce";
+
+// LandingPage import
+@forward "landingPage";
+@forward "landingPage/hero";
+@forward "landingPage/testimony";
+@forward "landingPage/howSection";
+@forward "landingPage/whySection";
+@forward "landingPage/FAQ";
+@forward "landingPage/CTA";
+@forward "landingPage/footer";
 
 
 *{
@@ -22,10 +35,10 @@
      margin: 0;
      box-sizing: border-box;
 }
-#root{
-  width: 100%;
-  margin: auto;
-}
+// #root{
+//   width: 100%;
+//   margin: auto;
+// }
 html{
      scroll-behavior: smooth;
 }

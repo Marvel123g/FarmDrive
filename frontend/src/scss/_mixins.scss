@@ -1,29 +1,328 @@
-@mixin glass-card($bg: $bg-card, $radius: $border-radius, $shadow: $shadow-soft, $border: $border-outline) {
-  background: $bg;
-  backdrop-filter: blur(10px);
-  border-radius: $radius;
-  box-shadow: $shadow;
-  border: $border;
+@use "variable" as *;
+
+@mixin page-reset{
+    flex: 1;
+    background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
+    position: relative;
+    padding-left: 350px !important;
+    padding: 30px 40px;
+    min-height: 100vh;
 }
 
-@mixin gradient-card($radius: $border-radius, $shadow: $shadow-soft) {
-  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
-  color: $text-white;
-  border-radius: $radius;
-  box-shadow: $shadow;
+
+@mixin gradient-text($start: $dark-forest, $end: $primary-green, $size: 2rem){
+    font-size: $size;
+    font-weight: 700;
+    background: linear-gradient(135deg, $start, $end);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 8px;
+    p {
+        color: $text-gray;
+        font-size: 0.95rem;
+        margin-bottom: 30px;
+    }
 }
 
-@mixin primary-button($radius: $border-radius, $shadow: $shadow-xs) {
-  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
-  color: $text-white;
-  border: none;
-  border-radius: $radius;
-  box-shadow: $shadow;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+@mixin empty-state{
+    text-align: center;
+    padding: 80px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    margin-top: 40px;
+    h3 {
+        font-size: 1.5rem;
+        color: #1a3b2e;
+        margin-bottom: 10px;
+    }
+    p {
+        color: #6b7c6f;
+        margin-bottom: 25px;
+    }
+    
+    .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    }
+}
+@mixin btn($bg, $hover-bg: null, $radius: 12px, $color: white, $padding: 10px 14px, $shadow: none) {
+    background: $bg;
+    color: $color;
+    border: none;
+    border-radius: $radius;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    padding: $padding;
+    box-shadow: $shadow;
+    &:hover {
+        background: if($hover-bg, $hover-bg, $bg);
+        transform: translateY(-1px);
+    }
+}
 
+@mixin card($bg: $bg-card, $radius: 16px, $shadow: $shadow-xs, $padding: 20px, $border: none) {
+    background: $bg;
+    border-radius: $radius;
+    box-shadow: $shadow;
+    padding: $padding;
+    border: $border;
+}
+
+@mixin form-input($border: 2px solid #e2e8f0, $radius: 10px, $padding: 10px, $focus-color: $primary-green) {
+    width: 100%;
+    padding: $padding;
+    border: $border;
+    border-radius: $radius;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+        outline: none;
+        border-color: $focus-color;
+        box-shadow: 0 0 0 3px rgba($focus-color, 0.15);
+    }
+}
+
+
+// Status badge
+@mixin status-badge($bg-color, $text-color: white) {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: $bg-color;
+  color: $text-color;
+}
+
+// Filter tabs
+@mixin filter-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  padding: 5px 0;
+  
+  .filter-tab, .tab-btn {
+    padding: 10px 24px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4a5b4e;
+    
+    &:hover {
+      border-color: $primary-green;
+      color: $primary-green;
+      transform: translateY(-2px);
+    }
+    
+    &.active {
+      background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+      color: white;
+      border-color: transparent;
+    }
+  }
+}
+
+// Stats card
+@mixin stat-card {
+  background: $bg-card;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 80px;
+  box-shadow: $shadow-xs;
+  transition: all 0.3s ease;
+  
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 20px rgba(44, 122, 77, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a3b2e;
+  }
+  
+  .stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: $text-gray;
+    margin-top: 4px;
+  }
+}
+
+// Action buttons group
+@mixin action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  
+  .action-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// Section header with gradient title
+@mixin section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 2px solid $focus-ring;
+  margin-bottom: 30px;
+  
+  .header-title {
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, $dark-forest, $primary-green);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    p {
+      color: $text-gray;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+// Info grid for card details
+@mixin info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    
+    .info-icon {
+      font-size: 1rem;
+      min-width: 24px;
+    }
+    
+    label {
+      display: block;
+      font-size: 0.7rem;
+      color: #6b7c6f;
+      margin-bottom: 2px;
+    }
+    
+    p {
+      font-weight: 600;
+      color: #1a3b2e;
+      margin: 0;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// Farmer/Driver info row
+@mixin person-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  
+  .avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid $primary-green;
+  }
+  
+  .info-details {
+    flex: 1;
+    
+    .name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a3b2e;
+      margin: 0 0 4px 0;
+    }
+    
+    .phone, .role {
+      font-size: 0.75rem;
+      color: #6b7c6f;
+      margin: 0;
+    }
+  }
+  
+  .contact-btn {
+    margin-left: auto;
+    @include btn($primary-green, $primary-green-dark, 8px, white, 6px 12px);
+    font-size: 0.75rem;
+  }
+}
+
+// Modal overlay base
+@mixin modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: $bg-overlay;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+// Modal content base
+@mixin modal-content($max-width: 400px, $padding: 40px 30px) {
+  background: $bg-card;
+  width: 100%;
+  max-width: $max-width;
+  border-radius: $radius-md;
+  padding: $padding;
+  text-align: center;
+  margin: auto;
+  position: relative;
+  z-index: 100;
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 18px;
+    cursor: pointer;
   }
 }

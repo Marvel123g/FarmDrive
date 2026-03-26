@@ -1,21 +1,10 @@
 @use "variable" as *;
+@use "mixins" as *;
 .overlay{
-     position: fixed;
-        inset: 0;
-        background: $bg-overlay;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 999;
+    @include modal-overlay;
+  
     .choice-modal {
-        background: $bg-card;
-        width: 100%;
-        max-width: 400px;
-        border-radius: $radius-md;
-        padding: 40px 30px;
-        text-align: center;
-        margin: auto;
-        position: absolute;
+        @include modal-content;
     }
     .close-btn{  
         position: absolute;
