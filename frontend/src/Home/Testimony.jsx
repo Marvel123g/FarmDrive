@@ -58,7 +58,6 @@ export default function Testimony() {
   return (
     <>
       <section className="testimonials-section" id='testimonies'>
-        <div className="testimonials-bg-pattern"></div>
         
         <div className="testimonials-container">
             <div className="section-header">
