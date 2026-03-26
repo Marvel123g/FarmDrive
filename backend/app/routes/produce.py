@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.database.db_functions import save_produce_details, get_current_user, update_farmer_position, get_all_produce, get_produce_for_farmer
+from app.database.db_functions import save_produce_details, get_current_user, update_farmer_position, get_all_produce, get_produce_for_farmer, fetch_all_bids
 
 produce_bp = Blueprint("produce_bp", __name__, url_prefix="/api/v1")
 
@@ -83,6 +83,22 @@ def fetch_produce():
     return jsonify({"status": "ERROR",
                     "code": 401,
                     "message": "User is unauthorized."})
+
+
+@produce_bp.route("/produce/bids", methods=['GET'])
+def fetch_bids():
+    driver_id = get_current_user(
+        request.cookies.get('driver_session_id'), "driver")
+
+    if not driver_id:
+        return jsonify({"status": "ERROR",
+                        "code": 401,
+                        "message": "User is unauthorized."})
+
+    result = fetch_all_bids(driver_id)
+    return jsonify(result), result['code']
+
+
 
 
 """

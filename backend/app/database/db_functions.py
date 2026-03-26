@@ -791,7 +791,7 @@ def fetch_prices_for_produce(produce_id):
         # 3. Build the list efficiently
         prices_list = [{
             "driver_id": row["driver_id"],
-            "profile_picture": row["profile_picture_url"],
+            "profile_picture": str(row["profile_picture_url"]),
             "price": row["price"],
             "driver_name": f"{row['first_name']} {row['last_name']}",
             "driver_phone": row["phone"],
@@ -813,7 +813,8 @@ def fetch_prices_for_produce(produce_id):
             "message": f"Error fetching prices: {e}."
         }
     finally:
-        db.close()
+        if db:
+            db.close()
 
 
 # Farmer
@@ -1003,6 +1004,80 @@ def fetch_accepted_delivery_for_farmer(farmer_id):
 
 
 # Driver
+def fetch_all_bids(driver_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+        # This query checks:
+        # 1. Did THIS driver get accepted?
+        # 2. Did ANYONE ELSE get accepted for this produce?
+        query = """
+            SELECT 
+                pp.id AS bid_id, pp.price, pp.accepted AS is_this_bid_accepted, pp.created_at,
+                p.id AS produce_id, p.crop_name, p.pickup_location, p.destination,
+                f.first_name, f.last_name,
+                (SELECT 1 FROM produce_price WHERE produce_id = p.id AND accepted = 1 LIMIT 1) AS is_produce_closed
+            FROM produce_price pp
+            JOIN farm_produce p ON pp.produce_id = p.id
+            JOIN farmer f ON p.farmer_id = f.id
+            WHERE pp.driver_id = ?
+            ORDER BY pp.created_at DESC
+        """
+        cursor.execute(query, (driver_id, ))
+        rows = cursor.fetchall()
+
+        if not rows:
+            return {
+                "status": "SUCCESS",
+                "code": 200,
+                "bids": [],
+                "message": "You haven't placed any bids yet."
+            }
+
+        bids_list = []
+        for row in rows:
+            # logic to determine the 3 possible states:
+            if row["is_this_bid_accepted"] == 1:
+                status_text = "Accepted"
+                status_color = "green"
+            elif row["is_produce_closed"] == 1:
+                # Someone else got it!
+                status_text = "Closed (Sold to another)"
+                status_color = "red"
+            else:
+                status_text = "Awaiting Acceptance"
+                status_color = "yellow"
+
+            bids_list.append({
+                "bid_id": row["bid_id"],
+                "farmer_name": f"{row['first_name']} {row['last_name']}",
+                "crop_name": row["crop_name"],
+                "pickup_location": row["pickup_location"],
+                "destination": row["destination"],
+                "price": row["price"],
+                "status": status_text,
+                "color": status_color,  # Frontend can use this for CSS
+                "posted_at": time_ago(row["created_at"])
+            })
+
+        return {
+            "status": "SUCCESS",
+            "code": 200,
+            "bids": bids_list,
+            "message": "Bids history retrieved successfully."
+        }
+    except sqlite3.Error as e:
+        return {
+            "status": "ERROR",
+            "code": 500,
+            "message": f"Error fetching bids: {e}."
+        }
+    finally:
+        if db:
+            db.close()
+
+
+# Driver
 def update_delivery_status(delivery_id, driver_id, new_status):
     db = get_db_connection()
     try:
@@ -1077,6 +1152,7 @@ def request_payment(driver_id, delivery_id):
             db.close()
 
 
+# Driver
 def view_payments(farmer_id):
     db = get_db_connection()
     try:
@@ -1137,6 +1213,72 @@ def view_payments(farmer_id):
                 "code": 500,
                 "message": f"Error retrieving payments: {e}."}
 
+    finally:
+        if db:
+            db.close()
+
+
+# Driver
+def driver_stats(driver_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        # 1. Earnings and Completed Jobs (from payments table)
+        # We count rows where status is 'SUCCESSFUL' as completed_jobs
+        query_payments = """
+            SELECT 
+                SUM(CASE WHEN status = 'SUCCESSFUL' THEN amount ELSE 0 END) as earned,
+                SUM(CASE WHEN status = 'PENDING' THEN amount ELSE 0 END) as pending,
+                COUNT(CASE WHEN status = 'SUCCESSFUL' THEN 1 END) as completed_jobs
+            FROM payments 
+            WHERE driver_id = ?
+        """
+        cursor.execute(query_payments, (driver_id,))
+        p_data = cursor.fetchone()
+
+        # 2. Total Deliveries (from deliveries table)
+        cursor.execute(
+            "SELECT COUNT(*) as total FROM deliveries WHERE driver_id = ?", (driver_id,))
+        d_data = cursor.fetchone()
+
+        # 3. Available Jobs in Marketplace (from farm_produce table)
+        # Jobs are available if NO price bid for that produce has been accepted yet
+        query_market = """
+            SELECT COUNT(*) as available 
+            FROM farm_produce p
+            WHERE NOT EXISTS (
+                SELECT 1 FROM produce_price WHERE produce_id = p.id AND accepted = 1
+            )
+        """
+        cursor.execute(query_market)
+        m_data = cursor.fetchone()
+
+        # Safely extract numbers (handle None for new users)
+        earned = p_data['earned'] or 0
+        pending = p_data['pending'] or 0
+        completed = p_data['completed_jobs'] or 0
+        total_deliveries = d_data['total'] or 0
+        available_jobs = m_data['available'] or 0
+
+        return {
+            "status": "SUCCESS",
+            "code": 200,
+            "data": {
+                "total_earned_naira": earned,
+                # "total_earned_kobo": earned * 100,
+                "awaiting_payment_naira": pending,
+                # "awaiting_payment_kobo": pending * 100,
+                "completed_jobs": completed,
+                "total_deliveries": total_deliveries,
+                "available_jobs": available_jobs
+            },
+            "message": "Dashboard stats retrieved successfully."
+        }
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "code": 500,
+                "message": f"Error fetching dashboard stats: {e}."}
     finally:
         if db:
             db.close()
