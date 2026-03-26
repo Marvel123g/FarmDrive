@@ -1,7 +1,12 @@
 from flask import Blueprint, request, jsonify, make_response
+from dotenv import load_dotenv
 from app.database.db_functions import signup_driver, login_driver, create_session, get_current_user, logout, set_driver_active, driver_kyc
 import secrets
 import cloudinary.uploader
+import os
+
+load_dotenv()
+is_production = os.getenv("FLASK_ENV") == "production"
 
 driver_auth_bp = Blueprint("driver_auth_bp", __name__,
                            url_prefix="/api/v1/driver/auth")
@@ -71,8 +76,10 @@ def log_in():
                             session_id,
                             path='/',
                             httponly=True,
-                            secure=False,
-                            samesite='Lax',
+                            # In Produc. It must be true, In Local. It must be false
+                            secure=is_production,
+                            # In Produc. It must be None, In Local. It must be Lax
+                            samesite='None' if is_production else 'Lax',
                             max_age=86400
                             )
         return response, 200
