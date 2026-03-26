@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request
-from app.database.db_functions import get_current_user
+from app.database.db_functions import get_current_user, view_payments
 
 payment_bp = Blueprint("payment_bp", __name__, url_prefix="/api/v1")
 
-@payment_bp.route("/pay", methods=['GET'])
+@payment_bp.route("/payments", methods=['GET'])
 def get_payment_details():
     farmer_id = get_current_user(
         request.cookies.get('farmer_session_id'), "farmer")
@@ -12,6 +12,5 @@ def get_payment_details():
                         "code": 401,
                         "message": "Unauthorized. Please log in."}), 401
 
-    
-    
-    
+    result = view_payments(farmer_id)
+    return jsonify(result), result["code"]
