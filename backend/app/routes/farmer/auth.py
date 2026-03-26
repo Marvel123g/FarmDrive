@@ -1,6 +1,11 @@
 from flask import Blueprint, request, jsonify, make_response
+from dotenv import load_dotenv
 from app.database.db_functions import signup_farmer, login_farmer, create_session, get_current_user, logout
 import secrets
+import os
+
+load_dotenv()
+is_production = os.getenv("FLASK_ENV") == "production"
 
 farmer_auth_bp = Blueprint("farmer_auth_bp", __name__, url_prefix="/api/v1/farmer/auth")
 
@@ -56,8 +61,10 @@ def log_in():
                             session_id,
                             # path='/',
                             httponly=True,
-                            secure=False,
-                            # samesite='Lax',
+                            # In Produc. It must be true, In Local. It must be false
+                            secure=is_production,
+                            # In Produc. It must be None, In Local. It must be Lax
+                            samesite='None' if is_production else 'Lax',
                             max_age=86400
                             )
         return response, 200
