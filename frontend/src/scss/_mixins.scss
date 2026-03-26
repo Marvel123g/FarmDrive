@@ -1,0 +1,29 @@
+@mixin glass-card($bg: $bg-card, $radius: $border-radius, $shadow: $shadow-soft, $border: $border-outline) {
+  background: $bg;
+  backdrop-filter: blur(10px);
+  border-radius: $radius;
+  box-shadow: $shadow;
+  border: $border;
+}
+
+@mixin gradient-card($radius: $border-radius, $shadow: $shadow-soft) {
+  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+  color: $text-white;
+  border-radius: $radius;
+  box-shadow: $shadow;
+}
+
+@mixin primary-button($radius: $border-radius, $shadow: $shadow-xs) {
+  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+  color: $text-white;
+  border: none;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(44, 122, 77, 0.25);
+  }
+}

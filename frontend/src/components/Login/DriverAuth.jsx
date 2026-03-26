@@ -38,7 +38,7 @@ function DriverAuth({mode, setMode}) {
         // If all validations pass, proceed with API call
        if (valid) {
           e.preventDefault();
-          const res = await fetch("http://localhost:5000/api/v1/driver/auth/login", {
+          const res = await fetch("/api/v1/driver/auth/login", {
             headers: {
               "Content-Type": "application/json",
             },
@@ -87,7 +87,7 @@ function DriverAuth({mode, setMode}) {
 
       // If all validations pass, proceed with API call
       if (valid) {
-        const res = await fetch("http://localhost:5000/api/v1/driver/auth/signup", {
+        const res = await fetch("/api/v1/driver/auth/signup", {
           headers: {
             "Content-Type": "application/json",
           },

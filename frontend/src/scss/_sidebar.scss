@@ -1,7 +1,8 @@
+@use "variable" as *;
 .sideBar{
     width: 300px;
-    background: #01331c;
-    color: white;
+    background: $sidebar-bg;
+    color: $text-white;
     padding: 30px 20px;
     position: fixed;
     min-height: 100vh;
@@ -20,8 +21,8 @@
         font-size: 18px;
         font-weight: bold;
         &.active {
-            background-color: whitesmoke;
-            color: green;
+            background-color: $bg-soft;
+            color: $primary-green;
             border-radius: 7px;
         }
         &:hover{

@@ -1,3 +1,5 @@
+
+@use "variable" as *;
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -12,7 +14,7 @@
 }
 
 .modalBox {
-  background: white;
+  background: $bg-card;
   padding: 40px;
   border-radius: 16px;
   width: 400px;
@@ -61,8 +63,8 @@
 
 .modalForm button {
   padding: 12px;
-  background: #157347;
-  color: white;
+  background: $primary-green-alt;
+  color: $text-white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -71,7 +73,7 @@
 }
 
 .modalForm button:hover {
-  background: #125c38;
+  background: $primary-green-dark;
 }
 /* ================= UPLOAD SECTION ================= */
 
@@ -87,20 +89,20 @@
 
 .uploadBox {
   padding: 14px;
-  border: 2px dashed #157347;
+  border: 2px dashed $primary-green-alt;
   border-radius: 10px;
   text-align: center;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #157347;
+  color: $primary-green-alt;
   background: rgba(21, 115, 71, 0.05);
   transition: all 0.2s ease;
 }
 
 .uploadBox:hover {
   background: rgba(21, 115, 71, 0.1);
-  border-color: #125c38;
+  border-color: $primary-green-dark;
 }
 
 .uploadBox:active {

@@ -1,9 +1,10 @@
+@use "variable" as *;
 .delivery_Wrapper{
     .deliveries-container {
    flex: 1;
     padding-left: 350px !important;
     padding: 30px 40px;
-  background: linear-gradient(135deg, #f8faf7 0%, #eef4ea 100%);
+  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
   position: relative;
   min-height: 100vh;
 }
@@ -20,13 +21,13 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px 0;
-  border-bottom: 2px solid rgba(44, 122, 77, 0.1);
+  border-bottom: 2px solid $focus-ring;
 }
 
 .header-title h2 {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #1a3b2e, #2c7a4d);
+  background: linear-gradient(135deg, $dark-forest, $primary-green);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -45,12 +46,12 @@
 }
 
 .stat-card {
-  background: white;
+  background: $bg-card;
   padding: 12px 20px;
   border-radius: 12px;
   text-align: center;
   min-width: 80px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: $shadow-xs;
   transition: all 0.3s ease;
 }
 
@@ -69,7 +70,7 @@
 .stat-label {
   display: block;
   font-size: 0.75rem;
-  color: #6b7c6f;
+  color: $text-gray;
   margin-top: 4px;
 }
 
@@ -145,8 +146,8 @@
 /* Card Header */
 .card-header {
   padding: 15px 20px;
-  background: #f8faf7;
-  border-bottom: 1px solid #e2e8f0;
+  background: $bg-page-start;
+  border-bottom: 1px solid $border-light;
 }
 
 .delivery-status {
@@ -262,13 +263,13 @@
 
 .price-label {
   font-size: 0.85rem;
-  color: #6b7c6f;
+  color: $text-gray;
 }
 
 .price-value {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #2c7a4d;
+  color: $primary-green;
 }
 
 /* Info Sections */

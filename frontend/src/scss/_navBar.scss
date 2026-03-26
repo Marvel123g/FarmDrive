@@ -1,9 +1,10 @@
+@use "variable" as *;
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: white;
+  background: $bg-card;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   z-index: 4;
 
@@ -30,11 +31,11 @@
         font-weight: 500;
         transition: color 0.2s;
         a{
-          color: black;
+          color: $text-dark;
           text-decoration: none;
         }
         &:hover {
-          color: #38a169; // green hover like Chakra
+          color: $primary-green;
         }
       }
     }
@@ -42,15 +43,15 @@
     .btn-primary {
       padding: 0.5rem 1.5rem;
       border-radius: 999px;
-      background: #38a169;
-      color: white;
+      background: $primary-green;
+      color: $text-white;
       font-weight: bold;
       border: none;
       cursor: pointer;
       transition: background 0.2s;
 
       &:hover {
-        background: #2f855a;
+        background: $primary-green-dark;
       }
     }
   }

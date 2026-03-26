@@ -1,9 +1,11 @@
+@use "variable" as *;
+
 .earnings_wrapper{
     .earnings-container {
          flex: 1;
     padding-left: 350px !important;
     padding: 30px 40px;
-  background: linear-gradient(135deg, #f8faf7 0%, #eef4ea 100%);
+  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
   position: relative;
   min-height: 100vh;
 }
@@ -11,7 +13,7 @@
 .earnings-header h2 {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #1a3b2e, #2c7a4d);
+  background: linear-gradient(135deg, $dark-forest, $primary-green);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -19,7 +21,7 @@
 }
 
 .earnings-header p {
-  color: #6b7c6f;
+  color: $text-gray;
   margin-bottom: 30px;
 }
 
@@ -32,13 +34,13 @@
 }
 
 .stat-card {
-  background: white;
+  background: $bg-card;
   padding: 20px;
   border-radius: 16px;
   display: flex;
   align-items: center;
   gap: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: $shadow-xs;
   transition: transform 0.2s;
 }
 
@@ -60,13 +62,13 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
-  color: #1a3b2e;
+  color: $dark-forest;
 }
 
-.stat-card.primary p { color: #2c7a4d; }
-.stat-card.success p { color: #10b981; }
-.stat-card.warning p { color: #f59e0b; }
-.stat-card.info p { color: #3b82f6; }
+.stat-card.primary p { color: $primary-green; }
+.stat-card.success p { color: $success; }
+.stat-card.warning p { color: $warning; }
+.stat-card.info p { color: $info; }
 
 /* Summary Section */
 .summary-section {
@@ -77,11 +79,11 @@
 }
 
 .summary-card, .withdraw-card {
-  background: white;
+  background: $bg-card;
   padding: 20px;
   border-radius: 16px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: $shadow-xs;
 }
 
 .summary-card h4 {

@@ -1,7 +1,9 @@
+@use "variable" as *;
+
 .dashboard {
     display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8faf7 0%, #eef4ea 100%);
+  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
   position: relative;
 
   main {
@@ -11,7 +13,7 @@
     b {
       font-size: 2rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #1a3b2e, #2c7a4d);
+      background: linear-gradient(135deg, $dark-forest, $primary-green);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -26,7 +28,7 @@
         left: 0;
         width: 60px;
         height: 3px;
-        background: linear-gradient(90deg, #2c7a4d, #4a9e6b);
+        background: linear-gradient(90deg, $primary-green, $primary-green-soft);
         border-radius: 3px;
       }
     }
@@ -42,7 +44,7 @@
         background: rgba(255, 255, 255, 0.95);
         padding: 24px;
         border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        box-shadow: $shadow-soft;
         border: 1px solid rgba(44, 122, 77, 0.1);
         
         h3 {
@@ -79,21 +81,46 @@
       border: 1px solid rgba(44, 122, 77, 0.1);
       
       
-      h3 {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #1a3b2e;
-        margin-bottom: 20px;
+      header{
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 10px;
         padding-bottom: 15px;
         border-bottom: 2px solid rgba(44, 122, 77, 0.1);
-        
-        &::before {
-          content: "🌱";
-          font-size: 1.5rem;
+        margin-bottom: 20px;
+        h3 {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: #1a3b2e;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          
+          &::before {
+            content: "🌱";
+            font-size: 1.5rem;
+          }
         }
+        button{
+          padding: 12px;
+          background: #157347;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 600;
+        }
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .table th,
+      .table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
       }
     }
 

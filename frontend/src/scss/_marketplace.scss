@@ -1,9 +1,11 @@
+@use "variable" as *;
+
 .marketPlace_wrapper{
     .marketplace-container {
     flex: 1;
     padding-left: 350px !important;
     padding: 30px 40px;
-  background: linear-gradient(135deg, #f8faf7 0%, #eef4ea 100%);
+  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
   position: relative;
   min-height: 100vh;
 }
@@ -20,13 +22,13 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px 0;
-  border-bottom: 2px solid rgba(44, 122, 77, 0.1);
+  border-bottom: 2px solid $focus-ring;
 }
 
 .header-title h2 {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #1a3b2e, #2c7a4d);
+  background: linear-gradient(135deg, $dark-forest, $primary-green);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -34,7 +36,7 @@
 }
 
 .header-title p {
-  color: #6b7c6f;
+  color: $text-gray;
   font-size: 0.95rem;
 }
 
@@ -51,7 +53,7 @@
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(44, 122, 77, 0.1);
+  border: 1px solid $focus-ring;
 }
 
 /* Card Image */
@@ -60,8 +62,8 @@
   position: absolute;
   top: 15px;
   right: 15px;
-  background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
-  color: white;
+  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+  color: $text-white;
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 0.75rem;
@@ -89,7 +91,7 @@
   height: 45px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #2c7a4d;
+  border: 2px solid $primary-green;
 }
 
 .farmer-name {
@@ -125,7 +127,7 @@
 
 /* Card Details */
 .card-details {
-  background: #f8faf7;
+  background: $bg-page-start;
   padding: 12px;
   border-radius: 12px;
   margin-bottom: 15px;

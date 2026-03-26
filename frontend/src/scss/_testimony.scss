@@ -1,7 +1,8 @@
+@use "variable" as *;
 .testimonials-section {
   position: relative;
   padding: 6rem 2rem;
-  background: linear-gradient(135deg, #fefcf5 0%, #faf8f2 100%);
+  background: linear-gradient(135deg, $bg-warm 0%, $bg-warm-2 100%);
   overflow: hidden;
 
   .testimonials-bg-pattern {
@@ -29,8 +30,8 @@
 
     .section-badge {
       display: inline-block;
-      background: rgba(44, 122, 77, 0.1);
-      color: #2c7a4d;
+      background: $focus-ring;
+      color: $primary-green;
       padding: 0.4rem 1rem;
       border-radius: 60px;
       font-size: 0.8rem;
@@ -89,7 +90,7 @@
       }
 
       .stat-label {
-        color: #5b6e5e;
+        color: $text-muted;
         font-size: 0.9rem;
         font-weight: 500;
       }
