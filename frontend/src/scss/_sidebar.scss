@@ -8,6 +8,7 @@
   position: fixed;
   min-height: 100vh;
   z-index: 20;
+  // font-family: $font-unica;
 
   nav {
     display: flex;
@@ -21,8 +22,9 @@
       padding: 10px;
       text-align: left;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
+      font-family: $font-clash;
 
       &.active {
         background-color: $bg-soft;

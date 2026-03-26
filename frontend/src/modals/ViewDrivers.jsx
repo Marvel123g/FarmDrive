@@ -56,7 +56,7 @@ export default function ViewDrivers({data, onClose}) {
             {listOfDrivers.map((driver) => (
               <div className="driver-card" key={driver.driver_id}>
                 <div className="driver_header">
-                  <div className="driver-avatar">👨‍✈️</div>
+                  <div className="driver-avatar">{driver.profile_picture}</div>
                   <section className='sub_heading'>
                     <h4>{driver.driver_name}</h4>
                     <small className="driver-contact">📞 Phone: <span className="driver-info-value">{driver.driver_phone}</span></small>
