@@ -6,18 +6,6 @@
   background: linear-gradient(135deg, $bg-warm 0%, $bg-warm-2 100%);
   overflow: hidden;
 
-  .testimonials-bg-pattern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 50%, rgba($primary-green, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba($primary-green, 0.03) 0%, transparent 50%);
-    pointer-events: none;
-  }
-
   .testimonials-container {
     max-width: 1300px;
     margin: 0 auto;
