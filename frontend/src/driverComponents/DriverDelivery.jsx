@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DriverSidebar from '../components/DriverSidebar';
 
 export default function DriverDelivery() {
@@ -113,6 +113,22 @@ export default function DriverDelivery() {
   ]);
 
   // /api/v1/delivery?role=driver
+
+  useEffect(() => {
+    const fetchDriverDelivery = async() => {
+      const res = await fetch("/api/v1/delivery?role=driver", {
+        method: "GET",
+        credentials: "include"
+      })
+
+      const data = await res.json()
+
+      console.log(data)
+    }
+
+    fetchDriverDelivery()
+  }, [])
+  
 
   return (
    <div className="driverDelivery_wrapper">
