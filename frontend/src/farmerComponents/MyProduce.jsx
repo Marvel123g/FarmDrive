@@ -86,14 +86,17 @@ export default function MyProduce() {
         return status;
     }
   };
+  const [myProduce, setMyProduce] = useState([])
 
   useEffect(() => {
     const fetchProduce = async() => {
         const res = await fetch("/api/v1/produce?role=farmer", {
           credentials: "include"
         })
-        const data = res.json()
-        console.log(data)
+        const data = await res.json()
+        console.log(data.produce)
+        setMyProduce(data.produce)
+        // console.log(myProduce)
     }
 
     fetchProduce()
@@ -114,7 +117,7 @@ export default function MyProduce() {
                 </button>
             </div>
 
-            {produceListings.length === 0 ? (
+            {myProduce.length === 0 ? (
                 <div className="empty-state">
                 <div className="empty-icon">🌾</div>
                 <h3>No Produce Listed Yet</h3>
@@ -123,7 +126,7 @@ export default function MyProduce() {
                 </div>
             ) : (
                 <div className="produce-grid">
-                {produceListings.map((produce) => (
+                {myProduce.map((produce) => (
                     <div key={produce.id} className="produce-card">
                     {/* <div className="card-image">
                         <img src={produce.image} alt={produce.crop} />
@@ -135,8 +138,8 @@ export default function MyProduce() {
                     
                     <div className="card-content">
                         <div className="card-header">
-                        <h3>{produce.crop}</h3>
-                        <p className="price">{produce.price}</p>
+                        <h3>{produce.crop_name}</h3>
+                        {/* <p className="price">{produce.posted_at}</p> */}
                         </div>
                         
                         <div className="card-details">
@@ -152,7 +155,7 @@ export default function MyProduce() {
                             <span className="detail-icon">📍</span>
                             <div>
                             <label>From</label>
-                            <p>{produce.from}</p>
+                            <p>{produce.pickup_location}</p>
                             </div>
                         </div>
                         
@@ -160,7 +163,7 @@ export default function MyProduce() {
                             <span className="detail-icon">🎯</span>
                             <div>
                             <label>To</label>
-                            <p>{produce.to}</p>
+                            <p>{produce.destination}</p>
                             </div>
                         </div>
                         
@@ -168,19 +171,19 @@ export default function MyProduce() {
                             <span className="detail-icon">📅</span>
                             <div>
                             <label>Posted Date</label>
-                            <p>{new Date(produce.date).toLocaleDateString()}</p>
+                            <p>{produce.posted_at}</p>
                             </div>
                         </div>
                         </div>
                         
                         <div className="card-description">
-                        <p>{produce.description}</p>
+                        <p>{produce.details}</p>
                         </div>
                         
                         <div className="card-actions">
-                        <button className="action-btn edit-btn">Edit</button>
-                        <button className="action-btn view-btn">View Details</button>
-                        <button className="action-btn delete-btn">Delete</button>
+                        {/* <button className="action-btn edit-btn">Edit</button> */}
+                        <button className="action-btn view-btn">View Drivers</button>
+                        {/* <button className="action-btn delete-btn">Delete</button> */}
                         </div>
                     </div>
                     </div>

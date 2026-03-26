@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar';
 
 export default function Deliveries() {
@@ -129,6 +129,19 @@ export default function Deliveries() {
 
 
     // /api/v1/delivery?role=farmer
+
+    useEffect(() => {
+      const fetchDriverDeliveries = async() => {
+        const res = await fetch("/api/v1/delivery?role=farmer", {
+          method: "GET",
+          credentials: "include"
+        })
+        const data =await res.json()
+
+        console.log(data)
+      }
+    }, [])
+    
 
   return (
    <div className="delivery_Wrapper">
