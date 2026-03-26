@@ -1,14 +1,12 @@
 
-@use "variable" as *;
+@use "../variable" as *;
+@use "../mixins" as *;
+
+
 .driverDelivery_wrapper{
   .driver-delivery-container {
-  flex: 1;
-    padding-left: 350px !important;
-    padding: 30px 40px;
-  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
-  position: relative;
-  min-height: 100vh;
-}
+    @include page-reset;
+  }
 
 /* Header Section */
 .delivery-header {
@@ -43,10 +41,7 @@
 
 /* Tabs */
 .delivery-tabs {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 30px;
-  padding: 5px 0;
+  @include filter-tabs;
 }
 
 .tab-btn {
@@ -81,37 +76,16 @@
 
 /* Delivery Card */
 .delivery-card {
-  background: rgba(255, 255, 255, 0.95);
+  @include card($bg: rgba(255, 255, 255, 0.95), $radius: 20px, $shadow: 0 8px 20px rgba(0,0,0,0.05), $padding: 20px, $border: 1px solid rgba(44, 122, 77, 0.1));
   backdrop-filter: blur(10px);
-  border-radius: 20px;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(44, 122, 77, 0.1);
 }
 
-/* Card Header */
-.card-header {
-  padding: 15px 20px;
-  background: $bg-page-start;
-  border-bottom: 1px solid $border-light;
-}
+
 /* Farmer Info */
 .farmer-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.farmer-avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid $primary-green;
+    @include person-info;
 }
 
 .farmer-name {
@@ -129,18 +103,11 @@
 
 .contact-btn {
   margin-left: auto;
-  padding: 6px 12px;
-  background: $primary-green;
-  color: $text-white;
-  border: none;
-  border-radius: 8px;
+  @include btn($primary-green, #1f5a3a, 8px, $text-white, 6px 12px);
   font-size: 0.75rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .contact-btn:hover {
-  background: #1f5a3a;
   transform: translateY(-1px);
 }
 
@@ -214,9 +181,7 @@
 
 /* Action Buttons */
 .action-buttons {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  @include action-buttons;
 }
 
 .action-btn {
@@ -235,51 +200,19 @@
 }
 
 .start-btn {
-  background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
-  color: white;
-}
-
-.start-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(44, 122, 77, 0.3);
+  @include btn(linear-gradient(135deg, #2c7a4d, #1f5a3a), null)
 }
 
 .complete-btn {
   background: #10b981;
   color: white;
-}
-
-.complete-btn:hover {
-  background: #059669;
-  transform: translateY(-1px);
+  @include btn(#10b981, #059669)
 }
 
 
-/* Empty State */
-.empty-deliveries {
-  text-align: center;
-  padding: 80px 20px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  margin-top: 40px;
-}
-
-.empty-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-.empty-deliveries h3 {
-  font-size: 1.5rem;
-  color: #1a3b2e;
-  margin-bottom: 10px;
-}
-
-.empty-deliveries p {
-  color: #6b7c6f;
-  margin-bottom: 25px;
-}
+  /* Empty State */
+  .empty-deliveries {
+    @include empty-state
+  }
 
 }

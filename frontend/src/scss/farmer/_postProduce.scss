@@ -1,17 +1,9 @@
-@use "variable" as *;
+@use "../variable" as *;
+@use "../mixins" as *;
 
 .post_produce {
-  display: flex;
-  min-height: 100vh;
-  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
-  position: relative;
-
   main {
-    flex: 1;
-    padding-left: 350px !important;
-    padding: 30px 40px;
-    // position: relative;
-    // z-index: 1;
+     @include page-reset;
 
     .topbar {
       display: flex;
@@ -24,22 +16,6 @@
       h2 {
         font-size: 2rem;
         font-weight: 700;
-        // background: linear-gradient(135deg, #1a3b2e, #2c7a4d);
-        // -webkit-background-clip: text;
-        // background-clip: text;
-        // color: transparent;
-        // position: relative;
-        
-        // &::after {
-        //   content: '';
-        //   position: absolute;
-        //   bottom: -8px;
-        //   left: 0;
-        //   width: 60px;
-        //   height: 3px;
-        //   background: linear-gradient(90deg, #2c7a4d, #4a9e6b);
-        //   border-radius: 3px;
-        // }
       }
 
       .user {
@@ -197,18 +173,6 @@
         margin-top: 20px;
         padding-top: 20px;
         border-top: 1px solid #e2e8f0;
-
-        .cancelBtn {
-          background: #f1f5f9;
-          color: #475569;
-          border: none;
-          padding: 12px 24px;
-          border-radius: 12px;
-          cursor: pointer;
-          font-weight: 600;
-          font-size: 0.9rem;
-        }
-        
         .primaryBtn {
           background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
           color: white;

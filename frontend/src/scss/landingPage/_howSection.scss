@@ -1,0 +1,86 @@
+@use "../variable" as *;
+.how-section {
+    padding: 6rem 2rem;
+    background: #f8f6f0;
+    text-align: center;
+    border-radius: 0 0 60px 60px;
+    margin-bottom: 1rem;
+
+    h2 { 
+      font-size: 2.8rem; 
+      margin-bottom: 4rem;
+      font-weight: 800;
+      color: #1f3b2c;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 3rem;
+      margin-bottom: 4rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+
+      .step {
+        background: white;
+        padding: 2rem 1.5rem;
+        border-radius: 2rem;
+        box-shadow: 0 12px 25px -10px rgba(0,0,0,0.05);
+        
+        .step-number {
+          background: #2c7a4d;
+          color: white;
+          width: 4rem;
+          height: 4rem;
+          border-radius: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 800;
+          font-size: 1.6rem;
+          margin: 0 auto 1.5rem;
+          box-shadow: 0 8px 14px rgba(44, 122, 77, 0.25);
+        }
+        
+        h3 { 
+          font-size: 1.4rem; 
+          margin-bottom: 0.75rem;
+          font-weight: 700;
+          color: #1a2e24;
+        }
+        
+        p { 
+          color: #5b6e5e;
+          line-height: 1.5;
+        }
+      }
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2rem;
+      border-top: 2px dashed #dad7ce;
+      padding-top: 3rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+
+      .stat { 
+        h3 { 
+          color: #2c7a4d; 
+          font-size: 2.8rem;
+          font-weight: 800;
+          margin-bottom: 0.25rem;
+        } 
+        p { 
+          font-weight: 600;
+          color: #4a5b4a;
+          font-size: 1rem;
+          letter-spacing: 0.3px;
+        } 
+      }
+    }
+  }

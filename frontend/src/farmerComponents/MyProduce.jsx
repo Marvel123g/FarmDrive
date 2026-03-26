@@ -1,92 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar';
+import ViewDrivers from '../modals/ViewDrivers';
 
 export default function MyProduce() {
-  // Demo data for produce listings
-  const [produceListings, setProduceListings] = useState([
-    {
-      id: 1,
-      crop: "Fresh Tomatoes",
-      quantity: "250kg",
-      from: "Jos, Plateau",
-      to: "Lagos, Lagos",
-      price: "₦85,000",
-      status: "active",
-      date: "2024-03-24",
-      description: "Fresh organic tomatoes, harvested yesterday. Well packaged in crates.",
-      image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=200"
-    },
-    {
-      id: 2,
-      crop: "Organic Onions",
-      quantity: "500kg",
-      from: "Kano, Kano",
-      to: "Abuja, FCT",
-      price: "₦120,000",
-      status: "in-transit",
-      date: "2024-03-22",
-      description: "Premium quality red onions, sun-dried and ready for delivery.",
-      image: "https://images.unsplash.com/photo-1508747703725-719777637510?w=200"
-    },
-    {
-      id: 3,
-      crop: "Green Bell Peppers",
-      quantity: "150kg",
-      from: "Kaduna, Kaduna",
-      to: "Ibadan, Oyo",
-      price: "₦95,000",
-      status: "active",
-      date: "2024-03-23",
-      description: "Fresh green bell peppers, crisp and premium quality.",
-      image: "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=200"
-    },
-  ]);
-
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'active':
-        return 'status-active';
-      case 'in-transit':
-        return 'status-transit';
-      case 'completed':
-        return 'status-completed';
-      case 'pending':
-        return 'status-pending';
-      default:
-        return '';
-    }
-  };
-
-  const getStatusIcon = (status) => {
-    switch(status) {
-      case 'active':
-        return '🟢';
-      case 'in-transit':
-        return '🚚';
-      case 'completed':
-        return '✅';
-      case 'pending':
-        return '⏳';
-      default:
-        return '';
-    }
-  };
-
-  const getStatusText = (status) => {
-    switch(status) {
-      case 'active':
-        return 'Active';
-      case 'in-transit':
-        return 'In Transit';
-      case 'completed':
-        return 'Completed';
-      case 'pending':
-        return 'Pending';
-      default:
-        return status;
-    }
-  };
   const [myProduce, setMyProduce] = useState([])
+  const[showDriverList, setShowDriverList] = useState(false)
+  const [selected, setSelected] = useState(null)
 
   useEffect(() => {
     const fetchProduce = async() => {
@@ -101,12 +20,22 @@ export default function MyProduce() {
 
     fetchProduce()
   }, [])
+
+  const handleViewDrivers = (currentProduce) => {
+    setSelected(currentProduce)
+    setShowDriverList(true)
+  }
+
+  const handleClose = () => {
+    setSelected(null)
+    setShowDriverList(false)
+  }
   
 
   return (
     <div className="wrapper">
         <Sidebar/>
-        <div className="my-produce-container">
+        <main className="my-produce-container">
             <div className="produce-header">
                 <div className="header-content">
                 <h2>My Produce Listings</h2>
@@ -181,16 +110,17 @@ export default function MyProduce() {
                         </div>
                         
                         <div className="card-actions">
-                        {/* <button className="action-btn edit-btn">Edit</button> */}
-                        <button className="action-btn view-btn">View Drivers</button>
-                        {/* <button className="action-btn delete-btn">Delete</button> */}
+                        <button className="action-btn view-btn" onClick={() => handleViewDrivers(produce)}>View Drivers</button>
                         </div>
                     </div>
                     </div>
                 ))}
                 </div>
             )}
-        </div>
+        </main>
+        {showDriverList && (
+          <ViewDrivers data={selected} onClose={handleClose}/>
+        )}
      </div>
   );
 }

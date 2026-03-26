@@ -26,14 +26,15 @@ export default function DriverProfileModal({onClose}) {
 
     const handleSubmit = async() => {
         const formData = new FormData()
-        formData.append("license_plate", license_plate)
-        formData.append("vehicle_type", vehicle_type)
-        formData.append("profile_picture", profile_picture)
-        formData.append("account_number", account_number)
-        formData.append("account_name", account_name)
-        formData.append("bank_name", bank_name)
+        formData.append("license_plate", form.license_plate)
+        formData.append("vehicle_type", form.vehicle_type)
+        formData.append("profile_picture", form.profile_picture)
+        formData.append("account_number", form.account_number)
+        formData.append("account_name", form.account_name)
+        formData.append("bank_name", form.bank_name)
 
-        const res = await fetch("http://127.0.0.1:5000/api/v1/driver/auth/kyc", {
+        const res = await fetch("/api/v1/driver/auth/kyc", {
+            method: "POST",
             body: formData,
             credentials: "include"
         })

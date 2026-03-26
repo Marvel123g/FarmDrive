@@ -39,10 +39,14 @@ export default function Marketplace() {
     const res = await fetch("/api/v1/price", {
       method: "POST",
       headers: {"Content-Type" : "application/json"},
-      body: JSON.stringify({ "priceDetails": price, "driverLocation": driverLocation})
+      body: JSON.stringify({  priceDetails: {
+        produce_id: produceId,
+        price: price
+      }, "driverLocation": driverLocation})
     })
 
     console.log({price, driverLocation})
+    console.log(res)
   }
   
   const toggleInputField = (id) => {

@@ -1,14 +1,10 @@
-@use "variable" as *;
-.payment_Wrapper{
+@use "../variable" as *;
+@use "../mixins" as *;
 
-    .payment-container {
-   flex: 1;
-    padding-left: 350px !important;
-    padding: 30px 40px;
-  background: linear-gradient(135deg, $bg-page-start 0%, $bg-page-end 100%);
-  position: relative;
-  min-height: 100vh;
-}
+.payment_Wrapper{
+  .payment-container {
+    @include page-reset;
+  }
 
 /* Header Section */
 .payment-header {
