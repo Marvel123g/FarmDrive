@@ -11,7 +11,7 @@ export default function PostProduce() {
         price: "",
         description: "",
     });
-    const [farmerLocation, setFarmerLocation] = useState({lat: "", lng: ""})
+    const [farmerLocation, setFarmerLocation] = useState({lat: null, lng: null})
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,17 +19,21 @@ export default function PostProduce() {
 
     useEffect(() => {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
+      navigator.geolocation.getCurrentPosition((pos) => {
         setFarmerLocation({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude
         })
       })
-      }
+    }
     }, [])
      
 
     const handleSubmit = async(e) => {
+        if (!farmerLocation.lat || !farmerLocation.lng) {
+          alert("Please wait for your location to be detected.");
+          return;
+        }
       e.preventDefault()
       try {
         // /api/v1/farmer/auth/login

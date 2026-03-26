@@ -58,7 +58,7 @@
     padding: $padding;
     box-shadow: $shadow;
     &:hover {
-        background: if($hover-bg, $hover-bg, $bg);
+        background: if(sass($hover-bg), $hover-bg, $bg);
         transform: translateY(-1px);
     }
 }
