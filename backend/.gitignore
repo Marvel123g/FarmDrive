@@ -9,3 +9,4 @@ venv/
 .env
 
 *.db
+backend/app/database/farmdrive.db
