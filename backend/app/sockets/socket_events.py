@@ -20,10 +20,23 @@ def handle_location(data):
     lng = data.get('lng')
 
     # 1. Update the SQLite database so the position is saved
-    update_driver_position(driver_id, lat, lng)
+    result = update_driver_position(driver_id, lat, lng)
 
+    if result['code'] != 200:
+        print(result)
     # 2. Push the movement to the Farmer in the room
     emit('driver_moved', {
         'lat': lat,
         'lng': lng
     }, to=delivery_id)
+
+
+def emit_status_update(delivery_id, new_status):
+    """
+    Call this function from your API routes whenever 
+    a status changes (IN_TRANSIT or DELIVERED).
+    """
+    socketio.emit('status_update', {
+        'status': new_status,
+        'message': f"Delivery is now {new_status}"
+    }, to=str(delivery_id))
