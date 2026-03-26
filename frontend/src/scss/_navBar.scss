@@ -1,11 +1,12 @@
 @use "variable" as *;
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background: $bg-card;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px $shadow-light; // replaced rgba(0,0,0,0.1)
   z-index: 4;
 
   .navbar-content {
@@ -30,10 +31,12 @@
         cursor: pointer;
         font-weight: 500;
         transition: color 0.2s;
-        a{
+
+        a {
           color: $text-dark;
           text-decoration: none;
         }
+
         &:hover {
           color: $primary-green;
         }

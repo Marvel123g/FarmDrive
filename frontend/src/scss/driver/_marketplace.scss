@@ -1,16 +1,15 @@
 @use "../variable" as *;
 @use "../mixins" as *;
 
-
-.marketPlace_wrapper{
-    .marketplace-container {
-    
-  @include page-reset;
-}
+.delivery_Wrapper{
+    .deliveries-container {
+      @include page-reset;
+    }
 
 /* Header Section */
-.marketplace-header {
-     margin-bottom: 30px;
+.deliveries-header {
+  
+  margin-bottom: 30px;
 }
 
 .header-content {
@@ -24,36 +23,93 @@
 }
 
 .header-title h2 {
-  @include gradient-text()
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, $dark-forest, $primary-green);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 8px;
 }
 
+.header-title p {
+  color: #6b7c6f;
+  font-size: 0.95rem;
+}
 
-/* Marketplace Grid */
-.marketplace-grid {
+/* Filter Tabs */
+.filter-tabs {
+  @include filter-tabs;
+}
+
+.filter-tab {
+  padding: 10px 24px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #4a5b4e;
+}
+
+.filter-tab:hover {
+  border-color: #2c7a4d;
+  color: #2c7a4d;
+  transform: translateY(-2px);
+}
+
+.filter-tab.active {
+  background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
+  color: white;
+  border-color: transparent;
+}
+
+/* Deliveries Grid */
+.deliveries-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 30px;
+  animation: fadeInUp 0.6s ease-out;
 }
 
-/* Produce Card */
-.produce-card {
-  position: relative;
-  @include card($bg: rgba(255, 255, 255, 0.95), $radius: 20px, $shadow: 0 8px 20px rgba(0, 0, 0, 0.05), $padding: 0, $border: 1px solid $focus-ring);
+/* Delivery Card */
+.delivery-card {
+  @include card($bg: rgba(255, 255, 255, 0.95), $radius: 20px, $shadow: 0 8px 20px rgba(0, 0, 0, 0.05), $padding: 0, $border: 1px solid rgba(44, 122, 77, 0.1));
+  overflow: hidden;
 }
 
-/* Card Image */
+/* Card Header */
+.card-header {
+  padding: 15px 20px;
+  background: $bg-page-start;
+  border-bottom: 1px solid $border-light;
+}
 
-.availability-badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
-  color: $text-white;
+.status-badge {
   padding: 6px 12px;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-transit {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.status-pending {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.status-completed {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
 }
 
 /* Card Content */
@@ -61,153 +117,164 @@
   padding: 20px;
 }
 
-/* Farmer Info */
-.farmer-info {
-  @include person-info;
-}
-.deliveries {
-  color: #6b7c6f;
-  font-size: 0.75rem;
-}
-
 .crop-name {
   font-size: 1.3rem;
   font-weight: 700;
   color: #1a3b2e;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
-/* Card Details */
-.card-details {
-  background: $bg-page-start;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-}
-
-.detail-row {
+.price-info {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: baseline;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.detail-row:last-child {
-  margin-bottom: 0;
-}
-
-.detail-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.price-label {
   font-size: 0.85rem;
-  color: #4a5b4e;
+  color: $text-gray;
 }
 
-.detail-icon {
-  font-size: 1rem;
+.price-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: $primary-green;
 }
-/* Description */
-.card-description {
+
+/* Info Sections */
+.info-section, .driver-section, .tracking-section {
   margin-bottom: 20px;
 }
 
-.card-description p {
+.info-title {
   font-size: 0.85rem;
-  color: #6b7c6f;
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* Bid Section */
-.bid-section {
-  margin-top: 15px;
-}
-
-.bid-btn {
-  width: 100%;
-  @include btn(linear-gradient(135deg, #2c7a4d, #1f5a3a), null, 12px, white, 12px, none);
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-}
-
-.bid-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(44, 122, 77, 0.3);
-}
-
-
-.bid-input-group {
-  position: relative;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #2c5a3e;
   margin-bottom: 12px;
 }
 
-.currency {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-weight: 600;
-  color: #2c7a4d;
+.info-grid {
+   @include info-grid;
+}
+
+// .info-item {
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+//   font-size: 0.85rem;
+// }
+
+.info-icon {
   font-size: 1rem;
+  min-width: 24px;
 }
 
-.bid-input {
-  width: 100%;
-  padding: 12px 12px 12px 35px;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
+.info-item label {
+  display: block;
+  font-size: 0.7rem;
+  color: #6b7c6f;
+  margin-bottom: 2px;
 }
 
-.bid-input:focus {
-  outline: none;
-  border-color: #2c7a4d;
-  box-shadow: 0 0 0 3px rgba(44, 122, 77, 0.1);
+.info-item p {
+  font-weight: 600;
+  color: #1a3b2e;
+  margin: 0;
+  font-size: 0.85rem;
 }
 
-.bid-actions {
+/* Driver Section */
+.driver-info {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8faf7;
+  border-radius: 12px;
 }
 
-.submit-bid-btn,
-.cancel-bid-btn {
+.driver-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2c7a4d;
+}
+
+.driver-details {
   flex: 1;
-  padding: 10px;
+}
+
+.driver-details h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #1a3b2e;
+}
+
+.driver-phone {
+  font-size: 0.8rem;
+  color: #6b7c6f;
+  margin: 0;
+}
+
+.contact-btn {
+  padding: 6px 12px;
+  background: #2c7a4d;
+  color: white;
   border: none;
   border-radius: 8px;
-  font-weight: 600;
+  font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.submit-bid-btn {
-  background: #2c7a4d;
-  color: white;
-}
-
-.submit-bid-btn:hover {
+.contact-btn:hover {
   background: #1f5a3a;
   transform: translateY(-1px);
 }
 
-.cancel-bid-btn {
-  background: #f1f5f9;
-  color: #64748b;
+
+/* Action Buttons */
+.action-buttons {
+  @include action-buttons;
 }
 
-.cancel-bid-btn:hover {
-  background: #e2e8f0;
-  transform: translateY(-1px);
-}
-
-  /* Empty State */
-  .empty-marketplace {
-    @include empty-state
+.action-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+} 
+/* Empty State */
+.empty-deliveries {
+  text-align: center;
+  padding: 80px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  margin-top: 40px;
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    h3 {
+      font-size: 1.5rem;
+      color: #1a3b2e;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #6b7c6f;
+      margin-bottom: 25px;
+    }
   }
 }

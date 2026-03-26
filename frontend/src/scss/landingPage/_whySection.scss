@@ -1,67 +1,67 @@
 @use "../variable" as *;
 
-  .why-section {
-    padding: 6rem 2rem;
-    text-align: center;
-    background: white;
-    position: relative;
-    z-index: 3;
+.why-section {
+  padding: 6rem 2rem;
+  text-align: center;
+  background: $text-white;
+  position: relative;
+  z-index: 3;
 
-    h2 { 
-      font-size: 2.8rem; 
-      margin-bottom: 4rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, $dark-forest, $primary-green);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      letter-spacing: -0.01em;
-    }
-    
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2.5rem;
-      max-width: 1300px;
-      margin: 0 auto;
+  h2 { 
+    font-size: 2.8rem; 
+    margin-bottom: 4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, $dark-forest, $primary-green);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.01em;
+  }
+  
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    max-width: 1300px;
+    margin: 0 auto;
 
-      .card {
-        background: $bg-card;
-        border-radius: 2rem;
-        padding: 2.5rem 2rem;
-        box-shadow: $shadow-card;
-        text-align: left;
-        transition: all 0.25s ease;
-        border: 1px solid #f0ede5;
-        
-        &:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 30px 45px -12px rgba(44, 122, 77, 0.15);
-          border-color: $border-light;
-        }
-        
-        .card-icon { 
-          font-size: 2.8rem; 
-          color: #2c7a4d; 
-          margin-bottom: 1.5rem;
-          background: #eef6ef;
-          padding: 0.7rem;
-          border-radius: 18px;
-          display: inline-block;
-        }
-        
-        h3 { 
-          font-size: 1.5rem; 
-          margin-bottom: 0.75rem;
-          font-weight: 700;
-          color: #1a2e24;
-        }
-        
-        p { 
-          color: #5b6e5e;
-          line-height: 1.5;
-          font-size: 1rem;
-        }
+    .card {
+      background: $bg-card;
+      border-radius: 2rem;
+      padding: 2.5rem 2rem;
+      box-shadow: $shadow-card;
+      text-align: left;
+      transition: all 0.25s ease;
+      border: 1px solid $border-light;
+
+      &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 30px 45px -12px rgba($primary-green, 0.15);
+        border-color: $border-light;
+      }
+      
+      .card-icon { 
+        font-size: 2.8rem; 
+        color: $primary-green; 
+        margin-bottom: 1.5rem;
+        background: $bg-cream; 
+        padding: 0.7rem;
+        border-radius: 18px;
+        display: inline-block;
+      }
+      
+      h3 { 
+        font-size: 1.5rem; 
+        margin-bottom: 0.75rem;
+        font-weight: 700;
+        color: $dark-forest;
+      }
+      
+      p { 
+        color: $text-muted-dark;
+        line-height: 1.5;
+        font-size: 1rem;
       }
     }
   }
+}

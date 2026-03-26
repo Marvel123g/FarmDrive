@@ -3,7 +3,7 @@
 
 .post_produce {
   main {
-     @include page-reset;
+    @include page-reset;
 
     .topbar {
       display: flex;
@@ -19,7 +19,7 @@
       }
 
       .user {
-        background: white;
+        background: $bg-card; // replaced white
         padding: 10px 20px;
         border-radius: 50px;
         font-weight: 500;
@@ -28,7 +28,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        
+
         &::before {
           content: "👨‍🌾";
           font-size: 1.2rem;
@@ -37,22 +37,22 @@
     }
 
     .formCard {
-      background: rgba(255, 255, 255, 0.98);
+      background: $bg-card; // replaced rgba(255,255,255,0.98)
       border-radius: 24px;
       padding: 35px;
       margin-top: 20px;
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+      box-shadow: $shadow-soft; // replaced 0 20px 40px -15px rgba(0,0,0,0.1)
       border: 1px solid $focus-ring;
 
       h3 {
         font-size: 1.5rem;
         font-weight: 700;
-        color: #1a3b2e;
+        color: $dark-forest; // replaced #1a3b2e
         margin-bottom: 8px;
         display: flex;
         align-items: center;
         gap: 10px;
-        
+
         &::before {
           content: "🌱";
           font-size: 1.8rem;
@@ -60,11 +60,11 @@
       }
 
       .formDesc {
-        color: $text-gray;
+        color: $text-gray; // replaced
         margin-top: 8px;
         margin-bottom: 28px;
         padding-bottom: 20px;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid $border-light; // replaced #e2e8f0
         font-size: 0.95rem;
         line-height: 1.5;
       }
@@ -78,21 +78,21 @@
       .inputGroup {
         display: flex;
         flex-direction: column;
-        
+
         label {
           font-size: 0.85rem;
           margin-bottom: 8px;
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          color: #2c5a3e;
+          color: $dark-forest; // replaced #2c5a3e
           display: flex;
           align-items: center;
           gap: 6px;
-          
+
           &::before {
             content: "▹";
-            color: #2c7a4d;
+            color: $primary-green; // replaced #2c7a4d
             font-size: 0.8rem;
           }
         }
@@ -105,14 +105,15 @@
           transition: all 0.3s ease;
           background: $input-bg;
           font-weight: 500;
-          
+
           &:focus {
             outline: none;
-            box-shadow: 0 0 0 1px rgba($primary-green, .47);
+            box-shadow: 0 0 0 1px rgba($primary-green, 0.47);
             background: $input-bg-active;
           }
+
           &::placeholder {
-            color: #b8c7bc;
+            color: $text-muted;
             font-weight: 400;
           }
         }
@@ -122,44 +123,44 @@
         grid-column: span 2;
         display: flex;
         flex-direction: column;
-        
+
         label {
           font-size: 0.85rem;
           margin-bottom: 8px;
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          color: #2c5a3e;
+          color: $dark-forest;
           display: flex;
           align-items: center;
           gap: 6px;
-          
+
           &::before {
             content: "▹";
-            color: #2c7a4d;
+            color: $primary-green;
             font-size: 0.8rem;
           }
         }
-        
+
         textarea {
           padding: 12px 16px;
           border-radius: 12px;
-          border: 2px solid #e2e8f0;
+          border: 2px solid $border-light; // replaced #e2e8f0
           font-size: 0.95rem;
           font-family: inherit;
           transition: all 0.3s ease;
-          background: #fafcfb;
+          background: $input-bg; // replaced #fafcfb
           resize: vertical;
           min-height: 100px;
-          
+
           &:focus {
             outline: none;
-            box-shadow: 0 0 0 1px #049c4379;
-            background: white;
-          } 
-          
+            box-shadow: 0 0 0 1px rgba($primary-green, 0.47); // replaced #049c4379
+            background: $bg-card; // replaced white
+          }
+
           &::placeholder {
-            color: #b8c7bc;
+            color: $text-muted;
             font-weight: 400;
           }
         }
@@ -172,10 +173,11 @@
         gap: 15px;
         margin-top: 20px;
         padding-top: 20px;
-        border-top: 1px solid #e2e8f0;
+        border-top: 1px solid $border-light;
+
         .primaryBtn {
-          background: linear-gradient(135deg, #2c7a4d, #1f5a3a);
-          color: white;
+          background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+          color: $text-white;
           border: none;
           padding: 12px 28px;
           border-radius: 12px;
@@ -189,4 +191,3 @@
     }
   }
 }
-

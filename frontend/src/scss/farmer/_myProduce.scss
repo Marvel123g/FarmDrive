@@ -1,172 +1,177 @@
 @use "../variable" as *;
 @use "../mixins" as *;
 
-
-
 .my-produce-container {
-     @include page-reset;
-     /* Header Section */
-.produce-header {
-  @include section-header;
-}
+  @include page-reset;
 
-.header-content h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, $dark-forest, $primary-green);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: 8px;
-}
+  /* Header Section */
+  .produce-header {
+    @include section-header;
+  }
 
-.header-content p {
-  color: $text-gray;
-  font-size: 0.95rem;
-}
+  .header-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, $dark-forest, $primary-green);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 8px;
+  }
 
-.add-produce-btn {
-  @include btn(linear-gradient(135deg, #2c7a4d, #1f5a3a), linear-gradient(135deg, #1f5a3a, #154d2f), 12px, white, 12px 24px, 0 4px 12px rgba(44, 122, 77, 0.2));
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+  .header-content p {
+    color: $text-gray; // replaced #6b7c6f
+    font-size: 0.95rem;
+  }
 
-.add-produce-btn span {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
+  .add-produce-btn {
+    @include btn(
+      linear-gradient(135deg, $primary-green, $primary-green-dark), // replaced #2c7a4d, #1f5a3a
+      linear-gradient(135deg, $primary-green-dark, $primary-green-alt), // replaced #1f5a3a, #154d2f
+      12px,
+      $text-white,
+      12px 24px,
+      0 4px 12px rgba(44, 122, 77, 0.2) // kept as is, optional to replace with $shadow-green-soft if desired
+    );
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-.add-produce-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(44, 122, 77, 0.3);
-  background: linear-gradient(135deg, #1f5a3a, #154d2f);
-}
+  .add-produce-btn span {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
 
-/* Produce Grid */
-.produce-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
-  animation: fadeInUp 0.6s ease-out;
-}
+  .add-produce-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-green-soft; // replaced 0 8px 20px rgba(44,122,77,0.3)
+    background: linear-gradient(135deg, $primary-green-dark, $primary-green-alt); // replaced #1f5a3a, #154d2f
+  }
 
-/* Produce Card */
-.produce-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  border: 1px solid $focus-ring;
-  position: relative;
-}
+  /* Produce Grid */
+  .produce-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    animation: fadeInUp 0.6s ease-out;
+  }
 
-.produce-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(44, 122, 77, 0.15);
-}
+  /* Produce Card */
+  .produce-card {
+    background: $bg-card; // replaced rgba(255,255,255,0.95)
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: $shadow-xs; // replaced 0 8px 20px rgba(0,0,0,0.05)
+    border: 1px solid $focus-ring;
+    position: relative;
+  }
 
-/* Card Content */
-.card-content {
-  padding: 20px;
-}
+  .produce-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(44, 122, 77, 0.15); // optional to use $shadow-green-soft variant
+  }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e2e8f0;
-}
+  /* Card Content */
+  .card-content {
+    padding: 20px;
+  }
 
-.card-header h3 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: $dark-forest;
-  margin: 0;
-}
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $border-light; // replaced #e2e8f0
+  }
 
-.price {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #2c7a4d;
-  background: rgba(44, 122, 77, 0.1);
-  padding: 4px 10px;
-  border-radius: 8px;
-}
+  .card-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: $dark-forest;
+    margin: 0;
+  }
 
-/* Card Details */
-.card-details {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 15px;
-}
+  .price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $primary-green;
+    background: $alert-bg-success; // replaced rgba(44,122,77,0.1)
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
 
-.detail-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-}
+  /* Card Details */
+  .card-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+  }
 
-.detail-icon {
-  font-size: 1.2rem;
-  min-width: 30px;
-}
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+  }
 
-.detail-item div {
-  flex: 1;
-}
+  .detail-icon {
+    font-size: 1.2rem;
+    min-width: 30px;
+  }
 
-.detail-item label {
-  display: block;
-  font-size: 0.7rem;
-  color: #6b7c6f;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 2px;
-}
+  .detail-item div {
+    flex: 1;
+  }
 
-.detail-item p {
-  font-weight: 600;
-  color: #1a3b2e;
-  margin: 0;
-  font-size: 0.85rem;
-}
+  .detail-item label {
+    display: block;
+    font-size: 0.7rem;
+    color: $text-muted; // replaced #6b7c6f
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
 
-/* Description */
-.card-description {
-  background: $bg-page-start;
-  padding: 12px;
-  border-radius: 10px;
-  margin: 15px 0;
-}
+  .detail-item p {
+    font-weight: 600;
+    color: $dark-forest;
+    margin: 0;
+    font-size: 0.85rem;
+  }
 
-.card-description p {
-  font-size: 0.85rem;
-  color: $text-muted-dark;
-  line-height: 1.5;
-  margin: 0;
-}
+  /* Description */
+  .card-description {
+    background: $bg-page-start; // replaced #f8faf7
+    padding: 12px;
+    border-radius: 10px;
+    margin: 15px 0;
+  }
 
-/* Card Actions */
-.card-actions {
+  .card-description p {
+    font-size: 0.85rem;
+    color: $text-muted-dark; // replaced #4a5b4e
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Card Actions */
+  .card-actions {
     @include action-buttons;
-}
+  }
 
-.action-btn {
-  flex: 1;
-  padding: 8px;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  .action-btn {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
 }
-}
-

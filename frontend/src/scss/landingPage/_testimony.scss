@@ -1,4 +1,5 @@
 @use "../variable" as *;
+
 .testimonials-section {
   position: relative;
   padding: 6rem 2rem;
@@ -12,8 +13,8 @@
     right: 0;
     bottom: 0;
     background-image: 
-      radial-gradient(circle at 20% 50%, rgba(44, 122, 77, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(44, 122, 77, 0.03) 0%, transparent 50%);
+      radial-gradient(circle at 20% 50%, rgba($primary-green, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba($primary-green, 0.03) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -44,17 +45,17 @@
     h2 {
       font-size: 2.8rem;
       font-weight: 800;
-      color: #1f3b2c;
+      color: $dark-forest;
       margin-bottom: 1rem;
       letter-spacing: -0.02em;
-      
+
       @media (max-width: 768px) {
         font-size: 2rem;
       }
     }
 
     p {
-      color: #6b7a6b;
+      color: $text-muted-dark;
       font-size: 1.1rem;
       max-width: 600px;
       margin: 0 auto;
@@ -68,24 +69,24 @@
     margin-bottom: 4rem;
 
     .stat-card {
-      background: white;
+      background: $text-white;
       padding: 1.5rem;
       text-align: center;
       border-radius: 1rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      border: 1px solid rgba(44, 122, 77, 0.1);
+      border: 1px solid rgba($primary-green, 0.1);
       transition: all 0.3s ease;
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 24px rgba(44, 122, 77, 0.1);
-        border-color: rgba(44, 122, 77, 0.2);
+        box-shadow: 0 12px 24px rgba($primary-green, 0.1);
+        border-color: rgba($primary-green, 0.2);
       }
 
       .stat-number {
         font-size: 2rem;
         font-weight: 800;
-        color: #2c7a4d;
+        color: $primary-green;
         margin-bottom: 0.5rem;
       }
 
@@ -106,7 +107,7 @@
 
     .carousel-nav {
       position: absolute;
-      background: white;
+      background: $text-white;
       border: none;
       width: 3rem;
       height: 3rem;
@@ -116,21 +117,21 @@
       justify-content: center;
       cursor: pointer;
       font-size: 1.5rem;
-      color: #2c7a4d;
+      color: $primary-green;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
       z-index: 2;
 
       &:hover {
         transform: scale(1.1);
-        box-shadow: 0 6px 16px rgba(44, 122, 77, 0.2);
-        background: #2c7a4d;
-        color: white;
+        box-shadow: 0 6px 16px rgba($primary-green, 0.2);
+        background: $primary-green;
+        color: $text-white;
       }
 
       &.prev {
         left: -1rem;
-        
+
         @media (max-width: 768px) {
           left: 0;
         }
@@ -138,7 +139,7 @@
 
       &.next {
         right: -1rem;
-        
+
         @media (max-width: 768px) {
           right: 0;
         }
@@ -152,7 +153,7 @@
     }
 
     .testimonial-card {
-      background: white;
+      background: $text-white;
       border-radius: 2rem;
       box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
       overflow: hidden;
@@ -167,7 +168,7 @@
           top: 1rem;
           left: 1rem;
           font-size: 8rem;
-          color: rgba(44, 122, 77, 0.05);
+          color: rgba($primary-green, 0.05);
           font-family: serif;
           line-height: 1;
           pointer-events: none;
@@ -193,8 +194,8 @@
           height: 120px;
           border-radius: 50%;
           overflow: hidden;
-          box-shadow: 0 8px 20px rgba(44, 122, 77, 0.2);
-          border: 3px solid white;
+          box-shadow: 0 8px 20px rgba($primary-green, 0.2);
+          border: 3px solid $text-white;
 
           img {
             width: 100%;
@@ -208,7 +209,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(44, 122, 77, 0.2), transparent);
+            background: linear-gradient(135deg, rgba($primary-green, 0.2), transparent);
             pointer-events: none;
           }
 
@@ -218,24 +219,10 @@
         }
 
         .testimonial-text {
-          .rating {
-            margin-bottom: 1rem;
-            
-            .star {
-              color: #fbbf24;
-              font-size: 1.2rem;
-              margin-right: 0.2rem;
-              
-              &.filled {
-                color: #fbbf24;
-              }
-            }
-          }
-
           .quote {
             font-size: 1.2rem;
             line-height: 1.6;
-            color: #2c3e2f;
+            color: $dark-forest;
             margin-bottom: 1.5rem;
             font-style: italic;
           }
@@ -246,12 +233,12 @@
             h4 {
               font-size: 1.2rem;
               font-weight: 700;
-              color: #1f3b2c;
+              color: $dark-forest;
               margin-bottom: 0.25rem;
             }
 
             .role {
-              color: #6b7a6b;
+              color: $text-muted-dark;
               font-size: 0.9rem;
             }
           }
@@ -270,20 +257,20 @@
               align-items: center;
               gap: 0.5rem;
               padding: 0.4rem 0.8rem;
-              background: #f0f2ee;
+              background: $bg-cream;
               border-radius: 60px;
               font-size: 0.8rem;
-              color: #2c4a3a;
+              color: $dark-forest;
               font-weight: 500;
 
               .tag-icon {
                 font-size: 1rem;
               }
 
-              &.achievement {
-                background: linear-gradient(135deg, #fef3c7, #fde68a);
-                color: #92400e;
-              }
+              // &.achievement {
+              //   background: linear-gradient(135deg, $accent-yellow-light, $accent-yellow);
+              //   color: $accent-yellow-dark;
+              // }
             }
           }
         }
@@ -301,7 +288,7 @@
       width: 0.5rem;
       height: 0.5rem;
       border-radius: 50%;
-      background: #d4d0c4;
+      background: $border-muted;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -309,11 +296,11 @@
       &.active {
         width: 1.5rem;
         border-radius: 0.5rem;
-        background: #2c7a4d;
+        background: $primary-green;
       }
 
       &:hover {
-        background: #2c7a4d;
+        background: $primary-green;
       }
     }
   }
@@ -321,7 +308,7 @@
   .testimonials-grid {
     margin-top: 5rem;
     padding-top: 3rem;
-    border-top: 1px solid #e8e5dd;
+    border-top: 1px solid $border-muted;
 
     .grid-header {
       text-align: center;
@@ -330,12 +317,12 @@
       h3 {
         font-size: 1.5rem;
         font-weight: 700;
-        color: #1f3b2c;
+        color: $dark-forest;
         margin-bottom: 0.5rem;
       }
 
       p {
-        color: #6b7a6b;
+        color: $text-muted-dark;
       }
     }
 
@@ -345,7 +332,7 @@
       gap: 2rem;
 
       .mini-testimonial {
-        background: white;
+        background: $text-white;
         padding: 1.5rem;
         border-radius: 1rem;
         position: relative;
@@ -354,7 +341,7 @@
 
         &:hover {
           transform: translateY(-5px);
-          box-shadow: 0 12px 24px rgba(44, 122, 77, 0.1);
+          box-shadow: 0 12px 24px rgba($primary-green, 0.1);
         }
 
         .mini-quote {
@@ -362,12 +349,12 @@
           top: 1rem;
           right: 1rem;
           font-size: 3rem;
-          color: rgba(44, 122, 77, 0.1);
+          color: rgba($primary-green, 0.1);
           font-family: serif;
         }
 
         .mini-text {
-          color: #4a5b4a;
+          color: $text-gray;
           line-height: 1.5;
           margin-bottom: 1rem;
           font-style: italic;
@@ -395,13 +382,13 @@
             h4 {
               font-size: 0.9rem;
               font-weight: 700;
-              color: #1f3b2c;
+              color: $dark-forest;
               margin-bottom: 0.2rem;
             }
 
             p {
               font-size: 0.8rem;
-              color: #6b7a6b;
+              color: $text-muted-dark;
             }
           }
         }
@@ -411,11 +398,11 @@
 
   .testimonials-cta {
     margin-top: 5rem;
-    background: linear-gradient(135deg, #1f3b2c 0%, #2c7a4d 100%);
+    background: linear-gradient(135deg, $dark-forest 0%, $primary-green 100%);
     border-radius: 2rem;
     padding: 3rem;
     text-align: center;
-    color: white;
+    color: $text-white;
 
     .cta-content {
       h3 {
@@ -431,8 +418,8 @@
       }
 
       .cta-button {
-        background: white;
-        color: #2c7a4d;
+        background: $text-white;
+        color: $primary-green;
         border: none;
         padding: 1rem 2rem;
         border-radius: 60px;

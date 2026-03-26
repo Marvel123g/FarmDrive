@@ -1,54 +1,57 @@
 @use "../variable" as *;
- .faq-section { 
-    padding: 6rem 2rem; 
-    text-align: center; 
-    background: white;
-    
-    h2 { 
-      margin-bottom: 3rem; 
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: #1f3b2c;
+
+.faq-section { 
+  padding: 6rem 2rem; 
+  text-align: center; 
+  background: $text-white;
+
+  h2 { 
+    margin-bottom: 3rem; 
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: $dark-forest;
+  }
+
+  .faq-item { 
+    margin-bottom: 1.8rem; 
+    text-align: left; 
+    max-width: 850px; 
+    margin-left: auto; 
+    margin-right: auto;
+    background: $bg-cream;
+    padding: 1.5rem 2rem;
+    border-radius: 1.5rem;
+    border: 1px solid $border-light;
+    transition: all 0.2s ease;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        background-color: transparent;
+        border: none;
+        font-size: 1.5rem;
+        color: $primary-green-alt;
+      }
     }
-    
-    .faq-item { 
-      margin-bottom: 1.8rem; 
-      text-align: left; 
-      max-width: 850px; 
-      margin-left: auto; 
-      margin-right: auto;
-      background: $bg-cream;
-      padding: 1.5rem 2rem;
-      border-radius: 1.5rem;
-      border: 1px solid #eae6dd;
-      transition: all 0.2s ease;
-      header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        button{
-          background-color: transparent;
-          border: none;
-          font-size: 1.5rem;
-          color: #2c7a4d;
-        }
-      }
-      
-      &:hover {
-        border-color: #cdc9bd;
-        background: white;
-      }
-      
-      h3 { 
-        font-size: 1.25rem; 
-        font-weight: 700; 
-        margin-bottom: 0.75rem;
-        color: #1f3b2c;
-      }
-      
-      p { 
-        color: #5f6b5a;
-        line-height: 1.5;
-      }
+
+    &:hover {
+      border-color: $border-muted;
+      background: $text-white;
+    }
+
+    h3 { 
+      font-size: 1.25rem; 
+      font-weight: 700; 
+      margin-bottom: 0.75rem;
+      color: $dark-forest;
+    }
+
+    p { 
+      color: $text-gray;
+      line-height: 1.5;
     }
   }
+}

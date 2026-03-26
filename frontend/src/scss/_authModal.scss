@@ -1,15 +1,14 @@
-
 @use "variable" as *;
 @use "mixins" as *;
 
 .overlay {
   @include modal-overlay;
-  
+
   .modal {
     @include modal-content(500px, $spacing-xxl $spacing-xl);
   }
 
-  .closeBtn {  
+  .closeBtn {
     position: absolute;
     top: 10px;
     right: 12px;
@@ -22,7 +21,7 @@
   .toggleWrapper {
     position: relative;
     display: flex;
-    background: $bg-gradient-start; // closest match
+    background: $bg-gradient-start;
     border-radius: $radius-pill;
     padding: 5px;
     margin-bottom: $spacing-xl;

@@ -57,16 +57,13 @@ export default function ViewDrivers({data, onClose}) {
               <div className="driver-card" key={driver.driver_id}>
                 <div className="driver_header">
                   <div className="driver-avatar">👨‍✈️</div>
-                  <section>
+                  <section className='sub_heading'>
                     <h4>{driver.driver_name}</h4>
-                    <div className="driver-contact">
-                      <span className="driver-info-label">📞 Phone:</span>
-                      <span className="driver-info-value">{driver.driver_phone}</span>
-                    </div>
+                    <small className="driver-contact">📞 Phone: <span className="driver-info-value">{driver.driver_phone}</span></small>
                   </section>
                 </div>
                 <div className="driver_details">
-                  <div className="driver-details_section">
+                  <div className="driver-details-section">
                     <div className="driver-info-row">
                       <span className="driver-info-label">📍 Distance:</span>
                       <span className="driver-info-value">{driver.driver_distance}</span>
