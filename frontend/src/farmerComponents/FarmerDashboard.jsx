@@ -64,7 +64,7 @@ export default function FarmerDashboard() {
             </thead>
 
             <tbody>
-              {recentProduce.slice(0,4).map((item, i) => (
+              {recentProduce?.slice(0,4).map((item, i) => (
                 <tr key={i}>
                   <td>{item.crop_name}</td>
                   <td>
