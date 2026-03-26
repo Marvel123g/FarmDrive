@@ -11,17 +11,17 @@ export default function DriverDashboard() {
     const status = sessionStorage.getItem("verifiedCheck")
     // setVerifiedState(status)
     if (setVerifiedState) {
-      setVerifiedState(status === "true");
+      setVerifiedState(status == "true");
     }
 
     console.log(typeof status)
-  }, [])
   console.log("this is verifiedstate: ", verifiedState)
+  }, [])
   return (
     <div className='dashboard'>
-      {verifiedState === false && driverProfile === true && (
+      {verifiedState == false && driverProfile === true ? (
         <DriverProfileModal onClose={() => setDriverProfile(false)} />
-      )}
+      ): null}
       <DriverSidebar/>
       <main>
         <b>Dashboard</b>
