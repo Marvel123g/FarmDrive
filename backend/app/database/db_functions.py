@@ -224,7 +224,7 @@ def login_farmer(phone, password):
     try:
         cursor = db.cursor()
 
-        query = "SELECT id, password_hash FROM farmer WHERE phone = ?"
+        query = "SELECT id, password_hash, first_name FROM farmer WHERE phone = ?"
         cursor.execute(query, (phone,))
         user = cursor.fetchone()
 
@@ -232,6 +232,7 @@ def login_farmer(phone, password):
             return {"status": "OK",
                     "message": "Farmer login successful.",
                     "id": str(user[0]),
+                    "name": user[2],
                     "code": 200}
         else:
             return {"status": "ERROR",
@@ -252,7 +253,7 @@ def login_driver(email, password):
     try:
         cursor = db.cursor()
 
-        query = "SELECT id, password_hash FROM driver WHERE email = ?"
+        query = "SELECT id, password_hash, first_name FROM driver WHERE email = ?"
         cursor.execute(query, (email,))
         user = cursor.fetchone()
 
@@ -260,6 +261,7 @@ def login_driver(email, password):
             return {"status": "OK",
                     "message": "Driver login successful.",
                     "id": str(user[0]),
+                    "name": user[2],
                     "code": 200}
         else:
             return {"status": "ERROR",
@@ -758,7 +760,7 @@ def fetch_prices_for_produce(produce_id):
         query = """
             SELECT 
                 pp.driver_id, pp.price, pp.driver_distance,
-                d.first_name, d.last_name, d.phone,
+                d.first_name, d.last_name, d.phone, d.profile_picture_url,
                 (SELECT 1 FROM farm_produce WHERE id = ?) AS produce_exists
             FROM produce_price pp
             JOIN driver d ON pp.driver_id = d.id
@@ -789,6 +791,7 @@ def fetch_prices_for_produce(produce_id):
         # 3. Build the list efficiently
         prices_list = [{
             "driver_id": row["driver_id"],
+            "profile_picture": row["profile_picture_url"],
             "price": row["price"],
             "driver_name": f"{row['first_name']} {row['last_name']}",
             "driver_phone": row["phone"],
@@ -1079,34 +1082,57 @@ def view_payments(farmer_id):
     try:
         cursor = db.cursor()
 
-        query = "SELECT p.id, p.driver_id, p.amount, p.status, d.first_name, d.last_name, d.phone, d.bank_name, d.account_number, d.account_name FROM payments p JOIN driver d ON p.driver_id = d.id WHERE p.farmer_id = ?"
+        # Added JOIN with farm_produce to get the crop_name
+        query = """
+            SELECT 
+                p.id AS txn_id, p.amount, p.status, p.started_at,
+                d.first_name, d.last_name, d.phone, 
+                d.bank_name, d.account_number, d.account_name,
+                fp.crop_name
+            FROM payments p 
+            JOIN driver d ON p.driver_id = d.id 
+            JOIN farm_produce fp ON p.produce_id = fp.id
+            WHERE p.farmer_id = ?
+            ORDER BY p.started_at DESC
+        """
         cursor.execute(query, (farmer_id,))
         rows = cursor.fetchall()
 
         if not rows:
-            return {"status": "SUCCESS",
-                    "code": 200,
-                    "payments": [],
-                    "message": "No available payments to process."}
-
-        payments = [{
-            "txn_id": row["id"],
-            "amount": row["amount"],
-            "driver_name": f"{row['first_name']} {row['last_name']}",
-            "phone": row["phone"],
-            "bank": row.get("bank_name", "N/A"),
-            "acc_number": row.get("account_number", "N/A"),
-            "acc_name": row.get("account_name", "N/A"),
-            "status": row["status"]
-        } for row in rows]
-
-        return {"status": "SUCCESS",
+            return {
+                "status": "SUCCESS",
                 "code": 200,
-                "payments": payments,
-                "message": "All payments available retrieved."}
+                "payments": [],
+                "message": "No available payments found."
+            }
 
+        payments = []
+        for row in rows:
+            # Convert the stored Naira amount to Kobo (Integer)
+            # We use int() to ensure it's a clean whole number for the frontend
+            amount_in_kobo = int(row["amount"] * 100)
+
+            payments.append({
+                "txn_id": row["txn_id"],
+                "amount_kobo": amount_in_kobo, 
+                "amount": row["amount"], # Keeping both just in case
+                "crop": row["crop_name"],
+                "driver_name": f"{row['first_name']} {row['last_name']}",
+                "phone": row["phone"],
+                "bank": row["bank_name"] or "N/A",
+                "acc_number": row["account_number"] or "N/A",
+                "acc_name": row["account_name"] or "N/A",
+                "status": row["status"],
+                "date": time_ago(row["started_at"])
+            })
+
+        return {
+            "status": "SUCCESS",
+            "code": 200,
+            "payments": payments,
+            "message": "All payments retrieved successfully."
+        }
     except sqlite3.Error as e:
-        db.rollback()
         return {"status": "ERROR",
                 "code": 500,
                 "message": f"Error retrieving payments: {e}."}
