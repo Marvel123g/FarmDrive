@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Polyline,
-  Popup,
-} from "react-leaflet";
+import React, { useEffect, useState, useRef } from "react";
+import { MapContainer, TileLayer, Marker, Polyline, Popup } from "react-leaflet";
 import socket from "../components/Socket";
 import L from "leaflet";
+import "leaflet/dist/leaflet.css"
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -24,69 +19,74 @@ export default function ViewMap({ deliveryId, pickupLocation, destinationLocatio
   const [driverPos, setDriverPos] = useState(null);
   const [routeToPickup, setRouteToPickup] = useState([]);
   const [routePickupToDest, setRoutePickupToDest] = useState([]);
-  const [initialLocation, setInitialLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [mapError, setMapError] = useState(false);
+
+  // Ref to track the last location we used to calculate a route (to avoid API spam)
+  const lastRoutedPos = useRef(null);
 
   const API_KEY = import.meta.env.VITE_OPEN_SERVICE_API;
 
-  // Function to geocode address to coordinates
-  const geocodeAddress = async (address) => {
+  // Helper: Calculate distance between two points in meters (Haversine formula)
+  const getDistance = (pos1, pos2) => {
+    if (!pos1 || !pos2) return 0;
+    const R = 6371e3; // metres
+    const φ1 = (pos1[0] * Math.PI) / 180;
+    const φ2 = (pos2[0] * Math.PI) / 180;
+    const Δφ = ((pos2[0] - pos1[0]) * Math.PI) / 180;
+    const Δλ = ((pos2[1] - pos1[1]) * Math.PI) / 180;
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
+   const geocodeAddress = async (address) => {
     try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`
-      );
+      const query = `${address}, Nigeria`;
+      
+      // Fixed: Added the $ and the /search? path
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`;
+      
+      console.log("Final Corrected URL:", url);
+
+      const response = await fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'User-Agent': 'FarmDrive-App' 
+        }
+      });
+
       const data = await response.json();
       
       if (data && data.length > 0) {
-        return {
-          lat: parseFloat(data[0].lat),
-          lng: parseFloat(data[0].lon)
+        // Nominatim returns an array, so we take the first result [0]
+        return { 
+          lat: parseFloat(data[0].lat), 
+          lng: parseFloat(data[0].lon) 
         };
       }
-      throw new Error(`Could not geocode address: ${address}`);
+      return null;
     } catch (err) {
-      console.error("Geocoding error:", err);
+      console.error("Geocoding fetch failed", err);
       return null;
     }
   };
 
-  // Geocode pickup and destination addresses
   useEffect(() => {
-    const geocodeLocations = async () => {
+    const initLocations = async () => {
       setLoading(true);
-      setError(null);
+      const pCoords = await geocodeAddress(pickupLocation);
+      const dCoords = await geocodeAddress(destinationLocation);
       
-      try {
-        if (pickupLocation) {
-          const pickupCoords = await geocodeAddress(pickupLocation);
-          if (pickupCoords) {
-            setPickup([pickupCoords.lat, pickupCoords.lng]);
-            console.log("Geocoded pickup:", pickupLocation, "->", pickupCoords);
-          } else {
-            setError(`Could not find coordinates for pickup location: ${pickupLocation}`);
-          }
-        }
-        
-        if (destinationLocation) {
-          const destCoords = await geocodeAddress(destinationLocation);
-          if (destCoords) {
-            setDestination([destCoords.lat, destCoords.lng]);
-            console.log("Geocoded destination:", destinationLocation, "->", destCoords);
-          } else {
-            setError(`Could not find coordinates for destination: ${destinationLocation}`);
-          }
-        }
-      } catch (err) {
-        setError("Error geocoding locations");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+      if (pCoords) setPickup([pCoords.lat, pCoords.lng]);
+      if (dCoords) setDestination([dCoords.lat, dCoords.lng]);
+      
+      if (!pCoords || !dCoords) setError("Could not map one or more addresses.");
+      setLoading(false);
     };
-    
-    geocodeLocations();
+    initLocations();
   }, [pickupLocation, destinationLocation]);
 
   // SOCKET LISTENER
@@ -97,13 +97,7 @@ export default function ViewMap({ deliveryId, pickupLocation, destinationLocatio
 
     socket.on("driver_moved", (data) => {
       const { lat, lng } = data;
-      if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
-        setDriverPos([lat, lng]);
-        
-        if (!initialLocation && lat && lng) {
-          setInitialLocation([lat, lng]);
-        }
-      }
+      if (lat && lng) setDriverPos([lat, lng]);
     });
 
     return () => {
@@ -111,153 +105,80 @@ export default function ViewMap({ deliveryId, pickupLocation, destinationLocatio
     };
   }, [deliveryId]);
 
-  // FETCH ROUTES
+  // ROUTE: Pickup to Destination (Calculated once)
   useEffect(() => {
     if (!pickup || !destination) return;
     
-    const fetchPickupToDestinationRoute = async () => {
-      try {
-        const res = await fetch(
-          `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${pickup[1]},${pickup[0]}&end=${destination[1]},${destination[0]}`
-        );
-        const data = await res.json();
-        
-        if (data.features && data.features[0]) {
-          const coords = data.features[0].geometry.coordinates.map(
-            ([lng, lat]) => [lat, lng]
-          );
-          setRoutePickupToDest(coords);
-        }
-      } catch (err) {
-        console.log("Route error (pickup to destination):", err);
+    fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${pickup[1]},${pickup[0]}&end=${destination[1]},${destination[0]}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.features && data.features[0]) {
+        const coords = data.features[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+        setRoutePickupToDest(coords);
       }
-    };
+    }).catch(err => console.error("Static route error", err));
+  }, [pickup, destination, API_KEY]);
 
-    fetchPickupToDestinationRoute();
-  }, [pickup, destination]);
-
+  // ROUTE: Driver to Pickup (Smart Re-calculation)
   useEffect(() => {
     if (!driverPos || !pickup) return;
+
+    // Only fetch if driver moved more than 500 meters from last routed position
+    const distanceMoved = getDistance(driverPos, lastRoutedPos.current);
     
-    const fetchDriverToPickupRoute = async () => {
-      try {
-        const res = await fetch(
-          `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${driverPos[1]},${driverPos[0]}&end=${pickup[1]},${pickup[0]}`
-        );
-        const data = await res.json();
-        
-        if (data.features && data.features[0]) {
-          const coords = data.features[0].geometry.coordinates.map(
-            ([lng, lat]) => [lat, lng]
-          );
-          setRouteToPickup(coords);
-        }
-      } catch (err) {
-        console.log("Route error (driver to pickup):", err);
-      }
-    };
-
-    fetchDriverToPickupRoute();
-  }, [driverPos, pickup]);
-
-  const getMapCenter = () => {
-    if (pickup && destination) {
-      return [(pickup[0] + destination[0]) / 2, (pickup[1] + destination[1]) / 2];
+    if (!lastRoutedPos.current || distanceMoved > 500) {
+      fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${driverPos[1]},${driverPos[0]}&end=${pickup[1]},${pickup[0]}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.features) {
+            const coords = data.features[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+            setRouteToPickup(coords);
+            lastRoutedPos.current = driverPos; // Mark this as the last update
+          }
+        }).catch(err => console.error("Dynamic route error", err));
     }
-    if (pickup) return pickup;
-    if (driverPos) return driverPos;
-    return [9.0820, 8.6753];
-  };
-  
-  if (loading) {
-    return (
-      <div style={{ height: "500px", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#f8f9fa", borderRadius: "12px" }}>
-        <div style={{ textAlign: "center" }}>
-          <p>Loading map...</p>
-          <p style={{ fontSize: "12px", marginTop: "10px", color: "#666" }}>
-            Geocoding: {pickupLocation} → {destinationLocation}
-          </p>
-        </div>
-      </div>
-    );
-  }
-  
-  if (error) {
-    return (
-      <div style={{ height: "500px", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#f8f9fa", borderRadius: "12px" }}>
-        <div style={{ textAlign: "center", color: "#dc2626" }}>
-          <p>Error: {error}</p>
-        </div>
-      </div>
-    );
-  }
+  }, [driverPos, pickup, API_KEY]);
 
-  const mapCenter = getMapCenter();
+  if (loading) return <div className="map-placeholder">Loading locations...</div>;
+  if (error) return <div className="map-error">{error}</div>;
 
   return (
     <MapContainer
-      center={mapCenter}
-      zoom={8}
-      scrollWheelZoom={true}
-      doubleClickZoom={true}
-      touchZoom={true}
-      style={{
-        height: "500px",
-        width: "100%",
-        borderRadius: "12px",
-        background: "#f0f0f0" // Fallback background
-      }}
-      whenReady={() => console.log("Map is ready")}
+      center={pickup || [9.0820, 8.6753]}
+      zoom={12}
+      style={{ height: "500px", width: "100%", borderRadius: "12px" }}
     >
-        <TileLayer
-  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; CartoDB'
-  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-/>
+      <TileLayer
+        attribution='&copy; CartoDB'
+        url="https://{s}://{z}/{x}/{y}{r}.png"
+      />
 
-      {/* Markers */}
-      {initialLocation && !isNaN(initialLocation[0]) && !isNaN(initialLocation[1]) && (
-        <Marker position={initialLocation}>
-          <Popup>Initial Location (Start)</Popup>
-        </Marker>
-      )}
-
-      {pickup && !isNaN(pickup[0]) && !isNaN(pickup[1]) && (
+      {pickup && (
         <Marker position={pickup}>
-          <Popup>
-            <strong>Pickup Location</strong><br/>
-            {pickupLocation}
-          </Popup>
+          <Popup><strong>Pickup:</strong> {pickupLocation}</Popup>
         </Marker>
       )}
 
-      {destination && !isNaN(destination[0]) && !isNaN(destination[1]) && (
+      {destination && (
         <Marker position={destination}>
-          <Popup>
-            <strong>Destination Location</strong><br/>
-            {destinationLocation}
-          </Popup>
+          <Popup><strong>Destination:</strong> {destinationLocation}</Popup>
         </Marker>
       )}
 
-      {driverPos && !isNaN(driverPos[0]) && !isNaN(driverPos[1]) && (
+      {driverPos && (
         <Marker position={driverPos}>
-          <Popup>Driver Current Location</Popup>
+          <Popup>Driver is here</Popup>
         </Marker>
       )}
 
-      {/* Routes */}
+      {/* Blue Dashed Line: Destination Path */}
       {routePickupToDest.length > 0 && (
-        <Polyline
-          positions={routePickupToDest}
-          pathOptions={{ color: "#3b82f6", weight: 4, opacity: 0.7, dashArray: "10, 10" }}
-        />
+        <Polyline positions={routePickupToDest} pathOptions={{ color: "#3b82f6", weight: 3, dashArray: "5, 10" }} />
       )}
 
+      {/* Orange Solid Line: Driver approaching Pickup */}
       {routeToPickup.length > 0 && (
-        <Polyline
-          positions={routeToPickup}
-          pathOptions={{ color: "#f97316", weight: 5, opacity: 0.9 }}
-        />
+        <Polyline positions={routeToPickup} pathOptions={{ color: "#f97316", weight: 5 }} />
       )}
     </MapContainer>
   );

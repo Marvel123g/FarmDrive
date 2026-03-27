@@ -85,7 +85,7 @@ export default function Marketplace() {
       </div>
 
       {/* Produce Grid */}
-      {produceList.length === 0 ? (
+      {produceList?.length === 0 ? (
         <div className="empty-marketplace">
           <div className="empty-icon">🌱</div>
           <h3>No Produce Available</h3>
@@ -93,7 +93,7 @@ export default function Marketplace() {
         </div>
       ) : (
         <div className="marketplace-grid">
-          {produceList.map((produce) => (
+          {produceList?.map((produce) => (
             <div key={produce.id} className="produce-card">
               <div >
                 <div className="availability-badge">Available Now</div>
