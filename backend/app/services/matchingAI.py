@@ -11,38 +11,54 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def match_drivers(drivers, produce_details) -> dict:
     system_prompt = """
-    You are an expert logistics coordinator for "FarmDrive," an agricultural transport platform.
-    Your task is to analyze a list of driver bids for a specific farm produce and rank them.
+    You are a logistics engine for FarmDrive. You rank driver bids.
     
-    Criteria for ranking:
-    1. Distance: Closer drivers are preferred for faster pickup and lower fuel consumption.
-    2. Price: Lower bids are better for the farmer's margin.
-    3. Feasibility: Compare the quantity/details with the driver's capability (implied).
-
-    You must return ONLY a JSON object with a key 'ranked_drivers' containing an array of objects.
-    Each object must include the original driver data plus a field 'ai_note' explaining why they were ranked in that position.
+    RULES:
+    1. Rank drivers based on lowest Price and shortest Distance.
+    2. Output MUST be valid JSON.
+    3. Use the EXACT fields provided in the input for each driver.
+    4. Append a field 'ai_response' to each driver object with a 1-sentence logic for their rank.
+    5. Select out of the given list of drivers and return the best 25%
+    
+    OUTPUT STRUCTURE:
+    {
+      "ranked_drivers": [
+        {
+          "driver_id": "string",
+          "profile_picture": "string",
+          "price": number,
+          "driver_name": "string",
+          "driver_phone": "string",
+          "vehicle_type": "string",
+          "rating": number,
+          "driver_distance": "string",
+          "time_away": "string",
+          "ai_response": "string logic here",
+          "ai_response_rank": integer (the level of ranking)
+        }
+      ]
+    }
     """
 
     user_content = f"""
-    PRODUCE TO TRANSPORT:
-    - Crop: {produce_details['crop_name']}
-    - Quantity: {produce_details['quantity']}
-    - Route: {produce_details['pickup_location']} to {produce_details['destination']}
-    - Details: {produce_details['details']}
-
-    DRIVER BIDS:
+    PRODUCE: {produce_details['crop_name']} ({produce_details['quantity']})
+    ROUTE: {produce_details['pickup_location']} to {produce_details['destination']}
+    
+    INPUT DATA:
     {drivers}
-
-    Return the ranked list from best to worst match.
+    
+    Return the JSON object now.
     """
+
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_content}
         ],
-        temperature=1,
-        response_format={"type": "json_object"},
+        response_format={"type": "json_object"},  # This forces JSON mode
+        temperature=0.2  # Lower temperature = less hallucination/randomness
     )
+
 
     return response.choices[0].message.content
