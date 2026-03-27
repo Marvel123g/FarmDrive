@@ -761,7 +761,7 @@ def fetch_prices_for_produce(produce_id):
         query = """
             SELECT 
                 pp.driver_id, pp.price, pp.driver_distance,
-                d.first_name, d.last_name, d.phone, d.profile_picture_url,
+                d.first_name, d.last_name, d.phone, d.profile_picture_url, d.vehicle_type, d.rating
                 (SELECT 1 FROM farm_produce WHERE id = ?) AS produce_exists
             FROM produce_price pp
             JOIN driver d ON pp.driver_id = d.id
@@ -796,6 +796,8 @@ def fetch_prices_for_produce(produce_id):
             "price": row["price"],
             "driver_name": f"{row['first_name']} {row['last_name']}",
             "driver_phone": row["phone"],
+            "vehicle_type": row["vehicle_type"],
+            "rating": row["rating"],
             "driver_distance": distance_away(row["driver_distance"]),
             "time_away": time_away(row["driver_distance"])
         } for row in rows]
