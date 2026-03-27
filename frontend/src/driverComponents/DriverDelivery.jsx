@@ -71,9 +71,8 @@ export default function DriverDelivery() {
 
   const handleViewFarmerLocation = (delivery) => {
     console.log("Delivery object:", delivery);
-    console.log("Delivery ID:", delivery.delivery_id);
-    console.log("Pickup location:", delivery.pickup_location);
-    console.log("Destination:", delivery.farmer);
+
+    socket.emit("join_delivery",{delivery_id: delivery.delivery_id })
   }
 
 
