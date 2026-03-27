@@ -27,6 +27,32 @@ export default function DriverSidebar() {
         break;
     }
   }, [location]);
+
+  const handleLogout = async () => {
+    // 1. Set the correct endpoint
+    const url = "/api/v1/driver/auth/logout";
+
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include" // REQUIRED to send the cookie to Flask
+      });
+
+      const data = await res.json();
+
+      if (res.status === 200) {
+        // 2. Redirect to the correct login page
+        navigate("/");
+        setIsOpen(false); 
+      } else {
+        console.error("Logout failed:", data.message);
+      }
+    } catch (err) {
+      console.error("Network error during logout:", err);
+    }
+  };
+
   return (
     <aside className='sideBar'>
         <nav>
@@ -34,7 +60,7 @@ export default function DriverSidebar() {
           <button className={activeButton === 'marketplace' ? 'active' : ''} onClick={() => navigate('/marketplace')}>Marketplace</button>
           <button className={activeButton === 'driver-deliveries' ? 'active' : ''} onClick={() => navigate('/driver-deliveries')}>My Deliveries</button>
           <button className={activeButton === 'earnings' ? 'active' : ''} onClick={() => navigate('/earnings')}>Earnings</button>
-          <button className={activeButton === 'logout' ? 'active' : ''} onClick={() => navigate('/')}>Logout</button>
+          <button className={activeButton === 'logout' ? 'active' : ''} onClick={handleLogout}>Logout</button>
         </nav>
     </aside>
   )

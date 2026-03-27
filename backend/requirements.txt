@@ -1,5 +1,6 @@
 Flask
 flask-socketio
+eventlet
 requests
 werkzeug
 python-dotenv

@@ -32,36 +32,90 @@ export default function DriverDelivery() {
   }, [])
 
   // FIXED: Now receives the entire delivery object
-  const handleStartDelivery = (delivery) => {
-    console.log("Delivery object:", delivery);
-    console.log("Delivery ID:", delivery.delivery_id);
-    console.log("Pickup location:", delivery.pickup_location);
-    console.log("Destination:", delivery.destination);
+  // const handleStartDelivery = (delivery) => {
+  //   console.log("Delivery object:", delivery);
+  //   console.log("Delivery ID:", delivery.delivery_id);
+  //   console.log("Pickup location:", delivery.pickup_location);
+  //   console.log("Destination:", delivery.destination);
+    
+  //   if (watchId) return;
+
+  //   socket.emit("join_delivery", { delivery_id: delivery.delivery_id });
+
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     const { latitude, longitude } = position.coords;
+  //     socket.emit("update_location", {
+  //       delivery_id: delivery.delivery_id,  // FIXED: Use delivery.id
+  //       lat: latitude,
+  //       lng: longitude,
+  //     });
+  //     setCurrentPosition([latitude, longitude]);
+  //   });
+
+  //   const id = navigator.geolocation.watchPosition((pos) => {
+  //     socket.emit("update_location", {
+  //       delivery_id: delivery.delivery_id,  // FIXED: Use delivery.id instead of undefined deliveryId
+  //       lat: pos.coords.latitude,
+  //       lng: pos.coords.longitude,
+  //     });
+  //     setCurrentPosition([pos.coords.latitude, pos.coords.longitude]);
+  //   });
+
+  //   setWatchId(id);
+  // };
+
+  const handleStartDelivery = async (delivery) => { // Added async
+    console.log("Starting delivery for ID:", delivery.delivery_id);
     
     if (watchId) return;
 
-    socket.emit("join_delivery", { delivery_id: delivery.delivery_id });
-
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      socket.emit("update_location", {
-        delivery_id: delivery.delivery_id,  // FIXED: Use delivery.id
-        lat: latitude,
-        lng: longitude,
+    try {
+      // 1. Tell the Backend the trip has officially started
+      // This triggers: DB Update + AI Geocoding + Farmer Socket Notification
+      const res = await fetch("/api/v1/transit/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ delivery_id: delivery.delivery_id }),
+        credentials: "include"
       });
-      setCurrentPosition([latitude, longitude]);
-    });
 
-    const id = navigator.geolocation.watchPosition((pos) => {
-      socket.emit("update_location", {
-        delivery_id: delivery.delivery_id,  // FIXED: Use delivery.id instead of undefined deliveryId
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
+      const result = await res.json();
+      if (result.code !== 200) {
+          alert("Error starting transit: " + result.message);
+          return;
+      }
+
+      // 2. Join the Socket Room
+      socket.emit("join_delivery", { delivery_id: delivery.delivery_id });
+
+      // 3. Send initial location immediately
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        socket.emit("update_location", {
+          delivery_id: delivery.delivery_id,
+          lat: latitude,
+          lng: longitude,
+        });
+        setCurrentPosition([latitude, longitude]);
       });
-      setCurrentPosition([pos.coords.latitude, pos.coords.longitude]);
-    });
 
-    setWatchId(id);
+      // 4. Start the Watcher for real-time tracking
+      const id = navigator.geolocation.watchPosition((pos) => {
+        socket.emit("update_location", {
+          delivery_id: delivery.delivery_id,
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
+        setCurrentPosition([pos.coords.latitude, pos.coords.longitude]);
+      });
+
+      setWatchId(id);
+      setSelectedDelivery(delivery);
+      setShowMap(true);
+
+    } catch (err) {
+      console.error("Failed to start transit:", err);
+    }
   };
 
   useEffect(() => {
