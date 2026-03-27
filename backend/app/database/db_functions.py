@@ -631,7 +631,7 @@ def get_produce_for_farmer(farmer_id):
                     "message": "No farm produce has been posted by this farmer",
                     "code": 200}
 
-        query = "SELECT * FROM farm_produce WHERE farmer_id = ?"
+        query = "SELECT fp.*, f.first_name FROM farm_produce fp JOIN farmer f ON fp.farmer_id = f.id WHERE farmer_id = ?"
         cursor.execute(query, (farmer_id,))
         rows = cursor.fetchall()
 
@@ -639,6 +639,7 @@ def get_produce_for_farmer(farmer_id):
         for row in rows:
             produce_list.append({
                 "id": row["id"],
+                "name": row["first_name"],
                 "crop_name": row["crop_name"],
                 "pickup_location": row["pickup_location"],
                 "destination": row["destination"],
@@ -994,7 +995,8 @@ def fetch_accepted_delivery_for_farmer(farmer_id):
             "quantity": row["quantity"],
             "price": row["price"],
             "status": row["status"],
-            "accepted_at": time_ago(row["accepted_at"]) # Assuming you have your time_ago helper
+            # Assuming you have your time_ago helper
+            "accepted_at": time_ago(row["accepted_at"])
         } for row in rows]
 
         return {
@@ -1532,6 +1534,7 @@ def view_completed_deliveries(delivery_id):
                 "image_one": row["image1_url"],  # Separate object keys
                 "image_two": row["image2_url"],
                 "status": row["status"],
+                "price": row["price"],
                 "date": time_ago(row["created_at"])
             }
         }

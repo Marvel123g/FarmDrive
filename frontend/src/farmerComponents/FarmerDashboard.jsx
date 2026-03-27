@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function FarmerDashboard() {
   const [recentProduce, setRecentProduce] = useState([]);
-  const[getStats, setGetStats] = useState([])
+  const [getStats, setGetStats] = useState([])
 
   useEffect(() => {
     const fetchProduce = async () => {
@@ -44,19 +44,19 @@ export default function FarmerDashboard() {
         <div className="stats">
           <div className="stat_item">
             <h3>Total Produce</h3>
-            <p>{getStats.total_produce}</p>
+            <p>{getStats?.total_produce}</p>
           </div>
           <div className="stat_item">
             <h3>Active Deliveries</h3>
-            <p>{getStats.active_deliveries}</p>
+            <p>{getStats?.active_deliveries}</p>
           </div>
           <div className="stat_item">
             <h3>Completed Deliveries</h3>
-            <p>{getStats.completed_deliveries}</p>
+            <p>{getStats?.completed_deliveries}</p>
           </div>
           <div className="stat_item">
             <h3>Total Payment Made</h3>
-            <p>{getStats.total_payment_made}</p>
+            <p>{getStats?.total_payment_made}</p>
           </div>
         </div>
 

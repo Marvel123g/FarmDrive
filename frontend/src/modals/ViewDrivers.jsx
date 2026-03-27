@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 export default function ViewDrivers({ data, onClose }) {
   const [listOfDrivers, setListOfDrivers] = useState([]);
+  
 
   useEffect(() => {
     const fetchDrivers = async () => {
@@ -68,7 +69,9 @@ export default function ViewDrivers({ data, onClose }) {
         <div className="drivers-section">
           <h3>Available Drivers</h3>
           <p className="drivers-subtitle">
-            Select a driver to assign this delivery
+            {listOfDrivers.length > 0 
+              ? "Select a driver to assign this delivery" 
+              : "No drivers available"}
           </p>
 
           <div className="drivers-list">
@@ -83,25 +86,31 @@ export default function ViewDrivers({ data, onClose }) {
                       <span className="driver-info-value">
                         {driver.driver_phone}
                       </span>
+                    </small> <br />
+                    <small className="driver-contact">
+                       AI Response:{" "}
+                      <span className="driver-info-value">
+                        {driver.ai_response}
+                      </span>
                     </small>
                   </section>
                 </div>
                 <div className="driver_details">
                   <div className="driver-details-section">
                     <div className="driver-info-row">
-                      <span className="driver-info-label">📍 Distance:</span>
+                      <span className="driver-info-label">📍 Distance: {" "}</span>
                       <span className="driver-info-value">
                         {driver.driver_distance}
                       </span>
                     </div>
                     <div className="driver-info-row">
-                      <span className="driver-info-label">💰 Price:</span>
+                      <span className="driver-info-label">💰 Price: {" "}</span>
                       <span className="driver-info-value price">
                         {driver.price}
                       </span>
                     </div>
                     <div className="driver-info-row">
-                      <span className="driver-info-label">⏱️ Time away:</span>
+                      <span className="driver-info-label">⏱️ Time away: {" "}</span>
                       <span className="driver-info-value">
                         {driver.time_away}
                       </span>
