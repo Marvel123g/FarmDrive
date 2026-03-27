@@ -45,11 +45,17 @@ def handle_location(data):
             f"Position update failed for {driver_id}: {result.get('message')}")
 
 
-def emit_status_update(delivery_id, new_status):
+def emit_status_update(delivery_id, new_status, destination_data=None):
     """
-    Call this from your Flask routes (e.g., in the 'Mark as Delivered' route)
+    Broadcasts status and optional destination coordinates to the room.
     """
-    socketio.emit('status_update', {
+    payload = {
         'status': new_status,
-        'message': f"Delivery status: {new_status}"
-    }, to=str(delivery_id))
+        'message': f"Delivery is now {new_status}"
+    }
+
+    # If we have AI coordinates, add them to the payload
+    if destination_data:
+        payload['destination_coords'] = destination_data
+
+    socketio.emit('status_update', payload, to=str(delivery_id))

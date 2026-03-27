@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.database.db_functions import update_delivery_status, get_current_user, request_payment, completed_delivery, time_ago
 from app.sockets.socket_events import emit_status_update
+from app.services.locationAI import get_destination_location
 from datetime import datetime
 import cloudinary
 
@@ -23,10 +24,22 @@ def start_transit():
                         "code": 400,
                         "message": "Delivery ID not provided."}), 400
 
-    # We use your existing function!
+    # 1. Update DB Status (ACCEPTED -> IN_TRANSIT)
     result = update_delivery_status(delivery_id, driver_id, "IN_TRANSIT")
+
     if result['code'] == 200:
-        emit_status_update(delivery_id, "IN_TRANSIT")
+        # 2. Get AI coordinates for the destination market
+        # This uses the AI function we just built!
+        ai_res = get_destination_location(delivery_id)
+
+        destination_data = {}
+        if ai_res["status"] == "SUCCESS":
+            destination_data = ai_res["data"]
+            # data contains: {"market_name": "...", "lat": 6.5, "lng": 3.4}
+
+        # 3. Push status AND destination coordinates to the Farmer
+        emit_status_update(delivery_id, "IN_TRANSIT", destination_data)
+
     return jsonify(result), result["code"]
 
 
