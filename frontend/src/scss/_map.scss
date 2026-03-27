@@ -1,0 +1,8 @@
+@use "mixins"as *;
+@use "variable" as *;
+.map-modal{
+    @include modal-overlay;
+    .map-container{
+        @include modal-content(800px, $spacing-xxl $spacing-xl);
+    }
+}
