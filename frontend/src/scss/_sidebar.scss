@@ -8,7 +8,8 @@
   position: fixed;
   min-height: 100vh;
   z-index: 20;
-  // font-family: $font-unica;
+  display: flex; // Added this
+  flex-direction: column; // Added this
 
   nav {
     display: flex;
@@ -18,7 +19,7 @@
     button {
       background-color: transparent;
       border: none;
-      color: $text-white; // changed from white
+      color: $text-white; 
       padding: 10px;
       text-align: left;
       cursor: pointer;
@@ -33,10 +34,30 @@
       }
 
       &:hover {
-        background-color: $text-muted-dark; // replaced rgba(94, 89, 89, 0.623)
-        color: $success; // replaced rgba(4, 214, 4, 0.897)
+        background-color: $text-muted-dark; 
+        color: $success; 
         border-radius: 7px;
       }
     }
+  }
+
+  // --- MOBILE STYLE ---
+  @media (max-width: 600px) {
+    left: -100%; 
+    transition: left 0.3s ease-in-out;
+    width: 280px; 
+    padding: 20px; // Reset padding for mobile
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+
+    &.open {
+      left: 0; 
+    }
+  }
+}
+
+// Reset margin for the dashboard content
+@media (max-width: 600px) {
+  main, .dashboard-container {
+    margin-left: 0 !important;
   }
 }

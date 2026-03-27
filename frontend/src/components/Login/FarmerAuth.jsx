@@ -49,8 +49,12 @@ function FarmerAuth({ mode, setMode }) {
       });
 
       const data = await res.json();
+      if(data.code == 200) {
       console.log("Login response:", data);
       navigate("/farmer-dashboard")
+      } else {
+        alert(data.message)
+      }
 
     }
   };
