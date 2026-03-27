@@ -7,3 +7,4 @@ flask_cors
 gunicorn
 pytz
 cloudinary
+groq

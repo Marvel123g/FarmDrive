@@ -644,6 +644,7 @@ def get_produce_for_farmer(farmer_id):
                 "destination": row["destination"],
                 "quantity": row["quantity"],
                 "details": row["details"],
+                "status": row["status"],
                 "posted_at": time_ago(row["created_at"])
             })
         if produce_list == []:
@@ -901,7 +902,7 @@ def fetch_accepted_delivery_for_driver(driver_id):
             SELECT 
                 d.id, d.price, d.status, d.accepted_at,
                 p.crop_name, p.pickup_location, p.destination, p.quantity, p.details,
-                f.first_name, f.last_name
+                f.first_name, f.last_name, f.phone
             FROM deliveries d
             JOIN farm_produce p ON d.produce_id = p.id
             JOIN farmer f ON p.farmer_id = f.id
@@ -922,6 +923,7 @@ def fetch_accepted_delivery_for_driver(driver_id):
         accepted_produce_list = [{
             "delivery_id": row["id"],
             "farmer_name": f"{row['first_name']} {row['last_name']}",
+            "farmer_phone": f"{row['phone']}",
             "crop_name": row["crop_name"],
             "pickup_location": row["pickup_location"],
             "destination": row["destination"],
