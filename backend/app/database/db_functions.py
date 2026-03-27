@@ -1007,23 +1007,25 @@ def fetch_accepted_delivery_for_driver(driver_id):
 
 
 # Driver
-def fetch_accepted_delivery_for_farmer(farmer_id):
+def fetch_accepted_delivery_for_driver(driver_id):
     db = get_db_connection()
     try:
         cursor = db.cursor()
-        # Single query to join Delivery -> Produce -> Driver
+        # Single query to join Delivery -> Produce -> Farmer
         query = """
             SELECT 
                 d.id, d.price, d.status, d.accepted_at,
-                p.crop_name, p.pickup_location, p.destination, p.quantity,
-                dr.first_name, dr.last_name, dr.profile_picture_url
+                p.crop_name, p.pickup_location, p.destination, p.quantity, p.details,
+                f.first_name, f.last_name, f.phone,
+                fp.lat, fp.lng
             FROM deliveries d
             JOIN farm_produce p ON d.produce_id = p.id
-            JOIN driver dr ON d.driver_id = dr.id
-            WHERE d.farmer_id = ?
+            JOIN farmer f ON p.farmer_id = f.id
+            JOIN farmer_pos fp ON fp.farmer_id = f.id
+            WHERE d.driver_id = ?
             ORDER BY d.accepted_at DESC
         """
-        cursor.execute(query, (farmer_id, ))
+        cursor.execute(query, (driver_id, ))
         rows = cursor.fetchall()
 
         if not rows:
@@ -1036,12 +1038,15 @@ def fetch_accepted_delivery_for_farmer(farmer_id):
 
         accepted_produce_list = [{
             "delivery_id": row["id"],
-            "driver_name": f"{row['first_name']} {row['last_name']}",
-            "driver_photo": f"{row['profile_picture_url']}",
+            "farmer_name": f"{row['first_name']} {row['last_name']}",
+            "farmer_phone": f"{row['phone']}",
+            "farmer_lat": f"{row['lat']}",
+            "farmer_lng": f"{row['lng']}",
             "crop_name": row["crop_name"],
             "pickup_location": row["pickup_location"],
             "destination": row["destination"],
             "quantity": row["quantity"],
+            "details": row["details"],
             "price": row["price"],
             "status": row["status"],
             "accepted_at": time_ago(row["accepted_at"])
@@ -1051,13 +1056,13 @@ def fetch_accepted_delivery_for_farmer(farmer_id):
             "status": "SUCCESS",
             "accepted_produce": accepted_produce_list,
             "code": 200,
-            "message": "Fetched accepted deliveries successfully."
+            "message": "Fetched deliveries for driver successfully."
         }
     except sqlite3.Error as e:
         return {
             "status": "ERROR",
             "code": 500,
-            "message": f"Error fetching accepted delivery for farmer: {e}."
+            "message": f"Error fetching accepted delivery for driver: {e}."
         }
     finally:
         db.close()
@@ -1476,3 +1481,21 @@ def view_completed_deliveries(delivery_id):
     finally:
         if db:
             db.close()
+
+
+# Driver
+def get_delivery_context(delivery_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+        # Join deliveries with farm_produce to get the destination and crop
+        query = """
+            SELECT p.destination, p.crop_name 
+            FROM deliveries d
+            JOIN farm_produce p ON d.produce_id = p.id
+            WHERE d.id = ?
+        """
+        cursor.execute(query, (delivery_id,))
+        return cursor.fetchone()
+    finally:
+        db.close()
