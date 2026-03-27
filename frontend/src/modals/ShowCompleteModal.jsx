@@ -9,7 +9,8 @@ export default function ShowCompleteModal({ deliveryId, onClose, onComplete }) {
 
   const MAX_PICTURES = 2;
   const MIN_PICTURES = 1;
-const [picturePreviews, setPicturePreviews] = useState([]);
+  // const [pictures, setPictures] = useState([]);
+  const [picturePreviews, setPicturePreviews] = useState([]);
 
 const handlePictureUpload = (e) => {
   const files = Array.from(e.target.files);

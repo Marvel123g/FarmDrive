@@ -132,7 +132,7 @@ function FarmerAuth({ mode, setMode }) {
           <div style={{flex: 1, display: "flex",flexDirection: 'column', gap: "10px"}}>
             <input
               type="text"
-              placeholder="First Name"
+              placeholder="Firstname"
               name="firstname"
               value={farmerDetails.firstname}
               onChange={handleChange}
@@ -193,7 +193,7 @@ function FarmerAuth({ mode, setMode }) {
           <div style={{flex: 1, display: "flex",flexDirection: 'column', gap: "10px"}}>
               <input
               type="text"
-              placeholder="pasword"
+              placeholder="Pasword"
               name="password"
               value={farmerDetails.password}
               onChange={handleChange}
@@ -228,7 +228,7 @@ function FarmerAuth({ mode, setMode }) {
             <input
               type="text"
               name="password"
-              placeholder="password"
+              placeholder="Password"
               value={farmerDetails.password}
               onChange={handleChange}
             />

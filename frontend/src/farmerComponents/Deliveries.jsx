@@ -12,8 +12,8 @@ export default function Deliveries() {
         })
         const data =await res.json()
 
-        console.log("delivery",data.accepted_produce)
-        setAcceptedProduce(data.accepted_produce)
+        console.log("delivery", data.active_deliveries)
+        setAcceptedProduce(data.active_deliveries)
       }
 
       fetchDriverDeliveries()
@@ -122,10 +122,10 @@ export default function Deliveries() {
                 <div className="driver-section">
                   <div className="info-title">👨‍✈️ Driver Information</div>
                   <div className="driver-info">
-                    <img src={delivery.driver_photo} alt={delivery.driver} className="driver-avatar" />
+                    <img src={delivery.driver_image} alt={delivery.driver} className="driver-avatar" />
                     <div className="driver-details">
                       <h4>{delivery.driver_name}</h4>
-                      <p className="driver-phone">📞{delivery.phone}</p>
+                      <p className="driver-phone">📞{" "}{delivery.driver_phone}</p>
                     </div>
                     {/* <button className="contact-btn">Contact Driver</button> */}
                   </div>

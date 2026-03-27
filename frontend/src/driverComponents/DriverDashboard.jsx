@@ -60,19 +60,19 @@ export default function DriverDashboard() {
         <div className="stats">
           <div className="stat_item">
             <h3>Total Earnings</h3>
-            <p>{getStats.total_earned_naira}</p>
+            <p>{getStats?.total_earned_naira}</p>
           </div>
           <div className="stat_item">
             <h3>Active Deliveries</h3>
-            <p>{getStats.total_deliveries}</p>
+            <p>{getStats?.total_deliveries}</p>
           </div>
           <div className="stat_item">
             <h3>Available Jobs</h3>
-            <p>{getStats.available_jobs}</p>
+            <p>{getStats?.available_jobs}</p>
           </div>
           <div className="stat_item">
             <h3>Completed</h3>
-            <p>{getStats.completed_jobs}</p>
+            <p>{getStats?.completed_jobs}</p>
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export default function DriverDashboard() {
             </thead>
 
             <tbody>
-              {miniDelivery.length === 0 ? (
+              {miniDelivery?.length === 0 ? (
                 <tr className="empty-state-row">
                   <td colSpan={4}>
                     <div className="empty_produce">
@@ -101,7 +101,7 @@ export default function DriverDashboard() {
                   </td>
                 </tr>
               ) : (
-                miniDelivery.map((item) => (
+                miniDelivery?.map((item) => (
                   <tr key={item.id}>
                     <td>{item.crop_name}</td>
                     <td>

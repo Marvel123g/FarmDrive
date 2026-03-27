@@ -131,7 +131,7 @@ function DriverAuth({mode, setMode}) {
           <div style={{flex: 1, display: "flex",flexDirection: 'column', gap: "10px"}}>
             <input
               type="text"
-              placeholder="First Name"
+              placeholder="Firstname"
               name="firstname"
               value={driverDetails.firstname}
               onChange={handleChange}
@@ -155,7 +155,7 @@ function DriverAuth({mode, setMode}) {
           <div style={{flex: 1, display: "flex",flexDirection: 'column', gap: "10px"}}>
             <input
               type="text"
-              placeholder="email"
+              placeholder="Email"
               name="email"
               value={driverDetails.email}
               onChange={handleChange}
@@ -179,7 +179,7 @@ function DriverAuth({mode, setMode}) {
           <div style={{flex: 1, display: "flex", flexDirection: "column"}}>
             <input
               type="text"
-              placeholder="password"
+              placeholder="Password"
               name="password"
               value={driverDetails.password}
               onChange={handleChange}
@@ -194,7 +194,7 @@ function DriverAuth({mode, setMode}) {
           <div style={{flex: 1, display: "flex", flexDirection: "column"}}>
             <input
               type="text"
-              placeholder="email"
+              placeholder="Email"
               name="email"
               value={driverDetails.email}
               onChange={handleChange}
@@ -207,7 +207,7 @@ function DriverAuth({mode, setMode}) {
             <input
               type="text"
               name="password"
-              placeholder="password"
+              placeholder="Password"
               value={driverDetails.password}
               onChange={handleChange}
             />
