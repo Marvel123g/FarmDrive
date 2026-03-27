@@ -47,6 +47,8 @@ def create_app():
 
     return app
 
+app = create_app()
+
 if __name__ == "__main__":
     init_db()
     socketio.run(app, debug=True, use_reloader=True, port=5000)
