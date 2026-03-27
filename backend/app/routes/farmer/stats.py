@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
 from app.database.db_functions import get_current_user, farmer_stats
 
-fstats_bp = Blueprint("fstats_bp", __name__, url_prefix="/api/v1/farmer/stats")
+fstats_bp = Blueprint("fstats_bp", __name__, url_prefix="/api/v1/farmer")
 
 
-@fstats_bp.route("/", methods=['GET'])
+@fstats_bp.route("/stats", methods=['GET'])
 def get_stats():
     farmer_id = get_current_user(
         request.cookies.get('farmer_session_id'), "farmer")
