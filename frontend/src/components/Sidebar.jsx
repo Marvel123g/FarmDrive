@@ -9,11 +9,11 @@ export default function Sidebar() {
   const [activeButton, setActiveButton] = useState('farmer-dashboard');
   const [isOpen, setIsOpen] = useState(false);
   
-  const { width } = useWindowSize(); // Fixed: Destructured width
+  const { width } = useWindowSize(); 
   const isMobile = width <= 600;
 
   useEffect(() => {
-    switch (location.pathname) {
+      switch (location.pathname) {
       case "/farmer-dashboard":
         setActiveButton('farmer-dashboard');
         break;
@@ -33,35 +33,36 @@ export default function Sidebar() {
         setActiveButton('logout');
         break;
       default:
-        setActiveButton('farmer-dashboard');
+        setActiveButton('dashboard');
         break;
     }
   }, [location]);
 
-  // Helper to handle navigation and close menu on mobile
-  const handleNav = (path) => {
-    navigate(path);
-    setIsOpen(false);
-  };
-
   return (
     <>
-      {/* Mobile Toggle Button (Only shows on mobile) */}
-      {isMobile && (
-        <div className="sidebar-mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      {/* 1. Only show the Menu icon on the main screen when closed */}
+      {isMobile && !isOpen && (
+        <div className="menu-toggle-icon" onClick={() => setIsOpen(true)} style={{position: 'fixed', top: '0px', right: '20px', zIndex: '10', cursor: 'pointer'}}>
+          <FiMenu size={28} /> 
         </div>
       )}
 
-      <aside className={`sideBar ${isMobile ? 'mobile-nav' : ''} ${isOpen ? 'open' : ''}`}>
-        <nav>
-          <button className={activeButton === 'farmer-dashboard' ? 'active' : ''} onClick={() => handleNav('/farmer-dashboard')}>Dashboard</button>
-          <button className={activeButton === 'post-produce' ? 'active' : ''} onClick={() => handleNav('/post-produce')}>Post Produce</button>
-          <button className={activeButton === 'my-produce' ? 'active' : ''} onClick={() => handleNav('/my-produce')}>My Produce</button>
-          <button className={activeButton === 'deliveries' ? 'active' : ''} onClick={() => handleNav('/deliveries')}>Deliveries</button>
-          <button className={activeButton === 'payments' ? 'active' : ''} onClick={() => handleNav('/payments')}>Payments</button>
-          <button className={activeButton === 'logout' ? 'active' : ''} onClick={() => handleNav('/')}>Logout</button>
-        </nav>
+      <aside className={`sideBar ${isMobile ? 'mobile-sidebar' : ''} ${isOpen ? 'open' : ''}`}>
+          {/* 2. Show the Close icon INSIDE the sidebar when open */}
+          {isMobile && isOpen && (
+            <div className="close-sidebar" onClick={() => setIsOpen(false)} style={{alignSelf: 'flex-end', cursor: 'pointer', marginBottom: '20px'}}>
+              <FiX size={28} color="#fff" />
+            </div>
+          )}
+
+          <nav>
+            <button className={activeButton === 'farmer-dashboard' ? 'active' : ''} onClick={() => {navigate('/farmer-dashboard'); setIsOpen(false);}}>Dashboard</button>
+            <button className={activeButton === 'post-produce' ? 'active' : ''} onClick={() => {navigate('/post-produce'); setIsOpen(false);}}>Post Produce</button>
+            <button className={activeButton === 'my-produce' ? 'active' : ''} onClick={() => {navigate('/my-produce'); setIsOpen(false);}}>My Produce</button>
+            <button className={activeButton === 'deliveries' ? 'active' : ''} onClick={() => {navigate('/deliveries'); setIsOpen(false);}}>Deliveries</button>
+            <button className={activeButton === 'payments' ? 'active' : ''} onClick={() => {navigate('/payments'); setIsOpen(false);}}>Payments</button>
+            <button className={activeButton === 'logout' ? 'active' : ''} onClick={() => {navigate('/'); setIsOpen(false);}}>Logout</button>
+          </nav>
       </aside>
     </>
   )

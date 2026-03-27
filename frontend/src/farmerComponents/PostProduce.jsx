@@ -63,7 +63,7 @@ export default function PostProduce() {
         <main>
              <div className="topbar">
           <h2>Post Produce</h2>
-          <div className="user">Welcome, Musa!</div>
+          <div className="user">Welcome!</div>
         </div>
 
         {/* FORM CARD */}

@@ -10,10 +10,10 @@ export default function Deliveries() {
           method: "GET",
           credentials: "include"
         })
-        const data =await res.json()
+        const data = await res.json()
 
-        console.log("delivery",data.accepted_produce)
-        setAcceptedProduce(data.accepted_produce)
+        console.log("delivery",data)
+        setAcceptedProduce(data. active_deliveries)
       }
 
       fetchDriverDeliveries()
@@ -34,27 +34,6 @@ export default function Deliveries() {
         </div>
       </div>
 
-      {/* Filter Tabs */}
-      {/* <div className="filter-tabs">
-        <button 
-          className={`filter-tab ${activeFilter === 'all' ? 'active' : ''}`}
-          onClick={() => setActiveFilter('all')}
-        >
-          All Deliveries
-        </button>
-        <button 
-          className={`filter-tab ${activeFilter === 'transit' ? 'active' : ''}`}
-          onClick={() => setActiveFilter('transit')}
-        >
-          🚚 In Transit
-        </button>
-        <button 
-          className={`filter-tab ${activeFilter === 'completed' ? 'active' : ''}`}
-          onClick={() => setActiveFilter('completed')}
-        >
-          ✅ Completed
-        </button>
-      </div> */}
 
       {/* Deliveries Grid */}
       {accpetedProduce?.length === 0 ? (
@@ -122,10 +101,10 @@ export default function Deliveries() {
                 <div className="driver-section">
                   <div className="info-title">👨‍✈️ Driver Information</div>
                   <div className="driver-info">
-                    <img src={delivery.driver_photo} alt={delivery.driver} className="driver-avatar" />
+                    <img src={delivery.driver_image} alt={delivery.driver_image} className="driver-avatar" />
                     <div className="driver-details">
                       <h4>{delivery.driver_name}</h4>
-                      <p className="driver-phone">📞{delivery.phone}</p>
+                      <p className="driver-phone">📞{delivery.driver_phone}</p>
                     </div>
                     {/* <button className="contact-btn">Contact Driver</button> */}
                   </div>
