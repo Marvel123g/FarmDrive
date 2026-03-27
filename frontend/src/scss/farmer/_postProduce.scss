@@ -190,4 +190,238 @@
       }
     }
   }
+  /* Post Produce Section Media Queries */
+
+@media (max-width: 1024px) {
+  .post_produce {
+    main {
+      .topbar {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        
+        h2 {
+          font-size: 1.8rem;
+        }
+        
+        .user {
+          padding: 8px 16px;
+          font-size: 0.9rem;
+        }
+      }
+      
+      .formCard {
+        padding: 28px;
+        
+        h3 {
+          font-size: 1.3rem;
+        }
+        
+        .formGrid {
+          gap: 20px;
+        }
+        
+        .formActions .primaryBtn {
+          padding: 10px 24px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .post_produce {
+    main {
+      padding: 1.5rem;
+      
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        
+        h2 {
+          font-size: 1.5rem;
+        }
+        
+        .user {
+          align-self: flex-start;
+          padding: 6px 14px;
+          font-size: 0.85rem;
+        }
+      }
+      
+      .formCard {
+        padding: 20px;
+        margin-top: 15px;
+        
+        h3 {
+          font-size: 1.2rem;
+          
+          &::before {
+            font-size: 1.5rem;
+          }
+        }
+        
+        .formDesc {
+          font-size: 0.85rem;
+          margin-bottom: 20px;
+          padding-bottom: 15px;
+        }
+        
+        .formGrid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        
+        .inputGroup {
+          label {
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            
+            &::before {
+              font-size: 0.7rem;
+            }
+          }
+          
+          input {
+            padding: 10px 14px;
+            font-size: 0.9rem;
+          }
+        }
+        
+        .fullWidth {
+          grid-column: span 1;
+          
+          label {
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            
+            &::before {
+              font-size: 0.7rem;
+            }
+          }
+          
+          textarea {
+            padding: 10px 14px;
+            font-size: 0.9rem;
+            min-height: 80px;
+          }
+        }
+        
+        .formActions {
+          grid-column: span 1;
+          justify-content: center;
+          gap: 12px;
+          margin-top: 15px;
+          padding-top: 15px;
+          
+          .primaryBtn {
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .post_produce {
+    main {
+      padding: 1rem;
+      
+      .topbar {
+        margin-bottom: 15px;
+        
+        h2 {
+          font-size: 1.3rem;
+        }
+        
+        .user {
+          padding: 5px 12px;
+          font-size: 0.8rem;
+          
+          &::before {
+            font-size: 1rem;
+          }
+        }
+      }
+      
+      .formCard {
+        padding: 16px;
+        border-radius: 20px;
+        
+        h3 {
+          font-size: 1.1rem;
+          margin-bottom: 4px;
+          
+          &::before {
+            font-size: 1.3rem;
+          }
+        }
+        
+        .formDesc {
+          font-size: 0.8rem;
+          margin-bottom: 16px;
+          padding-bottom: 12px;
+        }
+        
+        .formGrid {
+          gap: 12px;
+        }
+        
+        .inputGroup {
+          label {
+            font-size: 0.75rem;
+            margin-bottom: 4px;
+          }
+          
+          input {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 10px;
+          }
+        }
+        
+        .fullWidth {
+          textarea {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            min-height: 70px;
+          }
+        }
+        
+        .formActions {
+          gap: 10px;
+          margin-top: 12px;
+          padding-top: 12px;
+          
+          .primaryBtn {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            border-radius: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Additional styles for form validation or error states */
+@media (max-width: 768px) {
+  .post_produce main .formCard {
+    .inputGroup input.error,
+    .fullWidth textarea.error {
+      border-color: #ef4444;
+    }
+    
+    .error-message {
+      font-size: 0.7rem;
+      margin-top: 4px;
+    }
+  }
+}
 }

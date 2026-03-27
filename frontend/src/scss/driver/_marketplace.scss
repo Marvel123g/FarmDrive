@@ -220,4 +220,243 @@
   .empty-marketplace {
     @include empty-state;
   }
+  /* Marketplace Media Queries */
+
+@media (max-width: 1024px) {
+  .marketPlace_wrapper {
+    .marketplace-grid {
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 25px;
+    }
+
+    .marketplace-header .header-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .header-title h2 {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .marketPlace_wrapper {
+    .marketplace-container {
+      padding: 1.5rem;
+    }
+
+    .marketplace-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .marketplace-header {
+      margin-bottom: 20px;
+    }
+
+    .header-content {
+      padding: 15px 0;
+    }
+
+    .header-title h2 {
+      font-size: 1.5rem;
+    }
+
+    .header-title p {
+      font-size: 0.9rem;
+    }
+
+    .stats-summary .stat-badge {
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
+
+    .produce-card .card-content {
+      padding: 16px;
+
+      .farmer-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 12px;
+
+        .farmer-name {
+          font-size: 1rem;
+        }
+
+        .farmer-phone {
+          font-size: 0.8rem;
+        }
+      }
+
+      .crop-name {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+      }
+
+      .card-details .detail-row {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 8px;
+
+        .detail-item {
+          font-size: 0.8rem;
+        }
+      }
+
+      .card-description p {
+        font-size: 0.8rem;
+      }
+
+      .bid-section {
+        .bid-btn {
+          padding: 10px;
+          font-size: 0.9rem;
+        }
+
+        .bid-input-group .bid-input {
+          padding: 10px 10px 10px 35px;
+          font-size: 0.9rem;
+        }
+
+        .bid-actions {
+          gap: 8px;
+
+          .submit-bid-btn,
+          .cancel-bid-btn {
+            padding: 8px;
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+
+    .empty-marketplace {
+      padding: 3rem 2rem;
+
+      .empty-icon {
+        font-size: 3rem;
+      }
+
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .marketPlace_wrapper {
+    .marketplace-container {
+      padding: 1rem;
+    }
+
+    .marketplace-header {
+      margin-bottom: 15px;
+    }
+
+    .header-content {
+      padding: 12px 0;
+    }
+
+    .header-title h2 {
+      font-size: 1.3rem;
+    }
+
+    .header-title p {
+      font-size: 0.8rem;
+    }
+
+    .stats-summary .stat-badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+    }
+
+    .produce-card {
+      .availability-badge {
+        top: 12px;
+        right: 12px;
+        padding: 4px 10px;
+        font-size: 0.7rem;
+      }
+
+      .card-content {
+        padding: 14px;
+
+        .farmer-info {
+          margin-bottom: 10px;
+        }
+
+        .crop-name {
+          font-size: 1.1rem;
+          margin-bottom: 10px;
+        }
+
+        .card-details {
+          padding: 10px;
+          margin-bottom: 12px;
+        }
+
+        .card-description {
+          margin-bottom: 15px;
+        }
+
+        .bid-section {
+          .bid-btn {
+            padding: 8px;
+            font-size: 0.85rem;
+          }
+
+          .bid-input-group {
+            margin-bottom: 10px;
+
+            .currency {
+              left: 10px;
+              font-size: 0.9rem;
+            }
+
+            .bid-input {
+              padding: 8px 8px 8px 32px;
+              font-size: 0.85rem;
+            }
+          }
+
+          .bid-actions {
+            gap: 6px;
+
+            .submit-bid-btn,
+            .cancel-bid-btn {
+              padding: 7px;
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+
+    .empty-marketplace {
+      padding: 2rem 1rem;
+
+      .empty-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
 }

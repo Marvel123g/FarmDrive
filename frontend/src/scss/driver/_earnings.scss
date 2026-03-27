@@ -139,4 +139,254 @@
       }
     }
   }
+
+  /* Earnings Section Media Queries */
+
+@media (max-width: 1024px) {
+  .earnings_wrapper {
+    .stats-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .stat-card {
+      padding: 1rem;
+      
+      p {
+        font-size: 1.3rem;
+      }
+
+      .stat-icon {
+        font-size: 1.8rem;
+      }
+    }
+
+    .bid_section {
+      .header-title h2 {
+        font-size: 1.8rem;
+      }
+      
+      .mini_container {
+        padding: 1rem;
+        
+        .bid_card {
+          .bid_footer {
+            flex-direction: column;
+            gap: 10px;
+            
+            .detail-row {
+              flex-direction: row;
+              flex-wrap: wrap;
+              gap: 15px;
+            }
+            
+            .amount {
+              font-size: 1.1rem;
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .earnings_wrapper {
+    .earnings-container {
+      padding: 1.5rem;
+    }
+
+    .earnings-header {
+      margin-bottom: 1rem;
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      p {
+        font-size: 0.9rem;
+      }
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 1rem;
+      
+      .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 0;
+      }
+      
+      h3 {
+        font-size: 0.8rem;
+      }
+      
+      p {
+        font-size: 1.2rem;
+      }
+    }
+
+    .bid_section {
+      .header-title {
+        margin-bottom: 1rem;
+        
+        h2 {
+          font-size: 1.3rem;
+        }
+      }
+      
+      .mini_container {
+        padding: 0.75rem;
+        
+        .bid_card {
+          padding: 0.875rem;
+          margin-bottom: 0.75rem;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+          
+          .info {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 12px;
+            
+            .status {
+              margin-left: 0;
+              align-self: flex-start;
+              font-size: 0.7rem;
+              padding: 4px 10px;
+            }
+            
+            .name {
+              font-size: 0.95rem;
+            }
+            
+            .posted_at {
+              font-size: 0.7rem;
+            }
+          }
+          
+          .bid_footer {
+            flex-direction: column;
+            gap: 8px;
+            
+            .detail-row {
+              flex-direction: column;
+              gap: 6px;
+              
+              .detail-item {
+                font-size: 0.75rem;
+              }
+            }
+            
+            .amount {
+              text-align: left;
+              font-size: 1rem;
+              padding-top: 5px;
+              border-top: 1px solid #e5e7eb;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .earnings_wrapper {
+    .earnings-container {
+      padding: 1rem;
+    }
+
+    .earnings-header {
+      margin-bottom: 0.75rem;
+      
+      h2 {
+        font-size: 1.3rem;
+      }
+      
+      p {
+        font-size: 0.85rem;
+      }
+    }
+
+    .stats-grid {
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      padding: 0.875rem;
+      
+      .stat-icon {
+        font-size: 1.6rem;
+      }
+      
+      h3 {
+        font-size: 0.75rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .bid_section {
+      .header-title {
+        margin-bottom: 0.75rem;
+        
+        h2 {
+          font-size: 1.1rem;
+        }
+      }
+      
+      .mini_container {
+        padding: 0.5rem;
+        
+        .bid_card {
+          padding: 0.75rem;
+          
+          .info {
+            gap: 6px;
+            margin-bottom: 10px;
+            
+            .name {
+              font-size: 0.9rem;
+            }
+            
+            .posted_at {
+              font-size: 0.65rem;
+            }
+            
+            .status {
+              font-size: 0.65rem;
+              padding: 3px 8px;
+            }
+          }
+          
+          .bid_footer {
+            .detail-row .detail-item {
+              font-size: 0.7rem;
+            }
+            
+            .amount {
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 }
