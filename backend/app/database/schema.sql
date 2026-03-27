@@ -121,3 +121,13 @@ CREATE TABLE IF NOT EXISTS payments (
     FOREIGN KEY (driver_id) REFERENCES driver (id),
     FOREIGN KEY (produce_id) REFERENCES farm_produce (id)
 );
+
+
+CREATE TABLE IF NOT EXISTS completed_deliveries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    delivery_id TEXT UNIQUE NOT NULL,
+    image1_url TEXT NOT NULL,
+    image2_url TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (delivery_id) REFERENCES deliveries (id)
+);

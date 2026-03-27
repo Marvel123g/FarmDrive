@@ -89,7 +89,7 @@ def get_prices(produce_id):
             prices_res['message'] = "Prices retrieved and ranked by AI."
         except Exception as e:
             print(f"AI Parsing Error: {e}")
-        print(prices_res)
+        # print(prices_res)
     return jsonify(prices_res), prices_res['code']
 
     # produce_list = get_produce_details_for_matching(produce_id)
