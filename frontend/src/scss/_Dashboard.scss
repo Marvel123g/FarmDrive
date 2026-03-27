@@ -17,7 +17,7 @@
       position: relative;
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -8px;
         left: 0;
@@ -64,7 +64,7 @@
       @include card(
         $bg: rgba(255, 255, 255, 0.95),
         $radius: 20px,
-        $shadow: 0 8px 20px rgba(0,0,0,0.05),
+        $shadow: 0 8px 20px rgba(0, 0, 0, 0.05),
         $padding: 28px,
         $border: 1px solid rgba(44, 122, 77, 0.1)
       );
@@ -112,7 +112,7 @@
       .table {
         width: 100%;
         border-collapse: collapse;
-        .empty_produce{
+        .empty_produce {
           @include empty-state;
           text-align: center;
         }
@@ -121,6 +121,55 @@
           padding: 12px;
           border-bottom: 1px solid #eee;
           text-align: left;
+        }
+           .status-btn {
+          display: inline-block;
+          padding: 6px 14px;
+          border-radius: 20px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-align: center;
+          transition: all 0.2s ease;
+
+          &.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+          }
+
+          &.accepted {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+          }
+          &.in-transit {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+          }
+
+          &.completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+          }
+
+          &.delivered {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+          }
+
+          &.cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+          }
+
+          &:hover {
+            transform: translateY(-1px);
+            filter: brightness(0.95);
+          }
         }
       }
     }
@@ -139,23 +188,25 @@
         box-shadow: 0 12px 30px rgba(44, 122, 77, 0.1);
       }
 
-      h3 {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #1a3b2e;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid rgba(44, 122, 77, 0.1);
+      header {
+        h3 {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: #1a3b2e;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding-bottom: 15px;
+          border-bottom: 2px solid rgba(44, 122, 77, 0.1);
 
-        &::before {
-          content: "🚛";
-          font-size: 1.5rem;
+          &::before {
+            content: "🚛";
+            font-size: 1.5rem;
+          }
         }
       }
-        .table {
+      .table {
         width: 100%;
         border-collapse: collapse;
 
@@ -165,13 +216,297 @@
           border-bottom: 1px solid #eee;
           text-align: left;
         }
-        .styles{
-          background: $dark-forest-soft;
-          font-size: $font-sm;
-          color: $text-white;
-          padding:7px 15px;
-          border-radius: $radius-md;
+        .status-btn {
+          display: inline-block;
+          padding: 6px 14px;
+          border-radius: 20px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-align: center;
+          transition: all 0.2s ease;
+
+          &.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+          }
+
+          &.accepted {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+          }
+          &.in-transit {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+          }
+
+          &.matched {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+          }
+
+          &.completed {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+          }
         }
+      }
+    }
+  }
+  .empty-state-row {
+    td {
+      padding: 0;
+      border-bottom: none;
+    }
+    .empty_produce {
+      text-align: center;
+      padding: 60px 20px;
+      background: $bg-card;
+
+      .empty-icon {
+        font-size: 4rem;
+        margin-bottom: 16px;
+        opacity: 0.6;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: $dark-forest;
+        margin-bottom: 8px;
+      }
+
+      p {
+        color: $text-muted;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  /* ========== MEDIA QUERIES ========== */
+  
+  /* Tablet Styles (768px - 1024px) */
+  @media screen and (max-width: 1024px) {
+    main {
+      padding: 20px;
+      
+      b {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+      }
+      
+      .stats {
+        gap: 20px;
+        
+        .stat_item {
+          p {
+            font-size: 1.8rem;
+          }
+        }
+      }
+      
+      .mini_listing,
+      .mini_deliveries {
+        padding: 20px;
+        
+        header {
+          h3 {
+            font-size: 1.2rem;
+          }
+          
+          button {
+            padding: 10px 16px;
+            font-size: 0.9rem;
+          }
+        }
+        
+        .table {
+          th, td {
+            padding: 10px;
+            font-size: 0.9rem;
+          }
+          
+          .status-btn {
+            padding: 4px 12px;
+            font-size: 0.7rem;
+          }
+        }
+      }
+    }
+  }
+  
+  /* Mobile Landscape & Small Tablet (576px - 768px) */
+  @media screen and (max-width: 768px) {
+    main {
+      padding: 16px;
+      
+      b {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+        
+        &::after {
+          width: 50px;
+          height: 2px;
+          bottom: -6px;
+        }
+      }
+      
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 30px;
+        
+        .stat_item {
+          h3 {
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+          }
+          
+          p {
+            font-size: 1.5rem;
+          }
+        }
+      }
+      
+      .mini_listing,
+      .mini_deliveries {
+        padding: 16px;
+        margin-bottom: 20px;
+        
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          padding-bottom: 12px;
+          margin-bottom: 16px;
+          
+          h3 {
+            font-size: 1.1rem;
+            
+            &::before {
+              font-size: 1.3rem;
+            }
+          }
+          
+          button {
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            width: 100%;
+            text-align: center;
+          }
+        }
+        
+        .table {
+          display: block;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          
+          th, td {
+            padding: 10px 8px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+          }
+          
+          .status-btn {
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+    
+    .empty-state-row .empty_produce {
+      padding: 40px 16px;
+      
+      .empty-icon {
+        font-size: 3rem;
+      }
+      
+      h3 {
+        font-size: 1.1rem;
+      }
+      
+      p {
+        font-size: 0.85rem;
+      }
+    }
+  }
+  
+  /* Mobile Portrait (up to 480px) */
+  @media screen and (max-width: 480px) {
+    main {
+      padding: 12px;
+      
+      b {
+        font-size: 1.4rem;
+        margin-bottom: 18px;
+      }
+      
+      .stats {
+        gap: 12px;
+        margin-bottom: 24px;
+        
+        .stat_item {
+          h3 {
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+          }
+          
+          p {
+            font-size: 1.3rem;
+          }
+        }
+      }
+      
+      .mini_listing,
+      .mini_deliveries {
+        padding: 14px;
+        border-radius: 16px;
+        
+        header {
+          h3 {
+            font-size: 1rem;
+          }
+          
+          button {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+          }
+        }
+        
+        .table {
+          th, td {
+            padding: 8px 6px;
+            font-size: 0.8rem;
+          }
+          
+          .status-btn {
+            padding: 3px 8px;
+            font-size: 0.65rem;
+          }
+        }
+      }
+    }
+    
+    .empty-state-row .empty_produce {
+      padding: 30px 12px;
+      
+      .empty-icon {
+        font-size: 2.5rem;
+      }
+      
+      h3 {
+        font-size: 1rem;
+      }
+      
+      p {
+        font-size: 0.8rem;
       }
     }
   }

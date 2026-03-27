@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 export default function FarmerDashboard() {
   const [recentProduce, setRecentProduce] = useState([]);
+  const[getStats, setGetStats] = useState([])
 
   useEffect(() => {
     const fetchProduce = async () => {
@@ -18,6 +20,21 @@ export default function FarmerDashboard() {
     fetchProduce();
   }, []);
 
+    useEffect(() => {
+    const fetchStats = async () => {
+      const res = await fetch("/api/v1/farmer/stats", {
+        method: "GET",
+        credentials: "include",
+      });
+      const data = await res.json();
+      console.log(data.data);
+      setGetStats(data.data);
+    };
+
+    fetchStats();
+  }, []);
+  const navigate = useNavigate()
+
   return (
     <div className="dashboard">
       <Sidebar />
@@ -27,26 +44,26 @@ export default function FarmerDashboard() {
         <div className="stats">
           <div className="stat_item">
             <h3>Total Produce</h3>
-            <p>0</p>
+            <p>{getStats.total_produce}</p>
           </div>
           <div className="stat_item">
             <h3>Active Deliveries</h3>
-            <p>0</p>
+            <p>{getStats.active_deliveries}</p>
           </div>
           <div className="stat_item">
             <h3>Completed Deliveries</h3>
-            <p>0</p>
+            <p>{getStats.completed_deliveries}</p>
           </div>
           <div className="stat_item">
             <h3>Total Payment Made</h3>
-            <p>0</p>
+            <p>{getStats.total_payment_made}</p>
           </div>
         </div>
 
         <div className="mini_listing">
           <header>
             <h3>Recent Produce</h3>
-            <button>View All Produce</button>
+            <button onClick={() => navigate("/my-produce")}>View All Produce</button>
           </header>
           <table className="table">
             <thead>
@@ -59,10 +76,15 @@ export default function FarmerDashboard() {
             </thead>
 
             <tbody>
-              {recentProduce.length === 1 ? (
-                <div className="empty_produce">
-                  <h3>No Produce Posted</h3>
-                </div>
+              {recentProduce?.length === 0 ? (
+                <tr className="empty-state-row">
+                  <td colSpan={4}>
+                    <div className="empty_produce">
+                      <h3>No Produce Posted</h3>
+                      <p>You haven't posted any produce yet</p>
+                    </div>
+                  </td>
+                </tr>
               ) : (
                 recentProduce?.slice(0, 4).map((item, i) => (
                   <tr key={i}>
@@ -72,7 +94,11 @@ export default function FarmerDashboard() {
                     </td>
                     <td>{item.posted_at}</td>
                     <td>
-                      <span className="styles">{item.status}</span>
+                      <span
+                        className={`status-btn ${item.status.toLowerCase()}`}
+                      >
+                        {item.status}
+                      </span>
                     </td>
                   </tr>
                 ))

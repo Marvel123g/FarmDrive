@@ -68,6 +68,14 @@ export default function DriverDelivery() {
     };
   }, [watchId]);
 
+
+  const handleViewFarmerLocation = (delivery) => {
+    console.log("Delivery object:", delivery);
+
+    socket.emit("join_delivery",{delivery_id: delivery.delivery_id })
+  }
+
+
   return (
     <div className="driverDelivery_wrapper">
       <DriverSidebar/>

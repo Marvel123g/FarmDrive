@@ -86,3 +86,70 @@
       }
     }
   }
+
+  @media (max-width: 1024px) {
+  .how-section {
+    padding: 5rem 1.5rem;
+    border-radius: 0 0 40px 40px;
+  }
+  .how-section h2 {
+    font-size: 2.4rem;
+    margin-bottom: 3rem;
+  }
+  .how-section .steps-grid {
+    gap: 2rem;
+  }
+  .how-section .stats-grid {
+    gap: 2rem;
+  }
+  .how-section .stats-grid .stat h3 {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .how-section {
+    padding: 4rem 1.5rem;
+    border-radius: 0 0 30px 30px;
+  }
+  .how-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .how-section .steps-grid {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+    gap: 1.5rem;
+  }
+  .how-section .steps-grid .step {
+    padding: 1.5rem;
+  }
+  .how-section .steps-grid .step h3 {
+    font-size: 1.2rem;
+  }
+  .how-section .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 300px;
+  }
+  .how-section .stats-grid .stat h3 {
+    font-size: 2rem;
+  }
+  .how-section .stats-grid .stat p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .how-section {
+    padding: 3rem 1rem;
+  }
+  .how-section h2 {
+    font-size: 1.8rem;
+  }
+  .how-section .steps-grid .step .step-number {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.3rem;
+  }
+}

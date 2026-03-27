@@ -106,7 +106,7 @@ export default function Deliveries() {
                       </div>
                     </div>
                     <div className="info-item">
-                      <span className="info-icon"><MapPin className="info-icon"/></span>
+                      <span className="info-icon"><MapPin/></span>
                       <div>
                         <label>From</label>
                         <p>{delivery.pickup_location}</p>
@@ -133,12 +133,12 @@ export default function Deliveries() {
                 <div className="driver-section">
                   <div className="info-title">👨‍✈️ Driver Information</div>
                   <div className="driver-info">
-                    {/* <img src={delivery.driverAvatar} alt={delivery.driver} className="driver-avatar" /> */}
+                    <img src={delivery.driver_photo} alt={delivery.driver} className="driver-avatar" />
                     <div className="driver-details">
                       <h4>{delivery.driver_name}</h4>
-                      {/* <p className="driver-phone">📞 {delivery.driverPhone}</p> */}
+                      <p className="driver-phone">📞{delivery.phone}</p>
                     </div>
-                    <button className="contact-btn">Contact Driver</button>
+                    {/* <button className="contact-btn">Contact Driver</button> */}
                   </div>
                 </div>
 

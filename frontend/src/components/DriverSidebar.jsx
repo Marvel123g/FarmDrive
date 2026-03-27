@@ -19,6 +19,9 @@ export default function DriverSidebar() {
       case "/earnings":
         setActiveButton('earnings');
         break;
+      case "/":
+        setActiveButton('logout');
+        break;
       default:
         setActiveButton('driver-dashboard');
         break;
@@ -31,6 +34,7 @@ export default function DriverSidebar() {
           <button className={activeButton === 'marketplace' ? 'active' : ''} onClick={() => navigate('/marketplace')}>Marketplace</button>
           <button className={activeButton === 'driver-deliveries' ? 'active' : ''} onClick={() => navigate('/driver-deliveries')}>My Deliveries</button>
           <button className={activeButton === 'earnings' ? 'active' : ''} onClick={() => navigate('/earnings')}>Earnings</button>
+          <button className={activeButton === 'logout' ? 'active' : ''} onClick={() => navigate('/')}>Logout</button>
         </nav>
     </aside>
   )
