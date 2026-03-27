@@ -95,8 +95,8 @@ export default function DriverDashboard() {
                 <tr className="empty-state-row">
                   <td colSpan={4}>
                     <div className="empty_produce">
-                      <h3>No Produce Posted</h3>
-                      <p>You haven't posted any produce yet</p>
+                      <h3>No Produce Accepted</h3>
+                      <p>You have no produce accepted yet</p>
                     </div>
                   </td>
                 </tr>

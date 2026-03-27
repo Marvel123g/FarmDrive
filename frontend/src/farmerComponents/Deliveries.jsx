@@ -4,17 +4,6 @@ import { CalendarCheck, CalendarClock, Clipboard, MapPin, Navigation, Package } 
 
 export default function Deliveries() {
   const [accpetedProduce, setAcceptedProduce] = useState([])
-
-  // const [activeFilter, setActiveFilter] = useState("all");
-
-
-  // const filteredDeliveries = activeFilter === "all" 
-  //   ? deliveries 
-  //   : deliveries.filter(d => d.statusCode === activeFilter);
-
-
-    // /api/v1/delivery?role=farmer
-
     useEffect(() => {
       const fetchDriverDeliveries = async() => {
         const res = await fetch("/api/v1/delivery?role=farmer", {
@@ -23,7 +12,7 @@ export default function Deliveries() {
         })
         const data =await res.json()
 
-        console.log(data.accepted_produce)
+        console.log("delivery",data.accepted_produce)
         setAcceptedProduce(data.accepted_produce)
       }
 
@@ -68,7 +57,7 @@ export default function Deliveries() {
       </div> */}
 
       {/* Deliveries Grid */}
-      {accpetedProduce.length === 0 ? (
+      {accpetedProduce?.length === 0 ? (
         <div className="empty-deliveries">
           <div className="empty-icon">🚚</div>
           <h3>No Deliveries Found</h3>
@@ -77,7 +66,7 @@ export default function Deliveries() {
         </div>
       ) : (
         <div className="deliveries-grid">
-          {accpetedProduce.map((delivery) => (
+          {accpetedProduce?.map((delivery) => (
             <div key={delivery.delivery_id} className="delivery-card">
               <div className="card-header">
                 <div className="delivery-status">

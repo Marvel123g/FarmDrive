@@ -948,8 +948,69 @@ def accept_price_for_produce(produce_id, driver_id):
         db.close()
 
 
-# Driver
-def fetch_accepted_delivery_for_driver(driver_id):
+# Farmer
+def fetch_accepted_delivery_for_farmer(farmer_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+        # Query joins Delivery -> Produce -> Driver -> Driver Position
+        query = """
+            SELECT
+                d.id AS delivery_id, d.price, d.status, d.accepted_at,
+                p.crop_name, p.pickup_location, p.destination, p.quantity, p.details,
+                dr.first_name AS driver_fname, dr.last_name AS driver_lname,
+                dr.phone AS driver_phone, dr.vehicle_type, dr.license_plate, dr.profile_picture_url,
+                dp.lat AS driver_lat, dp.lng AS driver_lng
+            FROM deliveries d
+            JOIN farm_produce p ON d.produce_id = p.id
+            JOIN driver dr ON d.driver_id = dr.id
+            LEFT JOIN driver_pos dp ON dp.driver_id = dr.id
+            WHERE d.farmer_id = ? AND d.status != 'DELIVERED'
+            ORDER BY d.accepted_at DESC
+        """
+        cursor.execute(query, (farmer_id, ))
+        rows = cursor.fetchall()
+
+        if not rows:
+            return {
+                "status": "SUCCESS",
+                "message": "No active deliveries found.",
+                "code": 200,
+                "active_deliveries": []
+            }
+
+        active_deliveries = [{
+            "delivery_id": row["delivery_id"],
+            "driver_name": f"{row['driver_fname']} {row['driver_lname']}",
+            "driver_phone": row["driver_phone"],
+            "driver_vehicle": row["vehicle_type"],
+            "driver_plate": row["license_plate"],
+            "driver_image": row["profile_picture_url"],
+            "driver_lat": row["driver_lat"],
+            "driver_lng": row["driver_lng"],
+            "crop_name": row["crop_name"],
+            "pickup_location": row["pickup_location"],
+            "destination": row["destination"],
+            "quantity": row["quantity"],
+            "price": row["price"],
+            "status": row["status"],
+            "accepted_at": time_ago(row["accepted_at"]) # Assuming you have your time_ago helper
+        } for row in rows]
+
+        return {
+            "status": "SUCCESS",
+            "active_deliveries": active_deliveries,
+            "code": 200,
+            "message": "Fetched driver info for farmer successfully."
+        }
+    except sqlite3.Error as e:
+        return {
+            "status": "ERROR",
+            "code": 500,
+            "message": f"Error fetching driver info: {e}."
+        }
+    finally:
+        db.close()
     db = get_db_connection()
     try:
         cursor = db.cursor()

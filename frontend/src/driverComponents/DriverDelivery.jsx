@@ -2,6 +2,8 @@ import socket from '../components/Socket';
 import React, { useEffect, useState } from 'react'
 import DriverSidebar from '../components/DriverSidebar';
 import ViewMap from '../modals/ViewMap';
+import ViewFarmerLocation from '../modals/ViewFarmerLocation';
+import ShowCompleteModal from '../modals/ShowCompleteModal';
 
 export default function DriverDelivery() {
 
@@ -11,6 +13,8 @@ export default function DriverDelivery() {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [showMap, setShowMap] = useState(false);
+  const [showFarmerLocation, setShowFarmerLocation] = useState(false)
+  const [showCompleteModal, setShowCompleteModal] = useState(false)
 
   useEffect(() => {
     const fetchDriverDelivery = async() => {
@@ -70,10 +74,16 @@ export default function DriverDelivery() {
 
 
   const handleViewFarmerLocation = (delivery) => {
-    console.log("Delivery object:", delivery);
+  console.log("Viewing Farmer Location for Delivery:", delivery.delivery_id);
+  socket.emit("join_delivery", { delivery_id: delivery.delivery_id });
+  setSelectedDelivery(delivery); 
+  setShowFarmerLocation(true);
+};
 
-    socket.emit("join_delivery",{delivery_id: delivery.delivery_id })
-  }
+// const handleComplete = (id) => {
+//   setShowCompleteModal(true)
+//   setSelectedDelivery(id)
+// }
 
 
   return (
@@ -149,7 +159,11 @@ export default function DriverDelivery() {
 
                   {/* Action Buttons */}
                   <div className="action-buttons">
-                    <button className="action-btn map-btn">
+                    <button className="action-btn map-btn" onClick={() => {
+                        handleViewFarmerLocation(delivery); // FIXED: Pass the entire delivery object, not just id
+                        setSelectedDelivery(delivery);
+                        setShowFarmerLocation(true);
+                      }}>
                       View Farmer Location
                     </button>
                     <button 
@@ -162,9 +176,12 @@ export default function DriverDelivery() {
                     >
                       Start Delivery
                     </button>
-                    <button className="action-btn complete-btn">
-                      Complete Delivery
-                    </button>
+                    <button className="action-btn complete-btn" onClick={() => {
+                    setSelectedDelivery(delivery); 
+                    setShowCompleteModal(true);
+                }}>
+                  Complete Delivery
+                </button>
                   </div>
                 </div>
               </div>
@@ -187,6 +204,30 @@ export default function DriverDelivery() {
           </div>
         </div>
       )}
+
+      {showFarmerLocation && selectedDelivery && (
+      <div className="map-modal">
+        <div div className="map-container">
+        <button className="close-btn" onClick={() => setShowFarmerLocation(false)}>×</button>
+        
+        <ViewFarmerLocation
+          deliveryId={selectedDelivery.delivery_id}
+          pickupLocation={selectedDelivery.pickup_location} 
+          destinationLocation={selectedDelivery.destination}
+        />
+      </div>
+    </div>
+)}
+
+{showCompleteModal && selectedDelivery && (
+  <ShowCompleteModal 
+    deliveryId={selectedDelivery.delivery_id || selectedDelivery} // Pass the ID explicitly
+    onClose={() => setShowCompleteModal(false)} // Pass the close function
+    onComplete={() => {
+      setShowCompleteModal(false);
+    }}
+  />
+)}
     </div>
   );
 }

@@ -21,4 +21,127 @@
             margin-top: 20px;
         }
     }
+
+    /* Map Modal Media Queries */
+
+@media (max-width: 1024px) {
+  .map-modal {
+    .map-container {
+      width: 90%;
+      max-width: 700px;
+      min-height: 500px;
+      padding: 1.5rem;
+      
+      .map_btn {
+        padding: 0.45rem 1.3rem;
+        font-size: 0.95rem;
+        margin-top: 18px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .map-modal {
+    padding: 1rem;
+    
+    .map-container {
+      width: 95%;
+      max-width: 550px;
+      min-height: 450px;
+      padding: 1.2rem;
+      border-radius: 1rem;
+      
+      .map_btn {
+        padding: 0.4rem 1.2rem;
+        font-size: 0.9rem;
+        margin-top: 15px;
+      }
+      
+      /* Leaflet map container adjustments */
+      .leaflet-container {
+        height: 380px !important;
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .map-modal {
+    padding: 0.75rem;
+    
+    .map-container {
+      width: 100%;
+      max-width: 100%;
+      min-height: 400px;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      
+      .map_btn {
+        padding: 0.35rem 1rem;
+        font-size: 0.85rem;
+        margin-top: 12px;
+        width: 100%;
+        text-align: center;
+      }
+      
+      /* Leaflet map container adjustments for mobile */
+      .leaflet-container {
+        height: 320px !important;
+        border-radius: 6px;
+      }
+    }
+  }
+}
+
+/* Additional responsive adjustments for map elements */
+@media (max-width: 640px) {
+  .map-modal .map-container {
+    .leaflet-control-zoom {
+      transform: scale(0.8);
+      transform-origin: top left;
+    }
+    
+    .leaflet-popup-content {
+      font-size: 0.8rem;
+      min-width: 150px;
+      max-width: 200px;
+      
+      strong {
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+/* For very small devices */
+@media (max-width: 360px) {
+  .map-modal .map-container {
+    min-height: 350px;
+    padding: 0.75rem;
+    
+    .leaflet-container {
+      height: 280px !important;
+    }
+    
+    .map_btn {
+      padding: 0.3rem 0.8rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .map-modal {
+    .map-container {
+      min-height: 300px;
+      
+      .leaflet-container {
+        height: 220px !important;
+      }
+    }
+  }
+}
 }

@@ -1,0 +1,217 @@
+@use "mixins" as *;
+@use "variable" as *;
+
+.complete-modal-overlay{
+  @include modal-overlay;
+}
+.complete-modal-container{
+ @include modal-content(700px, $spacing-xxl $spacing-xl);
+ .modal-close-btn{
+   position: absolute;
+    top: 10px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 30px;
+    cursor: pointer;
+ }
+}
+.picture-section {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1.5rem;
+
+  .picture-label {
+    display: block;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+
+    .required {
+      color: #ef4444;
+      margin-left: 0.25rem;
+    }
+  }
+
+  .picture-requirements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+    
+    span {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      
+      &:not(:last-child):after {
+        content: "•";
+        margin-left: 1rem;
+        color: #d1d5db;
+      }
+    }
+  }
+
+  .picture-upload-area {
+    position: relative;
+    margin-bottom: 1rem;
+
+    .picture-input {
+      position: absolute;
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      border: 2px dashed #d1d5db;
+      border-radius: 0.75rem;
+      background: #f9fafb;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      color: #4b5563;
+
+      &:hover {
+        border-color: #16a34a;
+        background: #f0fdf4;
+        color: #16a34a;
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        
+        &:hover {
+          border-color: #d1d5db;
+          background: #f9fafb;
+          color: #4b5563;
+        }
+      }
+
+      .upload-icon {
+        font-size: 1.5rem;
+      }
+
+      .upload-count {
+        background: #e5e7eb;
+        padding: 0.25rem 0.5rem;
+        border-radius: 60px;
+        font-size: 0.75rem;
+        color: #374151;
+      }
+    }
+  }
+
+  .upload-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fee2e2;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    color: #dc2626;
+  }
+
+  .picture-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .picture-preview-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      border: 2px solid #e5e7eb;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: #16a34a;
+        transform: scale(1.02);
+        
+        .remove-picture-btn {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .preview-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .remove-picture-btn {
+        position: absolute;
+        top: 0.25rem;
+        right: 0.25rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.2s ease;
+        z-index: 2;
+
+        &:hover {
+          background: #ef4444;
+          transform: scale(1);
+        }
+      }
+
+      .picture-number {
+        position: absolute;
+        bottom: 0.25rem;
+        left: 0.25rem;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 0.125rem 0.375rem;
+        border-radius: 0.25rem;
+        font-size: 0.7rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  .picture-section {
+    .picture-requirements {
+      flex-direction: column;
+      gap: 0.25rem;
+      
+      span:not(:last-child):after {
+        display: none;
+      }
+    }
+    
+    .picture-preview-grid {
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 0.75rem;
+    }
+  }
+}

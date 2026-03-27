@@ -35,36 +35,6 @@
     color: $text-muted; // replaced #6b7c6f
     font-size: 0.95rem;
   }
-
-  // /* Filter Tabs */
-  // .filter-tabs {
-  //   @include filter-tabs;
-  // }
-
-  // .filter-tab {
-  //   padding: 10px 24px;
-  //   background: $bg-card; // replaced white
-  //   border: 1px solid $border-light; // replaced #e2e8f0
-  //   border-radius: 50px;
-  //   font-size: 0.9rem;
-  //   font-weight: 500;
-  //   cursor: pointer;
-  //   transition: all 0.3s ease;
-  //   color: $text-muted-dark; // replaced #4a5b4e
-  // }
-
-  // .filter-tab:hover {
-  //   border-color: $primary-green; // replaced #2c7a4d
-  //   color: $primary-green;
-  //   transform: translateY(-2px);
-  // }
-
-  // .filter-tab.active {
-  //   background: linear-gradient(135deg, $primary-green, $primary-green-dark); // replaced #2c7a4d, #1f5a3a
-  //   color: $text-white;
-  //   border-color: transparent;
-  // }
-
   /* Deliveries Grid */
   .deliveries-grid {
     display: grid;
@@ -372,29 +342,432 @@
     }
   }
 
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
+ /* Deliveries Section Media Queries */
+
+@media (max-width: 1024px) {
+  .delivery_Wrapper {
     .deliveries-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 25px;
     }
 
-    .info-grid {
-      grid-template-columns: 1fr;
+    .deliveries-header {
+      margin-bottom: 25px;
+      
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px 0;
+      }
+      
+      .header-title h2 {
+        font-size: 1.8rem;
+      }
+      
+      .header-title p {
+        font-size: 0.9rem;
+      }
     }
 
-    .header-content {
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .filter-tabs {
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .filter-tab {
-      padding: 8px 16px;
-      font-size: 0.8rem;
+    .delivery-card {
+      .card-content {
+        padding: 18px;
+      }
+      
+      .crop-name {
+        font-size: 1.2rem;
+      }
+      
+      .price-value {
+        font-size: 1.1rem;
+      }
+      
+      .info-grid {
+        gap: 10px;
+        padding: 10px;
+      }
+      
+      .driver-info {
+        padding: 10px;
+        
+        .driver-avatar {
+          width: 40px;
+          height: 40px;
+        }
+        
+        .driver-details h4 {
+          font-size: 0.9rem;
+        }
+        
+        .driver-phone {
+          font-size: 0.75rem;
+        }
+      }
     }
   }
+}
+
+@media (max-width: 768px) {
+  .delivery_Wrapper {
+    .deliveries-container {
+      padding: 1.5rem;
+    }
+
+    .deliveries-header {
+      margin-bottom: 20px;
+      
+      .header-content {
+        padding: 12px 0;
+      }
+      
+      .header-title {
+        text-align: left;
+        width: 100%;
+        
+        h2 {
+          font-size: 1.5rem;
+        }
+        
+        p {
+          font-size: 0.85rem;
+        }
+      }
+    }
+
+    .deliveries-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .delivery-card {
+      border-radius: 18px;
+      
+      .card-header {
+        padding: 12px 16px;
+        
+        .status-badge {
+          padding: 4px 10px;
+          font-size: 0.75rem;
+        }
+      }
+      
+      .card-content {
+        padding: 16px;
+      }
+      
+      .crop-name {
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+      }
+      
+      .price-info {
+        flex-direction: column;
+        gap: 5px;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+        
+        .price-label {
+          font-size: 0.8rem;
+        }
+        
+        .price-value {
+          font-size: 1rem;
+        }
+      }
+      
+      .info-section {
+        margin-bottom: 15px;
+        
+        .info-title {
+          font-size: 0.8rem;
+          margin-bottom: 10px;
+        }
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+        
+        .info-item {
+          gap: 8px;
+          
+          .info-icon {
+            font-size: 1rem;
+            min-width: 24px;
+          }
+          
+          label {
+            font-size: 0.65rem;
+          }
+          
+          p {
+            font-size: 0.8rem;
+          }
+        }
+      }
+      
+      .driver-section {
+        margin-bottom: 15px;
+        
+        .info-title {
+          font-size: 0.8rem;
+          margin-bottom: 10px;
+        }
+      }
+      
+      .driver-info {
+        gap: 10px;
+        padding: 10px;
+        
+        .driver-avatar {
+          width: 38px;
+          height: 38px;
+        }
+        
+        .driver-details {
+          h4 {
+            font-size: 0.85rem;
+          }
+          
+          .driver-phone {
+            font-size: 0.7rem;
+          }
+        }
+        
+        .contact-btn {
+          padding: 5px 10px;
+          font-size: 0.7rem;
+        }
+      }
+      
+      .action-buttons {
+        gap: 10px;
+        margin-top: 15px;
+        
+        .action-btn {
+          padding: 8px 12px;
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .empty-deliveries {
+      padding: 3rem 2rem;
+      margin-top: 20px;
+      
+      .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+      }
+      
+      p {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+      }
+      
+      .browse-btn {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .delivery_Wrapper {
+    .deliveries-container {
+      padding: 1rem;
+    }
+
+    .deliveries-header {
+      margin-bottom: 15px;
+      
+      .header-content {
+        padding: 10px 0;
+      }
+      
+      .header-title {
+        h2 {
+          font-size: 1.3rem;
+        }
+        
+        p {
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .deliveries-grid {
+      gap: 15px;
+    }
+
+    .delivery-card {
+      border-radius: 16px;
+      
+      .card-header {
+        padding: 10px 14px;
+        
+        .status-badge {
+          padding: 3px 8px;
+          font-size: 0.7rem;
+          gap: 4px;
+        }
+      }
+      
+      .card-content {
+        padding: 14px;
+      }
+      
+      .crop-name {
+        font-size: 1rem;
+      }
+      
+      .price-info {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        
+        .price-label {
+          font-size: 0.75rem;
+        }
+        
+        .price-value {
+          font-size: 0.95rem;
+        }
+      }
+      
+      .info-section {
+        margin-bottom: 12px;
+        
+        .info-title {
+          font-size: 0.75rem;
+          margin-bottom: 8px;
+        }
+      }
+      
+      .info-grid {
+        padding: 8px;
+        
+        .info-item {
+          gap: 6px;
+          
+          .info-icon {
+            font-size: 0.9rem;
+            min-width: 22px;
+          }
+          
+          label {
+            font-size: 0.6rem;
+          }
+          
+          p {
+            font-size: 0.75rem;
+          }
+        }
+      }
+      
+      .driver-section {
+        margin-bottom: 12px;
+        
+        .info-title {
+          font-size: 0.75rem;
+          margin-bottom: 8px;
+        }
+      }
+      
+      .driver-info {
+        gap: 8px;
+        padding: 8px;
+        
+        .driver-avatar {
+          width: 32px;
+          height: 32px;
+        }
+        
+        .driver-details {
+          h4 {
+            font-size: 0.8rem;
+          }
+          
+          .driver-phone {
+            font-size: 0.65rem;
+          }
+        }
+        
+        .contact-btn {
+          padding: 4px 8px;
+          font-size: 0.65rem;
+        }
+      }
+      
+      .action-buttons {
+        gap: 8px;
+        margin-top: 12px;
+        
+        .action-btn {
+          padding: 6px 10px;
+          font-size: 0.75rem;
+          border-radius: 8px;
+        }
+      }
+    }
+
+    .empty-deliveries {
+      padding: 2rem 1rem;
+      margin-top: 15px;
+      
+      .empty-icon {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+      }
+      
+      h3 {
+        font-size: 1rem;
+      }
+      
+      p {
+        font-size: 0.85rem;
+        margin-bottom: 16px;
+      }
+      
+      .browse-btn {
+        padding: 6px 16px;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+/* Additional styles for tracking section if needed */
+@media (max-width: 768px) {
+  .delivery_Wrapper .delivery-card .tracking-section {
+    .tracking-info {
+      padding: 8px;
+      
+      .tracking-item {
+        gap: 8px;
+        margin-bottom: 6px;
+        
+        .tracking-icon {
+          font-size: 0.9rem;
+          min-width: 22px;
+        }
+        
+        .tracking-label {
+          font-size: 0.65rem;
+        }
+        
+        .tracking-value {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
 }
