@@ -4,5 +4,21 @@
     @include modal-overlay;
     .map-container{
         @include modal-content(800px, $spacing-xxl $spacing-xl);
+        text-align: left; // Override the 'center' from the mixin
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        min-height: 600px; // Give the modal a minimum height
+        overflow: hidden; // Keeps the map corners within the border-radius
+        .map_btn{
+            padding: 0.5rem 1.5rem;
+            border-radius: $radius-xs;
+            background: $primary-green;
+            color: $text-white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
     }
 }
