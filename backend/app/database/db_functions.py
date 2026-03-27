@@ -702,6 +702,12 @@ def set_price_by_driver(driver_id, produce_id, price, driver_distance):
         query = "INSERT INTO produce_price (produce_id, driver_id, price, driver_distance) VALUES (?, ?, ?, ?)"
         cursor.execute(query, (produce_id, driver_id, price, driver_distance))
 
+        # Update produce status to MATCHED
+        cursor.execute(
+            "UPDATE farm_produce SET status = 'MATCHED' WHERE id = ? AND status = 'PENDING'",
+            (produce_id,)
+        )
+
         db.commit()
         return {"status": "SUCCESS",
                 "code": 201,
@@ -916,6 +922,12 @@ def accept_price_for_produce(produce_id, driver_id):
             VALUES (?, ?, ?, ?, ?)
         """, (delivery_id, produce_id, driver_id, row["farmer_id"], row["price"]))
 
+        # Update produce status to ACCEPTED
+        cursor.execute(
+            "UPDATE farm_produce SET status = 'ACCEPTED' WHERE id = ?",
+            (produce_id,)
+        )
+
         db.commit()
 
         return {
@@ -1003,8 +1015,8 @@ def fetch_accepted_delivery_for_farmer(farmer_id):
         query = """
             SELECT 
                 d.id, d.price, d.status, d.accepted_at,
-                p.crop_name, p.pickup_location, p.destination,
-                dr.first_name, dr.last_name
+                p.crop_name, p.pickup_location, p.destination, p.quantity,
+                dr.first_name, dr.last_name, dr.profile_picture_url
             FROM deliveries d
             JOIN farm_produce p ON d.produce_id = p.id
             JOIN driver dr ON d.driver_id = dr.id
@@ -1025,9 +1037,11 @@ def fetch_accepted_delivery_for_farmer(farmer_id):
         accepted_produce_list = [{
             "delivery_id": row["id"],
             "driver_name": f"{row['first_name']} {row['last_name']}",
+            "driver_photo": f"{row['profile_picture_url']}",
             "crop_name": row["crop_name"],
             "pickup_location": row["pickup_location"],
             "destination": row["destination"],
+            "quantity": row["quantity"],
             "price": row["price"],
             "status": row["status"],
             "accepted_at": time_ago(row["accepted_at"])
@@ -1129,9 +1143,9 @@ def update_delivery_status(delivery_id, driver_id, new_status):
     try:
         cursor = db.cursor()
 
-        # SECURITY: Verify this delivery belongs to THIS driver
+        # Fetch both driver_id and produce_id
         cursor.execute(
-            "SELECT driver_id FROM deliveries WHERE id = ?", (delivery_id,))
+            "SELECT driver_id, produce_id FROM deliveries WHERE id = ?", (delivery_id,))
         row = cursor.fetchone()
 
         if not row:
@@ -1139,17 +1153,26 @@ def update_delivery_status(delivery_id, driver_id, new_status):
                     "code": 404,
                     "message": "Delivery not found."}
         if row['driver_id'] != driver_id:
-            return {"status": "ERROR",
-                    "code": 403,
-                    "message": "Unauthorized: This is not your delivery."}
+            return {"status": "ERROR", "code": 403, "message": "Unauthorized."}
 
-        # Logic: Only update 'delivered_at' if status is DELIVERED
+        produce_id = row['produce_id']
+
+        # Mapping statuses between the two tables
+        # If delivery is DELIVERED, produce is COMPLETED
+        produce_status = "COMPLETED" if new_status == "DELIVERED" else new_status
+
+        # Update Deliveries Table
         if new_status == "DELIVERED":
-            query = "UPDATE deliveries SET status = ?, delivered_at = CURRENT_TIMESTAMP WHERE id = ?"
+            cursor.execute(
+                "UPDATE deliveries SET status = ?, delivered_at = CURRENT_TIMESTAMP WHERE id = ?", (new_status, delivery_id))
         else:
-            query = "UPDATE deliveries SET status = ? WHERE id = ?"
+            cursor.execute(
+                "UPDATE deliveries SET status = ? WHERE id = ?", (new_status, delivery_id))
 
-        cursor.execute(query, (new_status, delivery_id))
+        # Update Farm Produce Table
+        cursor.execute(
+            "UPDATE farm_produce SET status = ? WHERE id = ?", (produce_status, produce_id))
+
         db.commit()
 
         return {"status": "SUCCESS",
@@ -1236,8 +1259,8 @@ def view_payments(farmer_id):
 
             payments.append({
                 "txn_id": row["txn_id"],
-                "amount_kobo": amount_in_kobo, 
-                "amount": row["amount"], # Keeping both just in case
+                "amount_kobo": amount_in_kobo,
+                "amount": row["amount"],  # Keeping both just in case
                 "crop": row["crop_name"],
                 "driver_name": f"{row['first_name']} {row['last_name']}",
                 "phone": row["phone"],
@@ -1325,6 +1348,131 @@ def driver_stats(driver_id):
         return {"status": "ERROR",
                 "code": 500,
                 "message": f"Error fetching dashboard stats: {e}."}
+    finally:
+        if db:
+            db.close()
+
+
+# Farmer
+def farmer_stats(farmer_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        # 1. Total Produce Posted (Count from farm_produce)
+        cursor.execute(
+            "SELECT COUNT(*) as total FROM farm_produce WHERE farmer_id = ?", (farmer_id,))
+        total_p = cursor.fetchone()
+        total_produce = total_p['total'] if total_p else 0
+
+        # 2. Delivery Stats (from deliveries table)
+        # Active: ACCEPTED, MATCHED, or IN_TRANSIT
+        # Completed: DELIVERED
+        query_deliveries = """
+            SELECT 
+                COUNT(CASE WHEN status IN ('ACCEPTED', 'MATCHED', 'IN_TRANSIT') THEN 1 END) as active,
+                COUNT(CASE WHEN status = 'DELIVERED' THEN 1 END) as completed
+            FROM deliveries 
+            WHERE farmer_id = ?
+        """
+        cursor.execute(query_deliveries, (farmer_id,))
+        d_data = cursor.fetchone()
+
+        active_count = d_data['active'] if d_data else 0
+        completed_count = d_data['completed'] if d_data else 0
+
+        # 3. Total Payments Made (Successful only)
+        # Note: 'amount' is an INTEGER in your schema
+        query_payments = """
+            SELECT SUM(amount) as total_paid 
+            FROM payments 
+            WHERE farmer_id = ? AND status = 'SUCCESSFUL'
+        """
+        cursor.execute(query_payments, (farmer_id,))
+        p_data = cursor.fetchone()
+        total_paid = p_data['total_paid'] if p_data and p_data['total_paid'] else 0
+
+        return {
+            "status": "SUCCESS",
+            "code": 200,
+            "data": {
+                "total_produce": total_produce,
+                "active_deliveries": active_count,
+                "completed_deliveries": completed_count,
+                "total_payment_made": total_paid,
+                "total_payment_kobo": total_paid * 100
+            },
+            "message": "Farmer dashboard statistics retrieved."
+        }
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "code": 500,
+                "message": f"Error fetching farmer dashboard stats: {e}."}
+    finally:
+        if db:
+            db.close()
+
+
+# Driver
+def completed_delivery(delivery_id, image1, image2):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+        # Using INSERT OR REPLACE in case of a retry
+        query = """
+            INSERT OR REPLACE INTO completed_deliveries (delivery_id, image1_url, image2_url)
+            VALUES (?, ?, ?)
+        """
+        cursor.execute(query, (delivery_id, image1, image2))
+        db.commit()
+        return {"status": "SUCCESS",
+                "code": 201,
+                "message": "Proof of delivery saved."}
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "code": 500,
+                "message": f"Error saving completed deliveries: {e}."}
+    finally:
+        if db:
+            db.close()
+
+
+# Farmer
+def view_completed_deliveries(delivery_id):
+    db = get_db_connection()
+    try:
+        cursor = db.cursor()
+
+        # JOIN with deliveries to make sure we have the right context
+        query = """
+            SELECT cd.*, d.status, d.price 
+            FROM completed_deliveries cd
+            JOIN deliveries d ON cd.delivery_id = d.id
+            WHERE cd.delivery_id = ?
+        """
+        cursor.execute(query, (delivery_id,))
+        row = cursor.fetchone()
+
+        if not row:
+            return {"status": "ERROR",
+                    "code": 404, "message":
+                    "No proof found for this delivery."}
+
+        return {
+            "status": "SUCCESS",
+            "code": 200,
+            "data": {
+                "delivery_id": row["delivery_id"],
+                "image_one": row["image1_url"],  # Separate object keys
+                "image_two": row["image2_url"],
+                "status": row["status"],
+                "date": time_ago(row["created_at"])
+            }
+        }
+    except sqlite3.Error as e:
+        return {"status": "ERROR",
+                "code": 500,
+                "message": f"Error fetching completed deliveries: {e}."}
     finally:
         if db:
             db.close()

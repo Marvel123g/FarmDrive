@@ -30,7 +30,8 @@ def create_app():
     from app.routes.delivery import delivery_bp
     from app.routes.transit import transit_bp
     from app.routes.payment import payment_bp
-    from app.routes.driver.stats import stats_bp
+    from app.routes.driver.stats import dstats_bp
+    from app.routes.farmer.stats import fstats_bp
 
     app.register_blueprint(farmer_auth_bp)
     app.register_blueprint(driver_auth_bp)
@@ -39,7 +40,8 @@ def create_app():
     app.register_blueprint(delivery_bp)
     app.register_blueprint(transit_bp)
     app.register_blueprint(payment_bp)
-    app.register_blueprint(stats_bp)
+    app.register_blueprint(dstats_bp)
+    app.register_blueprint(fstats_bp)
 
     socketio.init_app(app)
 
