@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
-from app.database.db_functions import get_current_user, set_price_by_driver, update_driver_position, fetch_prices_for_produce, accept_price_for_produce
+from app.database.db_functions import get_current_user, set_price_by_driver, update_driver_position, fetch_prices_for_produce, accept_price_for_produce, get_produce_details_for_matching
 from app.math.distance import calculate_initial_driver_distance_from_farmer
 from app.services.matchingAI import match_drivers
+import json
 
 price_bp = Blueprint("price_bp", __name__, url_prefix="/api/v1")
 
@@ -71,10 +72,32 @@ def get_prices(produce_id):
             "message": "Unauthorized. Please log in."
         }), 401
 
-    result = fetch_prices_for_produce(produce_id)
-    if result['code'] == 200 and result['prices'] != None:
-        matched = match_drivers(result['prices'], )
-    return jsonify(result), result['code']
+    produce_res = get_produce_details_for_matching(produce_id)
+    prices_res = fetch_prices_for_produce(produce_id)
+
+    # Validate we have data
+    if prices_res['code'] == 200 and prices_res['prices'] and produce_res['code'] == 200:
+        # Get the raw JSON string from AI
+        ai_raw = match_drivers(prices_res['prices'], produce_res['data'])
+
+        try:
+            # Convert string to dictionary
+            ai_data = json.loads(ai_raw)
+            # Replace the original prices with the AI's ranked ones
+            prices_res['prices'] = ai_data.get(
+                'ranked_drivers', prices_res['prices'])
+            prices_res['message'] = "Prices retrieved and ranked by AI."
+        except Exception as e:
+            print(f"AI Parsing Error: {e}")
+        print(prices_res)
+    return jsonify(prices_res), prices_res['code']
+
+    # produce_list = get_produce_details_for_matching(produce_id)
+    # result = fetch_prices_for_produce(produce_id)
+    # if result['code'] == 200 and result['prices'] != None and produce_list['code'] == 200:
+    #     ai_recommendations = match_drivers(result['prices'], produce_list['data'])
+    #     print(ai_recommendations)
+    # return jsonify(result), result['code']
 
 
 @price_bp.route("/price/accept", methods=['POST'])
