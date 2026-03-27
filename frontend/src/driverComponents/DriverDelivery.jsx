@@ -68,6 +68,15 @@ export default function DriverDelivery() {
     };
   }, [watchId]);
 
+
+  const handleViewFarmerLocation = (delivery) => {
+    console.log("Delivery object:", delivery);
+    console.log("Delivery ID:", delivery.delivery_id);
+    console.log("Pickup location:", delivery.pickup_location);
+    console.log("Destination:", delivery.farmer);
+  }
+
+
   return (
     <div className="driverDelivery_wrapper">
       <DriverSidebar/>

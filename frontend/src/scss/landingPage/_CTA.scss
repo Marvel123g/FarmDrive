@@ -72,3 +72,23 @@
     font-weight: 500;
   }
 }
+
+
+
+@media (max-width: 480px) {
+  .cta-section {
+    padding: 2.5rem 1rem;
+  }
+  .cta-section h2 {
+    font-size: 1.5rem;
+  }
+  .cta-section p {
+    font-size: 0.9rem;
+  }
+  .cta-section .cta-buttons .btn-light,
+  .cta-section .cta-buttons .btn-outline {
+    width: 90%;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}

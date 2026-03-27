@@ -56,3 +56,59 @@
     }
   }
 }
+
+@media (max-width: 1024px) {
+  .faq-section {
+    padding: 5rem 1.5rem;
+  }
+  .faq-section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+  }
+  .faq-section .faq-item {
+    padding: 1.2rem 1.5rem;
+  }
+  .faq-section .faq-item h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .faq-section {
+    padding: 4rem 1.5rem;
+  }
+  .faq-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  .faq-section .faq-item {
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .faq-section .faq-item header h3 {
+    font-size: 1rem;
+    padding-right: 0.5rem;
+  }
+  .faq-section .faq-item header button {
+    font-size: 1.2rem;
+  }
+  .faq-section .faq-item p {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .faq-section {
+    padding: 3rem 1rem;
+  }
+  .faq-section h2 {
+    font-size: 1.6rem;
+  }
+  .faq-section .faq-item {
+    padding: 0.8rem 1rem;
+  }
+  .faq-section .faq-item header h3 {
+    font-size: 0.9rem;
+  }
+}
