@@ -141,6 +141,9 @@ export default function DriverDelivery() {
 
                   {/* Action Buttons */}
                   <div className="action-buttons">
+                    <button className="action-btn map-btn">
+                      View Farmer Location
+                    </button>
                     <button 
                       className="action-btn start-btn"
                       onClick={() => {
@@ -150,9 +153,6 @@ export default function DriverDelivery() {
                       }}
                     >
                       Start Delivery
-                    </button>
-                    <button className="action-btn map-btn">
-                      View Farmer Location
                     </button>
                     <button className="action-btn complete-btn">
                       Complete Delivery
@@ -173,7 +173,7 @@ export default function DriverDelivery() {
               pickupLocation={selectedDelivery.pickup_location}
               destinationLocation={selectedDelivery.destination}
             />
-            <button onClick={() => setShowMap(false)}>
+            <button className="map_btn" onClick={() => setShowMap(false)}>
               Close Map
             </button>
           </div>

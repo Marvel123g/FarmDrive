@@ -38,40 +38,12 @@
     }
   }
 
-  /* Tabs */
-  .delivery-tabs {
-    @include filter-tabs;
-
-    .tab-btn {
-      padding: 12px 28px;
-      background: $bg-card;
-      border: 2px solid $border-light;
-      border-radius: $radius-pill;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      color: $text-muted-dark;
-
-      &:hover {
-        border-color: $primary-green;
-        color: $primary-green;
-      }
-
-      &.active {
-        background: linear-gradient(135deg, $primary-green, $primary-green-dark);
-        color: $text-white;
-        border-color: transparent;
-      }
-    }
-  }
 
   /* Deliveries Grid */
   .deliveries-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
     gap: 30px;
-    animation: fadeInUp 0.6s ease-out;
   }
 
   /* Delivery Card */
