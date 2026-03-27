@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS farm_produce (
     destination TEXT NOT NULL,
     quantity TEXT NOT NULL,
     details TEXT,
+    status TEXT DEFAULT "PENDING", --MATCHED, ACCEPTED, IN_TRANSIT, COMPLETED
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (farmer_id) REFERENCES farmer (id)
 );
