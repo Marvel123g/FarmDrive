@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import socket from '../components/Socket';
 
 export default function ShowCompleteModal({ deliveryId, onClose, onComplete }) {
@@ -9,7 +9,6 @@ export default function ShowCompleteModal({ deliveryId, onClose, onComplete }) {
 
   const MAX_PICTURES = 2;
   const MIN_PICTURES = 1;
-const [pictures, setPictures] = useState([]);
 const [picturePreviews, setPicturePreviews] = useState([]);
 
 const handlePictureUpload = (e) => {
