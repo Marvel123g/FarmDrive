@@ -46,7 +46,7 @@ export default function MyProduce() {
                 </button>
             </div>
 
-            {myProduce.length === 0 ? (
+            {myProduce?.length === 0 ? (
                 <div className="empty-state">
                 <div className="empty-icon">🌾</div>
                 <h3>No Produce Listed Yet</h3>
@@ -55,7 +55,7 @@ export default function MyProduce() {
                 </div>
             ) : (
                 <div className="produce-grid">
-                {myProduce.map((produce) => (
+                {myProduce?.map((produce) => (
                     <div key={produce.id} className="produce-card">
                     {/* <div className="card-image">
                         <img src={produce.image} alt={produce.crop} />

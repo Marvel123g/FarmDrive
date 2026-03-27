@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.database.db_functions import get_current_user, set_price_by_driver, update_driver_position, fetch_prices_for_produce, accept_price_for_produce
 from app.math.distance import calculate_initial_driver_distance_from_farmer
+from app.services.matchingAI import match_drivers
 
 price_bp = Blueprint("price_bp", __name__, url_prefix="/api/v1")
 
@@ -71,6 +72,8 @@ def get_prices(produce_id):
         }), 401
 
     result = fetch_prices_for_produce(produce_id)
+    if result['code'] == 200 and result['prices'] != None:
+        matched = match_drivers(result['prices'], )
     return jsonify(result), result['code']
 
 

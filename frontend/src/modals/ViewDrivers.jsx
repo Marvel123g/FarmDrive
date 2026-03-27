@@ -72,7 +72,7 @@ export default function ViewDrivers({ data, onClose }) {
           </p>
 
           <div className="drivers-list">
-            {listOfDrivers.map((driver) => (
+            {listOfDrivers?.map((driver) => (
               <div className="driver-card" key={driver.driver_id}>
                 <div className="driver_header">
                   <img src={driver.profile_picture} className="driver-avatar" />

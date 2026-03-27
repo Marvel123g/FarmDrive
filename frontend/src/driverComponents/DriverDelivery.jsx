@@ -30,18 +30,18 @@ export default function DriverDelivery() {
   // FIXED: Now receives the entire delivery object
   const handleStartDelivery = (delivery) => {
     console.log("Delivery object:", delivery);
-    console.log("Delivery ID:", delivery.id);
+    console.log("Delivery ID:", delivery.delivery_id);
     console.log("Pickup location:", delivery.pickup_location);
     console.log("Destination:", delivery.destination);
     
     if (watchId) return;
 
-    socket.emit("join_delivery", { delivery_id: delivery.id });
+    socket.emit("join_delivery", { delivery_id: delivery.delivery_id });
 
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
       socket.emit("update_location", {
-        delivery_id: delivery.id,  // FIXED: Use delivery.id
+        delivery_id: delivery.delivery_id,  // FIXED: Use delivery.id
         lat: latitude,
         lng: longitude,
       });
@@ -50,7 +50,7 @@ export default function DriverDelivery() {
 
     const id = navigator.geolocation.watchPosition((pos) => {
       socket.emit("update_location", {
-        delivery_id: delivery.id,  // FIXED: Use delivery.id instead of undefined deliveryId
+        delivery_id: delivery.delivery_id,  // FIXED: Use delivery.id instead of undefined deliveryId
         lat: pos.coords.latitude,
         lng: pos.coords.longitude,
       });
@@ -59,6 +59,14 @@ export default function DriverDelivery() {
 
     setWatchId(id);
   };
+
+  useEffect(() => {
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+    };
+  }, [watchId]);
 
   return (
     <div className="driverDelivery_wrapper">
@@ -75,7 +83,7 @@ export default function DriverDelivery() {
         </div>
 
         {/* Deliveries Grid */}
-        {acceptedDelivery.length === 0 ? (
+        {acceptedDelivery?.length === 0 ? (
           <div className="empty-deliveries">
             <div className="empty-icon">🚚</div>
             <h3>No Deliveries Found</h3>
@@ -84,13 +92,13 @@ export default function DriverDelivery() {
           </div>
         ) : (
           <div className="deliveries-grid">
-            {acceptedDelivery.map((delivery) => (
+            {acceptedDelivery?.map((delivery) => (
               <div key={delivery.delivery_id} className="delivery-card">
                 <div className="card-content">
                   <div className="farmer-info">
                     <div>
                       <h4 className="farmer-name">{delivery.farmer_name}</h4>
-                      <p className="farmer-phone">📞 {delivery.farmerPhone}</p>
+                      <p className="farmer-phone">📞 {delivery.farmer_phone}</p>
                     </div>
                     <button className="contact-btn">
                       {delivery.status}
@@ -161,7 +169,7 @@ export default function DriverDelivery() {
         <div className="map-modal">
           <div className="map-container">
             <ViewMap 
-              deliveryId={selectedDelivery.id}
+              deliveryId={selectedDelivery.delivery_id}
               pickupLocation={selectedDelivery.pickup_location}
               destinationLocation={selectedDelivery.destination}
             />
