@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar';
 import ViewDrivers from '../modals/ViewDrivers';
+import { Calendar, CalendarCheck, CalendarClock, Clipboard, MapPin, Navigation, Package } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function MyProduce() {
   const [myProduce, setMyProduce] = useState([])
@@ -30,6 +33,7 @@ export default function MyProduce() {
     setSelected(null)
     setShowDriverList(false)
   }
+  const navigate = useNavigate()
   
 
   return (
@@ -41,7 +45,7 @@ export default function MyProduce() {
                 <h2>My Produce Listings</h2>
                 <p>Manage and track all your agricultural produce listings</p>
                 </div>
-                <button className="add-produce-btn">
+                <button className="add-produce-btn" onClick={() => navigate("/post-produce")}>
                 <span>+</span> Add New Produce
                 </button>
             </div>
@@ -51,7 +55,7 @@ export default function MyProduce() {
                 <div className="empty-icon">🌾</div>
                 <h3>No Produce Listed Yet</h3>
                 <p>Start by adding your first produce listing</p>
-                <button className="primary-btn">Add Produce</button>
+                <button className="primary-btn" onClick={() => navigate("/post-produce")}>Add Produce</button>
                 </div>
             ) : (
                 <div className="produce-grid">
@@ -73,7 +77,7 @@ export default function MyProduce() {
                         
                         <div className="card-details">
                         <div className="detail-item">
-                            <span className="detail-icon">📦</span>
+                            <span className="detail-icon"><Package/></span>
                             <div>
                             <label>Quantity</label>
                             <p>{produce.quantity}</p>
@@ -81,7 +85,7 @@ export default function MyProduce() {
                         </div>
                         
                         <div className="detail-item">
-                            <span className="detail-icon">📍</span>
+                            <span className="detail-icon"><MapPin/></span>
                             <div>
                             <label>From</label>
                             <p>{produce.pickup_location}</p>
@@ -89,7 +93,7 @@ export default function MyProduce() {
                         </div>
                         
                         <div className="detail-item">
-                            <span className="detail-icon">🎯</span>
+                            <span className="detail-icon"><Navigation/></span>
                             <div>
                             <label>To</label>
                             <p>{produce.destination}</p>
@@ -97,7 +101,7 @@ export default function MyProduce() {
                         </div>
                         
                         <div className="detail-item">
-                            <span className="detail-icon">📅</span>
+                            <span className="detail-icon"><Calendar/></span>
                             <div>
                             <label>Posted Date</label>
                             <p>{produce.posted_at}</p>

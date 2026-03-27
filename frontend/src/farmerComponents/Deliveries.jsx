@@ -106,7 +106,7 @@ export default function Deliveries() {
                       </div>
                     </div>
                     <div className="info-item">
-                      <span className="info-icon"><MapPin className="info-icon"/></span>
+                      <span className="info-icon"><MapPin/></span>
                       <div>
                         <label>From</label>
                         <p>{delivery.pickup_location}</p>
