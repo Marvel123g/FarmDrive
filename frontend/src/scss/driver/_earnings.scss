@@ -53,70 +53,90 @@
     font-size: 2rem;
   }
 
-  /* Transactions Section */
-  .transactions-section {
-    h3 {
-      margin-bottom: 20px;
-      color: $dark-forest;
+  .bid_section {
+    .header-title {
+      h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, $dark-forest, $primary-green);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 8px;
+      }
     }
-  }
+    .mini_container {
+      background-color: $bg-soft;
+      box-shadow: $shadow-green-dark;
+      padding: $spacing-md;
+      border-radius: $radius-sm;
+      .bid_card {
+        background-color: white;
+        padding: 10px;
+        border-radius: $radius-sm;
+        box-shadow: $shadow-card;
+        .info {
+          @include person-info;
+          .name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: $dark-forest;
+            margin: 0 0 4px 0;
+          }
 
-  .transactions-list {
-    background: $bg-card;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: $shadow-xs;
-  }
+          .posted_at {
+            font-size: 0.75rem;
+            color: $text-gray;
+            margin: 0;
+          }
 
-  .transaction-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid $border-light;
-    transition: background 0.2s;
+          .status {
+            margin-left: auto;
+            @include btn(
+              $primary-green,
+              $primary-green-dark,
+              8px,
+              $text-white,
+              6px 12px
+            );
+            font-size: 0.75rem;
 
-    &:hover {
-      background: $bg-page-start;
+            &:hover {
+              transform: translateY(-1px);
+            }
+          }
+        }
+        .bid_footer {
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+          .detail-row {
+            display: flex;
+            flex-direction: column;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+            .detail-item {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              font-size: 0.8rem;
+              color: $text-muted-dark;
+            }
+
+            .detail-icon {
+              font-size: 0.9rem;
+            }
+          }
+          .amount {
+            display: block;
+            font-weight: bold;
+            font-size: $font-md;
+            color: $sidebar-bg;
+          }
+        }
+      }
     }
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
-  .transaction-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .transaction-icon {
-    font-size: 1.5rem;
-  }
-
-  .transaction-desc {
-    font-weight: 600;
-    color: $dark-forest;
-    margin: 0 0 4px 0;
-  }
-
-  .transaction-date {
-    font-size: 0.75rem;
-    color: $text-placeholder;
-  }
-
-  .transaction-amount {
-    text-align: right;
-
-    span:first-child {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-  }
-
-  .credit {
-    color: $success;
   }
 }

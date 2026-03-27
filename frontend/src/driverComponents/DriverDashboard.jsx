@@ -6,6 +6,8 @@ export default function DriverDashboard() {
 
   const [verifiedState, setVerifiedState] = useState("")
   const [driverProfile, setDriverProfile] = useState(true)
+  const [getStats, setGetStats] = useState({})
+  const [miniDelivery, setMiniDelivery] = useState([]);
 
   useEffect(() => {
     const status = sessionStorage.getItem("verifiedCheck")
@@ -17,6 +19,39 @@ export default function DriverDashboard() {
     console.log(typeof status)
   console.log("this is verifiedstate: ", verifiedState)
   }, [])
+
+  useEffect(() => {
+    const fetchStats = async() => {
+      const res = await fetch("/api/v1/driver/stats",{
+        method: "GET",
+        credentials: "include"
+      })
+      const data = await res.json()
+      console.log(data.data)
+      setGetStats(data.data)
+    }
+
+    fetchStats()
+  }, [])
+
+  useEffect(() => {
+      const fetchMiniDelivery = async() => {
+        const res = await fetch("/api/v1/delivery?role=driver", {
+          method: "GET",
+          credentials: "include"
+        })
+        const data = await res.json()
+
+        console.log(data.accepted_produce)
+        setMiniDelivery(data.accepted_produce)
+      }
+
+      fetchMiniDelivery()
+    }, [])
+
+
+  
+  
   return (
     <div className='dashboard'>
       {verifiedState == false && driverProfile === true ? (
@@ -29,24 +64,57 @@ export default function DriverDashboard() {
         <div className="stats">
         <div className="stat_item">
           <h3>Total Earnings</h3>
-          <p>0</p>
+          <p>{getStats.total_earned_naira}</p>
         </div>
         <div className="stat_item">
           <h3>Active Deliveries</h3>
-          <p>0</p>
+          <p>{getStats.total_deliveries}</p>
         </div>
         <div className="stat_item">
           <h3>Available Jobs</h3>
-          <p>0</p>
+          <p>{getStats.available_jobs}</p>
         </div>
         <div className="stat_item">
           <h3>Completed</h3>
-          <p>0</p>
+          <p>{getStats.completed_jobs}</p>
         </div>
         </div>
 
         <div className="mini_deliveries">
-        <h3>Recent Deliveries Activities</h3>
+        <header>  
+            <h3>Recent Deliveries Activities</h3>
+          </header>
+           <table className="table">
+            <thead>
+              <tr>
+                <th>Crop</th>
+                <th>Destination</th>
+                <th>Accepted Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {miniDelivery.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.crop_name}</td>
+                  <td>
+                    {item.pickup_location} → {item.destination}
+                  </td>
+                  <td>
+                    {item.accepted_at}
+                  </td>
+                  <td>
+                    <span
+                      className="styles"
+                    >
+                      {item.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </main>
     </div>

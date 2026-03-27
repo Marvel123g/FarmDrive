@@ -112,7 +112,10 @@
       .table {
         width: 100%;
         border-collapse: collapse;
-
+        .empty_produce{
+          @include empty-state;
+          text-align: center;
+        }
         th,
         td {
           padding: 12px;
@@ -150,6 +153,24 @@
         &::before {
           content: "🚛";
           font-size: 1.5rem;
+        }
+      }
+        .table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th,
+        td {
+          padding: 12px;
+          border-bottom: 1px solid #eee;
+          text-align: left;
+        }
+        .styles{
+          background: $dark-forest-soft;
+          font-size: $font-sm;
+          color: $text-white;
+          padding:7px 15px;
+          border-radius: $radius-md;
         }
       }
     }

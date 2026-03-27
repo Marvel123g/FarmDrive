@@ -36,53 +36,53 @@
     font-size: 0.95rem;
   }
 
-  /* Filter Tabs */
-  .filter-tabs {
-    @include filter-tabs;
-  }
+  // /* Filter Tabs */
+  // .filter-tabs {
+  //   @include filter-tabs;
+  // }
 
-  .filter-tab {
-    padding: 10px 24px;
-    background: $bg-card; // replaced white
-    border: 1px solid $border-light; // replaced #e2e8f0
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: $text-muted-dark; // replaced #4a5b4e
-  }
+  // .filter-tab {
+  //   padding: 10px 24px;
+  //   background: $bg-card; // replaced white
+  //   border: 1px solid $border-light; // replaced #e2e8f0
+  //   border-radius: 50px;
+  //   font-size: 0.9rem;
+  //   font-weight: 500;
+  //   cursor: pointer;
+  //   transition: all 0.3s ease;
+  //   color: $text-muted-dark; // replaced #4a5b4e
+  // }
 
-  .filter-tab:hover {
-    border-color: $primary-green; // replaced #2c7a4d
-    color: $primary-green;
-    transform: translateY(-2px);
-  }
+  // .filter-tab:hover {
+  //   border-color: $primary-green; // replaced #2c7a4d
+  //   color: $primary-green;
+  //   transform: translateY(-2px);
+  // }
 
-  .filter-tab.active {
-    background: linear-gradient(135deg, $primary-green, $primary-green-dark); // replaced #2c7a4d, #1f5a3a
-    color: $text-white;
-    border-color: transparent;
-  }
+  // .filter-tab.active {
+  //   background: linear-gradient(135deg, $primary-green, $primary-green-dark); // replaced #2c7a4d, #1f5a3a
+  //   color: $text-white;
+  //   border-color: transparent;
+  // }
 
   /* Deliveries Grid */
   .deliveries-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 30px;
-    animation: fadeInUp 0.6s ease-out;
   }
 
   /* Delivery Card */
   .delivery-card {
     @include card(
-      $bg: $bg-card, // replaced rgba(255,255,255,0.95)
+      $bg: $bg-card, 
       $radius: 20px,
-      $shadow: $shadow-xs, // replaced 0 8px 20px rgba(0,0,0,0.05)
+      $shadow: $shadow-xs,
       $padding: 0,
-      $border: 1px solid $focus-ring // replaced rgba(44,122,77,0.1)
+      $border: 1px solid $focus-ring 
     );
     overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   /* Card Header */
@@ -150,7 +150,9 @@
   }
 
   /* Info Sections */
-  .info-section, .driver-section, .tracking-section {
+  .info-section,
+  .driver-section,
+  .tracking-section {
     margin-bottom: 20px;
   }
 
@@ -161,25 +163,43 @@
     letter-spacing: 0.5px;
     color: $dark-forest-soft; // replaced #2c5a3e
     margin-bottom: 12px;
+    display: flex;
+    align-items:center;
   }
 
-  .info-icon {
-    font-size: 1rem;
-    min-width: 24px;
+  /* Info Grid - FIXED LAYOUT */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    background: $bg-page-start;
+    padding: 12px;
+    border-radius: 12px;
   }
 
-  .info-item label {
-    display: block;
-    font-size: 0.7rem;
-    color: $text-muted;
-    margin-bottom: 2px;
-  }
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-  .info-item p {
-    font-weight: 600;
-    color: $dark-forest;
-    margin: 0;
-    font-size: 0.85rem;
+    .info-icon {
+      font-size: 1.2rem;
+      min-width: 28px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.7rem;
+      color: $text-muted;
+      margin-bottom: 2px;
+    }
+
+    p {
+      font-weight: 600;
+      color: $dark-forest;
+      margin: 0;
+      font-size: 0.85rem;
+    }
   }
 
   /* Driver Section */
@@ -224,30 +244,90 @@
     border: none;
     border-radius: 8px;
     font-size: 0.75rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
+
+    &:hover {
+      background: $primary-green-dark;
+      transform: translateY(-1px);
+    }
   }
 
-  .contact-btn:hover {
-    background: $primary-green-dark;
-    transform: translateY(-1px);
+  /* Tracking Section (if needed) */
+  .tracking-info {
+    background: $bg-page-start;
+    padding: 12px;
+    border-radius: 12px;
+
+    .tracking-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .tracking-icon {
+        font-size: 1rem;
+        min-width: 24px;
+      }
+
+      .tracking-label {
+        font-size: 0.7rem;
+        color: $text-muted;
+        display: block;
+      }
+
+      .tracking-value {
+        font-weight: 600;
+        color: $dark-forest;
+        font-size: 0.85rem;
+      }
+    }
   }
 
-  /* Action Buttons */
+  /* Action Buttons - FIXED STYLING */
   .action-buttons {
-    @include action-buttons;
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
   }
 
   .action-btn {
     flex: 1;
-    padding: 10px;
+    padding: 10px 16px;
     border: none;
     border-radius: 10px;
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-  } 
+    text-align: center;
+
+    &.details-btn {
+      background: $primary-green;
+      color: $text-white;
+
+      &:hover {
+        background: $primary-green-dark;
+        transform: translateY(-1px);
+      }
+    }
+
+    &.track-btn {
+      background: transparent;
+      border: 1px solid $primary-green;
+      color: $primary-green;
+
+      &:hover {
+        background: $primary-green;
+        color: $text-white;
+      }
+    }
+  }
 
   /* Empty State */
   .empty-deliveries {
@@ -272,6 +352,49 @@
     p {
       color: $text-muted;
       margin-bottom: 25px;
+    }
+  }
+
+  .browse-btn {
+    padding: 10px 24px;
+    background: $primary-green;
+    color: $text-white;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $primary-green-dark;
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .deliveries-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .filter-tabs {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 8px 16px;
+      font-size: 0.8rem;
     }
   }
 }
