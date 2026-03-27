@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Sidebar from '../components/Sidebar'
+import socket from '../components/Socket';
 
 export default function PostProduce() {
     const [form, setForm] = useState({
@@ -47,6 +48,11 @@ export default function PostProduce() {
         console.log(data)
         console.log("Produce Details: ", form)
         console.log("farmerLocation: ", farmerLocation)
+        
+        socket.emit("farmer_location", {
+          lat: farmerLocation.lat,
+          lng: farmerLocation.lng
+        })
       } catch (error) {
         console.log(error.message)
       }
