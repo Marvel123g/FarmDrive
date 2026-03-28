@@ -4,12 +4,17 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-   server: {
+  server: {
     proxy: {
       "/api": {
         target: "https://farmdrive.onrender.com",
         changeOrigin: true,
         secure: false,
+      },
+      "/socket.io": {
+        target: "https://farmdrive.onrender.com", 
+        ws: true,
+        changeOrigin: true,
       },
     },
   },
