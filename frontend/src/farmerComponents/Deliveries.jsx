@@ -96,9 +96,6 @@ export default function Deliveries() {
                     </div>
                   </div>
                 </div>
- if(data.code === 201){
-          alert(data.message)
-        }
                 {/* Driver Info */}
                 <div className="driver-section">
                   <div className="info-title">👨‍✈️ Driver Information</div>
