@@ -320,15 +320,28 @@
         }
       }
       
-      .action-buttons {
-        flex-direction: column;
-        gap: 10px;
-        
-        .action-btn {
-          width: 100%;
-          padding: 8px;
-          font-size: 0.8rem;
-        }
+.action-buttons {
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: 12px;
+  width: 100%;
+
+  .action-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.9rem;
+    justify-content: center;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    
+    &:first-child {
+       grid-column: 1 / -1; 
+    }
+  }
       }
     }
 
