@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/socket.io/:path*",
+      "destination": "https://farmdrive.onrender.com/socket.io/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://farmdrive.onrender.com/api/:path*"
+    }
+  ]
+}

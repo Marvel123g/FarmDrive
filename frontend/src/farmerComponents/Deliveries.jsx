@@ -112,7 +112,7 @@ export default function Deliveries() {
 
                 {/* Action Buttons */}
                 <div className="action-buttons">
-                  <button className="action-btn details-btn">View/Track</button>
+                  <button className="action-btn details-btn" onClick={() => alert("Tracking Feature will be added later")}>View/Track</button>
                 </div>
               </div>
             </div>
