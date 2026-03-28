@@ -39,9 +39,12 @@ export default function DriverProfileModal({onClose}) {
             credentials: "include"
         })
 
-        const data = await res.json()
+        if(res.code === 200){
+          const data = await res.json()
         console.log(data)
         onClose()
+        alert("Profile updated successfully!. Please logout and login so u can be verified")
+        }
     }
   return (
        <div className="modalOverlay">

@@ -53,6 +53,9 @@ export default function PostProduce() {
           lat: farmerLocation.lat,
           lng: farmerLocation.lng
         })
+        if(data.code === 201){
+          alert(data.message)
+        }
       } catch (error) {
         console.log(error.message)
       }

@@ -45,9 +45,13 @@ export default function Marketplace() {
       }, "driverLocation": driverLocation}),
       credentials: "include"
     })
+    const data = await res.json()
+     if(data.code === 201){
+          alert(data.message)
+        }
 
     console.log({price, driverLocation})
-    console.log(res)
+    console.log(data)
   }
   
   const toggleInputField = (id) => {
