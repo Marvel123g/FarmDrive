@@ -6,16 +6,15 @@
   min-height: 100vh;
   background-color: $bg-page-start;
 
-  .deliveries-container {
+  .driver-delivery-container {
     @include page-reset;
     flex: 1;
     padding: 2rem;
   }
 
   /* Header Section */
-  .deliveries-header {
+  .delivery-header {
     margin-bottom: 30px;
-
     .header-content {
       display: flex;
       justify-content: space-between;
@@ -25,7 +24,6 @@
       padding: 20px 0;
       border-bottom: 2px solid $focus-ring;
     }
-
     .header-title {
       h2 {
         font-size: 2rem;
@@ -36,10 +34,7 @@
         color: transparent;
         margin-bottom: 8px;
       }
-      p {
-        color: $text-gray;
-        font-size: 0.95rem;
-      }
+      p { color: $text-gray; font-size: 0.95rem; }
     }
   }
 
@@ -62,174 +57,21 @@
     backdrop-filter: blur(10px);
     overflow: hidden;
     transition: all 0.3s ease;
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: $shadow-lg;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 15px;
-
-      .status-badge {
-        padding: 6px 14px;
-        border-radius: 30px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        background: rgba($primary-green, 0.1);
-        color: $primary-green;
-        border: 1px solid rgba($primary-green, 0.2);
-        
-        &.in-transit { background: rgba($warning, 0.1); color: $warning; }
-        &.completed { background: rgba($success, 0.1); color: $success; }
-      }
-    }
-
-    .crop-name {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: $dark-forest;
-      margin-bottom: 5px;
-    }
-
-    .price-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid $border-light;
-
-      .price-label { font-size: 0.85rem; color: $text-gray; }
-      .price-value { font-size: 1.2rem; font-weight: 700; color: $primary-green; }
-    }
+    &:hover { transform: translateY(-5px); box-shadow: $shadow-lg; }
   }
 
-  /* Info Sections (Produce Details) */
-  .info-section {
-    margin-bottom: 20px;
-
-    .info-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: $dark-forest;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 15px;
-      
-      svg { width: 18px; height: 18px; color: $primary-green; }
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .info-item {
-      display: flex;
-      gap: 10px;
-      
-      .info-icon svg { 
-        width: 16px; 
-        height: 16px; 
-        color: $text-gray; 
-        margin-top: 2px; 
-      }
-      
-      label { font-size: 0.7rem; color: $text-gray; display: block; margin-bottom: 2px; }
-      p { font-size: 0.85rem; font-weight: 600; color: $dark-forest; margin: 0; }
-    }
-  }
-
-  /* Driver Information Section */
-  .driver-section {
-    padding-top: 15px;
-    margin-top: 15px;
-    border-top: 1px dashed $border-light;
-
-    .driver-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: $bg-page-start;
-      padding: 12px;
-      border-radius: 12px;
-
-      .driver-avatar {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid $text-white;
-        box-shadow: $shadow-soft;
-      }
-
-      .driver-details {
-        h4 { font-size: 0.95rem; font-weight: 600; color: $dark-forest; margin: 0; }
-        .driver-phone { font-size: 0.8rem; color: $text-gray; margin-top: 2px; }
-      }
-    }
-  }
-
-  /* Action Buttons */
-  .action-buttons {
-    margin-top: 20px;
+  .farmer-info {
     display: flex;
-    gap: 12px;
-
-    .action-btn {
-      flex: 1;
-      @include btn($primary-green, $primary-green-dark, 10px, $text-white, 12px);
-      font-size: 0.85rem;
-      font-weight: 600;
-      
-      &.details-btn {
-        background: $dark-forest;
-        &:hover { background: lighten($dark-forest, 5%); }
-      }
-    }
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    .farmer-name { font-size: 1.1rem; font-weight: 700; color: $dark-forest; margin: 0; }
+    .farmer-phone { font-size: 0.85rem; color: $text-gray; margin-top: 4px; }
+    .contact-btn { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid $border-light; background: white; text-transform: capitalize; }
   }
 
-  /* Empty State */
-  .empty-deliveries {
-    @include empty-state;
-    text-align: center;
-    padding: 4rem;
-    .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
-  }
+  .crop-name { font-size: 1.4rem; font-weight: 800; color: $dark-forest; margin-bottom: 5px; }
 
-  /* Responsive Adjustments */
-  @media (max-width: 1024px) {
-    .deliveries-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
-  }
-
-  @media (max-width: 768px) {
-    .deliveries-container { padding: 1rem; }
-    .deliveries-grid { grid-template-columns: 1fr; }
-    
-    .info-section .info-grid {
-      grid-template-columns: 1fr; // Single column on small tablets
-    }
-
-    .action-buttons {
-      flex-direction: column;
-      .action-btn { width: 100%; }
-    }
-  }
-
-  @media (max-width: 480px) {
-    .deliveries-header {
-      .header-title h2 { font-size: 1.5rem; }
-    }
-    .delivery-card { padding: 16px; }
-  }
-}
   .price-info {
     display: flex;
     justify-content: space-between;
@@ -253,7 +95,9 @@
   .card-description { margin-bottom: 20px; p { font-size: 0.85rem; color: $text-gray; line-height: 1.5; margin: 0; } }
 
   .action-buttons {
-    @include action-buttons;
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
     .action-btn {
       flex: 1;
       padding: 10px;
@@ -268,37 +112,14 @@
       justify-content: center;
       gap: 6px;
     }
-    .start-btn { @include btn(linear-gradient(135deg, $primary-green, $primary-green-dark), null); color: $text-white; }
-    .complete-btn { @include btn($success, $success-dark); color: $text-white; }
+    .map-btn { background: $dark-forest; color: white; }
+    .start-btn { background: $primary-green; color: white; }
+    .complete-btn { background: $success; color: white; }
   }
 
-  .empty-deliveries { @include empty-state; }
+  .empty-deliveries { @include empty-state; text-align: center; padding: 4rem; }
 
-  /* Media Queries - Moved INSIDE the wrapper to keep variables scoped */
-  @media (max-width: 1024px) {
-    .deliveries-grid { grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 25px; }
-    .delivery-header .header-content { flex-direction: column; align-items: flex-start; gap: 15px; }
-  }
-
-  @media (max-width: 768px) {
-    .driver-delivery-container { padding: 1.5rem; }
-    .deliveries-grid { grid-template-columns: 1fr; }
-    .action-buttons {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      .action-btn { width: 100%; padding: 12px; font-size: 0.9rem; &:first-child { grid-column: 1 / -1; } }
-    }
-    .map-modal .map-container { width: 95%; max-height: 80vh; }
-  }
-
-  @media (max-width: 480px) {
-    .driver-delivery-container { padding: 1rem; }
-    .delivery-card { padding: 14px; }
-    .action-buttons .action-btn { padding: 7px; font-size: 0.75rem; }
-  }
-
-  /* Modal Styles */
+  /* Modals */
   .map-modal {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -315,43 +136,25 @@
       border-radius: 1rem;
       width: 90%;
       max-width: 900px;
-      height: auto;
-      max-height: 85vh;
-      overflow: hidden;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-
-      .close-btn {
-        position: absolute;
-        top: 15px; right: 15px;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        border: none;
-        width: 32px; height: 32px;
-        border-radius: 50%;
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10;
-        transition: all 0.2s ease;
-        &:hover { background: rgba(0, 0, 0, 0.9); transform: scale(1.05); }
-      }
-
-      .map_btn {
-        position: absolute;
-        bottom: 15px; right: 15px;
-        background: $primary-green;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 30px;
-        font-weight: 600;
-        cursor: pointer;
-        z-index: 10;
-        transition: all 0.2s ease;
-        &:hover { background: $primary-green-dark; transform: translateY(-2px); }
-      }
+      .close-btn { position: absolute; top: 15px; right: 15px; z-index: 10; cursor: pointer; border: none; background: none; font-size: 1.5rem; }
+      .map_btn { position: absolute; bottom: 15px; right: 15px; z-index: 10; @include btn($primary-green, $primary-green-dark); color: white; border: none; border-radius: 20px; padding: 8px 16px; }
     }
   }
 
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .deliveries-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
+  }
+
+  @media (max-width: 768px) {
+    .driver-delivery-container { padding: 1.5rem; }
+    .deliveries-grid { grid-template-columns: 1fr; }
+    .action-buttons { flex-direction: column; .action-btn { width: 100%; } }
+  }
+
+  @media (max-width: 480px) {
+    .driver-delivery-container { padding: 1rem; }
+    .delivery-card { padding: 16px; }
+  }
+}
