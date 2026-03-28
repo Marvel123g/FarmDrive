@@ -26,9 +26,6 @@ export default function Sidebar() {
       case "/deliveries":
         setActiveButton('deliveries');
         break;
-      case "/payments":
-        setActiveButton('payments');
-        break;
       case "/":
         setActiveButton('logout');
         break;
@@ -84,7 +81,6 @@ export default function Sidebar() {
           <button className={activeButton === 'post-produce' ? 'active' : ''} onClick={() => handleNav('/post-produce')}>Post Produce</button>
           <button className={activeButton === 'my-produce' ? 'active' : ''} onClick={() => handleNav('/my-produce')}>My Produce</button>
           <button className={activeButton === 'deliveries' ? 'active' : ''} onClick={() => handleNav('/deliveries')}>Deliveries</button>
-          <button className={activeButton === 'payments' ? 'active' : ''} onClick={() => handleNav('/payments')}>Payments</button>
           <button className={activeButton === 'logout' ? 'active' : ''} onClick={() => handleLogout}>Logout</button>
         </nav>
       </aside>
