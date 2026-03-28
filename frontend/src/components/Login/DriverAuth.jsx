@@ -146,7 +146,6 @@ function DriverAuth({ mode, setMode }) {
                 placeholder="First Name"
                 name="firstname"
                 value={driverDetails.firstname}
-      navigate("/farmer-dashboard")
                 onChange={handleChange}
               />
               {errors.firstname && (
