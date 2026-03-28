@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useWindowSize } from "../hook/useWindowSize"; 
+import { FiMenu } from "react-icons/fi";
 
 export default function DriverSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState('driver-dashboard');
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const { width } = useWindowSize(); 
+  const isMobile = width <= 600;
+
   useEffect(() => {
-      switch (location.pathname) {
+    switch (location.pathname) {
       case "/driver-dashboard":
         setActiveButton('driver-dashboard');
         break;
@@ -28,24 +35,27 @@ export default function DriverSidebar() {
     }
   }, [location]);
 
+  // Helper to handle navigation and close menu on mobile
+  const handleNav = (path) => {
+    navigate(path);
+    setIsOpen(false);
+  };
+
   const handleLogout = async () => {
-    // 1. Set the correct endpoint
     const url = "/api/v1/driver/auth/logout";
 
     try {
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include" // REQUIRED to send the cookie to Flask
+        credentials: "include" 
       });
 
-      const data = await res.json();
-
       if (res.status === 200) {
-        // 2. Redirect to the correct login page
         navigate("/");
         setIsOpen(false); 
       } else {
+        const data = await res.json();
         console.error("Logout failed:", data.message);
       }
     } catch (err) {
@@ -54,14 +64,61 @@ export default function DriverSidebar() {
   };
 
   return (
-    <aside className='sideBar'>
+    <>
+      {/* Menu icon shows only on mobile when the sidebar is closed */}
+      {isMobile && !isOpen && (
+        <div 
+          className="menu-toggle-icon" 
+          onClick={() => setIsOpen(true)} 
+          style={{position: 'fixed', top: '20px', right: '20px', zIndex: '10', cursor: 'pointer'}}
+        >
+          <FiMenu size={28} /> 
+        </div>
+      )}
+
+      {/* Close overlay for mobile when menu is open */}
+      {isMobile && isOpen && (
+        <div 
+          className="sidebar-overlay" 
+          onClick={() => setIsOpen(false)}
+          style={{position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.2)', zIndex: '9'}}
+        />
+      )}
+
+      <aside className={`sideBar ${isMobile ? 'mobile-nav' : ''} ${isOpen ? 'open' : ''}`}>
         <nav>
-          <button className={activeButton === 'driver-dashboard' ? 'active' : ''} onClick={() => navigate('/driver-dashboard')}>Dashboard</button>
-          <button className={activeButton === 'marketplace' ? 'active' : ''} onClick={() => navigate('/marketplace')}>Marketplace</button>
-          <button className={activeButton === 'driver-deliveries' ? 'active' : ''} onClick={() => navigate('/driver-deliveries')}>My Deliveries</button>
-          <button className={activeButton === 'earnings' ? 'active' : ''} onClick={() => navigate('/earnings')}>Earnings</button>
-          <button className={activeButton === 'logout' ? 'active' : ''} onClick={handleLogout}>Logout</button>
+          <button 
+            className={activeButton === 'driver-dashboard' ? 'active' : ''} 
+            onClick={() => handleNav('/driver-dashboard')}
+          >
+            Dashboard
+          </button>
+          <button 
+            className={activeButton === 'marketplace' ? 'active' : ''} 
+            onClick={() => handleNav('/marketplace')}
+          >
+            Marketplace
+          </button>
+          <button 
+            className={activeButton === 'driver-deliveries' ? 'active' : ''} 
+            onClick={() => handleNav('/driver-deliveries')}
+          >
+            My Deliveries
+          </button>
+          <button 
+            className={activeButton === 'earnings' ? 'active' : ''} 
+            onClick={() => handleNav('/earnings')}
+          >
+            Earnings
+          </button>
+          <button 
+            className={activeButton === 'logout' ? 'active' : ''} 
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </nav>
-    </aside>
-  )
+      </aside>
+    </>
+  );
 }
