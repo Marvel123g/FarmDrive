@@ -81,7 +81,7 @@ export default function Sidebar() {
           <button className={activeButton === 'post-produce' ? 'active' : ''} onClick={() => handleNav('/post-produce')}>Post Produce</button>
           <button className={activeButton === 'my-produce' ? 'active' : ''} onClick={() => handleNav('/my-produce')}>My Produce</button>
           <button className={activeButton === 'deliveries' ? 'active' : ''} onClick={() => handleNav('/deliveries')}>Deliveries</button>
-          <button className={activeButton === 'logout' ? 'active' : ''} onClick={() => handleLogout}>Logout</button>
+          <button className={activeButton === 'logout' ? 'active' : ''} onClick={handleLogout}>Logout</button>
         </nav>
       </aside>
     </>
