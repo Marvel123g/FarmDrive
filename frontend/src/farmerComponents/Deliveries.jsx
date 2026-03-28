@@ -13,7 +13,7 @@ export default function Deliveries() {
         const data = await res.json()
 
         console.log("delivery",data)
-        setAcceptedProduce(data. active_deliveries)
+        setAcceptedProduce(data.active_deliveries)
       }
 
       fetchDriverDeliveries()
