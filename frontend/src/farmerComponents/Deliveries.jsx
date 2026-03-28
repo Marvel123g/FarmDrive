@@ -41,7 +41,6 @@ export default function Deliveries() {
           <div className="empty-icon">🚚</div>
           <h3>No Deliveries Found</h3>
           <p>You haven't accepted any produce deliveries yet</p>
-          <button className="browse-btn">Browse Marketplace</button>
         </div>
       ) : (
         <div className="deliveries-grid">
