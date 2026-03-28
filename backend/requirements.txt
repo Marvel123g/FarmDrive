@@ -1,9 +1,13 @@
 Flask
+Flask[async]
+Flask-SQLAlchemy
 flask-socketio
 eventlet
 requests
 werkzeug
 python-dotenv
+sqlalchemy
+flask_apscheduler
 flask_cors
 gunicorn
 pytz
