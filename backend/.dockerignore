@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtualenv
+env/
+.venv/
+venv/
+backend/env/
+
+# Distribution
+build/
+dist/
+*.egg-info/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# dotenv file (keep secrets out of image build context)
+.env
+
+# Local DB artifact created at runtime
+app/database/farmdrive.db
+
+# Logs
+*.log

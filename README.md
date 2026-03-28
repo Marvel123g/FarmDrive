@@ -1,6 +1,7 @@
 # FarmDrive
 
 FarmDrive is a web platform that bridges the gap between farmers who need to transport fresh produce and drivers with available truck space. The platform helps reduce post-harvest waste by connecting farmers with drivers quickly and efficiently, ensuring produce reaches markets before spoilage.
+This project also integrated AI for matching farmers with the best drivers available from the list.
 
 ### Enyata Alignment: Agriculture + Transport + Payment
 This project is a natural fit for Enyata’s core pillars:
@@ -31,6 +32,29 @@ This project is a natural fit for Enyata’s core pillars:
 
 ---
 
+##  User Experience (Farmer)
+1. Create account
+2. Post a farm produce
+3. Wait for drivers to bid with their prices
+4. Go to My Produce and click on View Drivers
+5. View AI Note per driver and price bid
+5. Select the driver that suits you best
+6. Watch how your delivery is moving to it's destination through the map
+7. Process Driver Payments successfully after confirming delivery photos (Yet to be Implemented)
+8. Watch how Interswitch does the magic (Yet to be Implemented)
+
+##  User Experience (Driver)
+1. Create account
+2. Submit KYC to be eligible for bidding
+3. View Marketplace to bid with your price
+4. Await farmer acceptance of your price
+5. View Deliveries to see map both to farmer for pickup and to destination for drop-off
+6. Request Payment and submit photos of delivered items
+7. Watch how your payment is processed over Interswitch (Yet to be Implemented)
+
+
+---
+
 ## 🛠️ Project Structure
 
 Root directories:
@@ -57,12 +81,19 @@ npm install
 npm run dev
 ```
 
+## 🚀 How to run for development
+### Backend
+Backend is running at `https://farmdrive.onrender.com`
+
+### Frontend
+Frontend is running at `https://farmdrive.vercel.app`
+
 ---
 
 ## 👥 Team Contributions
+## Team Name: xpress
 
 ### Team Lead (Project Creator on Enyata)
-- Team Name: xpress
 - Role: Frontend Developer & UX/UI Designer
 - Name: Olorunwa Marvelous
 - Responsibilities:
@@ -113,6 +144,7 @@ npm run dev
 - Use `backend/.env` to store API keys securely
 - Confirm `INTERSWITCH` keys are set in env
 - Run DB migrations before production start
+- Future implementation is to integrate interswich api successfully
 
 ---
 
