@@ -142,7 +142,7 @@ export default function DriverDelivery() {
 
   return (
     <div className="driverDelivery_wrapper">
-      <DriverSidebar/>
+      <DriverSidebar />
       <div className="driver-delivery-container">
         {/* Header Section */}
         <div className="delivery-header">
@@ -181,7 +181,7 @@ export default function DriverDelivery() {
                   
                   <div className="price-info">
                     <span className="price-label">Agreed Price:</span>
-                    <span className="price-value">{delivery.price}</span>
+                    <span className="price-value">₦{delivery.price}</span>
                   </div>
 
                   <div className="delivery-details">
@@ -192,7 +192,7 @@ export default function DriverDelivery() {
                       </div>
                       <div className="detail-item">
                         <span className="detail-icon">📅</span>
-                        <span>Accepted at: {delivery.accepted_at}</span>
+                        <span>Accepted: {delivery.accepted_at}</span>
                       </div>
                     </div>
                     <div className="detail-row">
@@ -207,35 +207,35 @@ export default function DriverDelivery() {
                     </div>
                   </div>
 
-                  <div className="card-description">
-                    <p>{delivery.details}</p>
-                  </div>
+                  {delivery.details && (
+                    <div className="card-description">
+                      <p>{delivery.details}</p>
+                    </div>
+                  )}
 
                   {/* Action Buttons */}
                   <div className="action-buttons">
-                    <button className="action-btn map-btn" onClick={() => {
-                        handleViewFarmerLocation(delivery); // FIXED: Pass the entire delivery object, not just id
-                        setSelectedDelivery(delivery);
-                        setShowFarmerLocation(true);
-                      }}>
+                    <button 
+                      className="action-btn map-btn" 
+                      onClick={() => handleViewFarmerLocation(delivery)}
+                    >
                       View Farmer Location
                     </button>
                     <button 
                       className="action-btn start-btn"
-                      onClick={() => {
-                        handleStartDelivery(delivery); // FIXED: Pass the entire delivery object, not just id
-                        setSelectedDelivery(delivery);
-                        setShowMap(true);
-                      }}
+                      onClick={() => handleStartDelivery(delivery)}
                     >
                       Start Delivery
                     </button>
-                    <button className="action-btn complete-btn" onClick={() => {
-                    setSelectedDelivery(delivery); 
-                    setShowCompleteModal(true);
-                }}>
-                  Complete Delivery
-                </button>
+                    <button 
+                      className="action-btn complete-btn" 
+                      onClick={() => {
+                        setSelectedDelivery(delivery); 
+                        setShowCompleteModal(true);
+                      }}
+                    >
+                      Complete Delivery
+                    </button>
                   </div>
                 </div>
               </div>
@@ -244,9 +244,11 @@ export default function DriverDelivery() {
         )}
       </div>
 
+      {/* Map Modal for Live Tracking */}
       {showMap && selectedDelivery && (
         <div className="map-modal">
           <div className="map-container">
+            <button className="close-btn" onClick={() => setShowMap(false)}>×</button>
             <ViewMap 
               deliveryId={selectedDelivery.delivery_id}
               pickupLocation={selectedDelivery.pickup_location}
@@ -259,29 +261,35 @@ export default function DriverDelivery() {
         </div>
       )}
 
+      {/* Modal for Farmer Location */}
       {showFarmerLocation && selectedDelivery && (
-      <div className="map-modal">
-        <div div className="map-container">
-        <button className="close-btn" onClick={() => setShowFarmerLocation(false)}>×</button>
-        
-        <ViewFarmerLocation
-          deliveryId={selectedDelivery.delivery_id}
-          pickupLocation={selectedDelivery.pickup_location} 
-          destinationLocation={selectedDelivery.destination}
-        />
-      </div>
-    </div>
-)}
+        <div className="map-modal">
+          <div className="map-container">
+            <button className="close-btn" onClick={() => setShowFarmerLocation(false)}>×</button>
+            <ViewFarmerLocation
+              deliveryId={selectedDelivery.delivery_id}
+              pickupLocation={selectedDelivery.pickup_location} 
+              destinationLocation={selectedDelivery.destination}
+            />
+            <button className="map_btn" onClick={() => setShowFarmerLocation(false)}>
+              Close View
+            </button>
+          </div>
+        </div>
+      )}
 
-{showCompleteModal && selectedDelivery && (
-  <ShowCompleteModal 
-    deliveryId={selectedDelivery.delivery_id || selectedDelivery} // Pass the ID explicitly
-    onClose={() => setShowCompleteModal(false)} // Pass the close function
-    onComplete={() => {
-      setShowCompleteModal(false);
-    }}
-  />
-)}
+      {/* Completion Modal */}
+      {showCompleteModal && selectedDelivery && (
+        <ShowCompleteModal 
+          deliveryId={selectedDelivery.delivery_id}
+          onClose={() => setShowCompleteModal(false)}
+          onComplete={() => {
+            setShowCompleteModal(false);
+            
+          }}
+        />
+      )}
     </div>
   );
+}
 }
